@@ -1,19 +1,12 @@
 <template>
   <div id="app">
-    <StoryList/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import StoryList from './pages/StoryList.vue'
-import CreatedStory from './pages/CreatedStory.vue'
-
 export default {
-  name: 'app',
-  components: {
-    StoryList,
-    CreatedStory
-  }
+  name: 'app'
 }
 </script>
 
