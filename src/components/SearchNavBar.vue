@@ -1,8 +1,11 @@
 <template>
     <div>
-        <nav class="navbar navbar-light bg-light big-margin beta-search-bar">
-            <form class="form-inline">
-                <input class="form-control mr-sm-4 my-6" type="search" placeholder="Search" aria-label="Search">
+        <nav class="navbar navbar-light bg-light big-margin beta-innerbar">
+            <!-- Temporary Frontend Search  -->
+            <form class="form-inline col-sm-8">
+                <div class="col-sm-10">
+                    <input class="beta-search form-control my-6" type="search" placeholder="Search" aria-label="Search">
+                </div>
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
             </form>
             <span class="navbar-text">
@@ -30,3 +33,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.beta-search {
+    width: 100%;
+}
+</style>

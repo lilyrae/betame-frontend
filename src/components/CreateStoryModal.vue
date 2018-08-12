@@ -18,19 +18,19 @@
                     <div class="form-group row">
                         <label for="title" class="col-sm-2 col-form-label">Title</label>
                         <div class="col-sm-9">
-                        <input type="title" class="form-control" placeholder="Brave New World">
+                        <input type="text" class="form-control" placeholder="Brave New World">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="intent" class="col-sm-2 col-form-label">Intent</label>
                         <div class="col-sm-9">
-                        <textarea type="intent" class="form-control" placeholder="I want to tell a story about.."></textarea>
+                        <textarea type="text" class="form-control" placeholder="I want to tell a story about.."></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="url" class="col-sm-2 col-form-label">Link</label>
                         <div class="col-sm-9">
-                        <input type="url" class="form-control" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1umopb9lKxII6bwK2GDS0BN1xJg2O4MHrw-dBJTeEqn4/edit?usp=sharing">
+                        <input type="text" class="form-control" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1umopb9lKxII6bwK2GDS0BN1xJg2O4MHrw-dBJTeEqn4/edit?usp=sharing">
                         <small id="urlHelpBlock" class="form-text text-muted">
                             This is the link to your writing. For Google docs, click <strong>SHARE</strong> in the top right corner, then click <strong>Get shareable link</strong>. Select the permission <strong>Anyone with the link can comment</strong> and copy the link into this box.
                             <br>
