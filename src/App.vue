@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="beta-text">
     <router-view></router-view>
   </div>
 </template>
@@ -73,7 +73,7 @@ export default {
   margin: 40px;
 }
 
-.beta-search-bar {
+.beta-innerbar {
   margin-left: 0px;
   margin-right: 0px;
 }
@@ -113,6 +113,12 @@ export default {
 .beta-grey-badge {
   background-color: #7C77B9;
   color: #fff;
+}
+
+.beta-jumbotron {
+  margin-top: 40px;
+  border: 1px dashed #312e2b;
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #312e2b, 0 0 0 10px #fff, 0 0 2px 10px #000000;
 }
 
 #language-select {
