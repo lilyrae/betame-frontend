@@ -4,7 +4,7 @@
             <!-- Temporary Frontend Search  -->
             <form class="form-inline col-sm-8">
                 <div class="col-sm-10">
-                    <input class="beta-search form-control my-6" type="search" placeholder="Search" aria-label="Search">
+                    <input :v-model="search" class="beta-search form-control my-6" type="text" placeholder="Search" aria-label="Search">
                 </div>
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
             </form>
@@ -28,7 +28,8 @@ export default {
     },
     data() {
         return {
-            showModal: false
+            showModal: false,
+            search: ""
         }
     }
 }

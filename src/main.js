@@ -2,10 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import vSelect from 'vue-select'
 import VueRouter from 'vue-router'
+import axios from 'axios'
 import StoryList from './pages/StoryList.vue'
 import Login from './pages/Login.vue'
 import About from './pages/About.vue'
 import CreatedStory from './pages/CreatedStory.vue'
+
+Vue.prototype.$http = axios;
 
 Vue.component('v-select', vSelect)
 Vue.use(VueRouter)
