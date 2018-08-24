@@ -29,6 +29,7 @@
 
 <script>
 import Jumbotron from '../templates/Jumbotron.vue'
+import auth from '../services/auth.js'
 
 export default {
     name: 'Login',
@@ -44,19 +45,16 @@ export default {
     },
     methods: {
         login() {
-            this.$http(
-                {
-                    method: 'get',
-                    url: process.env.VUE_APP_API + "/login",
-                    withCredentials: true,
-                    auth: {
-                            username: this.email,
-                            password: this.password
-                        }
-                }).then(response => {
+            let email = this.email;
+            let password = this.password;
+
+            auth.login(email, password)
+                .then(response => {
+                    auth.setUserPassword(email, password)
                     this.$router.push('/');
                 }).catch(error => {
                     // TODO distinguish between errors
+                    auth.logout();
                     this.notValid = true;
                 });
         }

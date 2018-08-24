@@ -29,6 +29,7 @@
 import Default from '../templates/Default.vue'
 import SearchNavBar from '../components/SearchNavBar.vue'
 import BottomNavBar from '../components/BottomNavBar.vue'
+import story from '../services/story.js'
 
 export default {
   name: 'StoryList',
@@ -48,7 +49,7 @@ export default {
   },
   methods: {
     getStories() {
-      this.$http.get(process.env.VUE_APP_API + "/story").then(response => {
+      story.all().then(response => {
         this.stories = response.data;
         this.allStories = response.data;
       });
