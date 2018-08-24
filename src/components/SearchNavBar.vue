@@ -9,26 +9,17 @@
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
             </form>
             <span class="navbar-text">
-                <button class="btn btn-danger" @click="showModal = true">
-                New <i class="fas fa-pen-fancy"></i>
-                </button>
+                <router-link class="btn btn-danger" to="/new">New <i class="fas fa-pen-fancy"></i></router-link>
             </span>
         </nav>
-        <CreateStoryModal :showModal.sync="showModal"></CreateStoryModal>
     </div>
 </template>
 
 <script>
-import CreateStoryModal from './CreateStoryModal.vue'
-
 export default {
     name: 'SearchNavBar',
-    components: {
-        CreateStoryModal
-    },
     data() {
         return {
-            showModal: false,
             search: ""
         }
     }
