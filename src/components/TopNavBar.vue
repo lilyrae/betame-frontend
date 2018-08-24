@@ -4,8 +4,11 @@
 
         <!-- Page Links -->
         <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item" v-if="!loggedIn">
                 <router-link class="nav-link beta-text" to="/login">Login</router-link>
+            </li>
+            <li class="nav-item" v-if="loggedIn">
+                <router-link class="nav-link beta-text" to="/me">My Account</router-link>
             </li>
             <li class="nav-item">
                 <router-link class="nav-link beta-text" to="/about">About</router-link>
@@ -15,7 +18,14 @@
 </template>
 
 <script>
+import auth from '../services/auth.js'
+
 export default {
-  name: 'TopNavBar'
+    name: 'TopNavBar',
+    computed: {
+        loggedIn() {
+            return auth.isLoggedIn();
+        }
+    }
 }
 </script>
