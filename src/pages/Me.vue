@@ -1,21 +1,52 @@
 <template>
-  <Jumbotron>
-    <span slot="title">MEME</span>
-    <div>
-        <p>
-           MEMEME
+  <Default>
+    <AccountNavBar/>
+    <!-- list of my stories -->
+    <ul class="list-group list-group-flush">
+      <StoryItem v-for="story in stories" v-bind:key="story.id" v-bind:story="story">
+        <p class="float-right">
+          <!-- <button class="btn btn-outline-info small-margin">Edit</button> -->
+          <button class="btn btn-outline-danger ">Delete</button>
         </p>
-    </div>
-  </Jumbotron>
+      </StoryItem>
+    </ul>
+    <BottomNavBar />
+  </Default>
 </template>
 
 <script>
-import Jumbotron from '../templates/Jumbotron.vue'
+import Default from '../templates/Default.vue'
+import AccountNavBar from '../components/AccountNavBar.vue'
+import StoryItem from '../components/StoryItem.vue'
+import story from '../services/story.js'
 
 export default {
   name: 'Me',
   components: {
-      Jumbotron
+      Default,
+      AccountNavBar,
+      StoryItem
+  },
+  data() {
+      return {
+          stories: []
+      }
+  },
+  created() {
+      this.getStories()
+  },
+  methods: {
+    getStories() {
+        story.all().then(response => {
+            this.stories = response.data;
+        });
+    }
   }
 }
 </script>
+
+<style scoped>
+.small-margin {
+  margin-right: 5px;
+}
+</style>
