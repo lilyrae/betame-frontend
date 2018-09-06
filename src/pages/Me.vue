@@ -10,7 +10,6 @@
         </p>
       </StoryItem>
     </ul>
-    <BottomNavBar />
   </Default>
 </template>
 
@@ -29,15 +28,17 @@ export default {
   },
   data() {
       return {
-          stories: []
+          stories: [],
+          user: {}
       }
   },
   created() {
-      this.getStories()
+      this.user = localStorage.getItem('bm_user');
+      this.getStories();
   },
   methods: {
     getStories() {
-        story.all().then(response => {
+        story.withUserID(this.user.user_id).then(response => {
             this.stories = response.data;
         });
     }

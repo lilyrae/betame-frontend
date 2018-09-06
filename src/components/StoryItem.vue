@@ -2,7 +2,7 @@
     <li class="list-group-item beta-text">
         <h4>
         <a :href="story.url" target="_blank">{{ story.title }} </a>
-        <span class="font18 grey">by {{ story.user }}</span>
+        <span class="font18 grey">by {{ story.user.username }}</span>
         <span class="beta-title font14 float-right">18th Dec 2018</span>
         </h4>
         <p>{{ story.intent }}</p>

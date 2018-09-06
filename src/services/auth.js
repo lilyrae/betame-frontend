@@ -10,18 +10,18 @@ export default {
         });
     },
     logout() {
-        //localStorage.setItem('bm_user', '');
-        localStorage.setItem('bm_username', '');
+        localStorage.setItem('bm_user', '');
+        localStorage.setItem('bm_email', '');
         localStorage.setItem('bm_password', '');
 
         Event.$emit('loggedOut');
     },
     isLoggedIn() {
-        return localStorage.getItem('bm_username') != '';
+        return localStorage.getItem('bm_password') != '';
     },
-    setUserPassword(username, password) {
-        //localStorage.setItem('bm_user', user);
-        localStorage.setItem('bm_username', username);
+    setUserPassword(user, password) {
+        localStorage.setItem('bm_user', user);
+        localStorage.setItem('bm_email', user.email);
         localStorage.setItem('bm_password', password);
     }
 }

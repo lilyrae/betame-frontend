@@ -5,10 +5,10 @@ let config = {
 }
 
 // add credentials if logged in
-if (localStorage.getItem('username')) {
+if (localStorage.getItem('bm_password') != '') {
     config.withCredentials = true;
     config.auth = {
-        username: localStorage.getItem('bm_username'),
+        username: localStorage.getItem('bm_email'),
         password: localStorage.getItem('bm_password')
     }
 }

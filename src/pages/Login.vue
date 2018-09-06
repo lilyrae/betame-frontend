@@ -20,7 +20,14 @@
             </div>
             <br>
             <center>
-                <button class="btn btn-lg btn-info" type="submit">Login</button>
+                <button
+                    class="btn btn-lg btn-info ld-ext-right"
+                    :class="{'running': isLoggingIn}"
+                    type="submit"
+                    >
+                    Login
+                    <div class="ld ld-ring ld-spin"></div>
+                </button>
             </center>
         </form>
     </div>
@@ -40,23 +47,28 @@ export default {
         return {
             email: '',
             password: '',
-            notValid: false
+            notValid: false,
+            isLoggingIn: false
         };
     },
     methods: {
         login() {
+            this.isLoggingIn = true;
             let email = this.email;
             let password = this.password;
 
             auth.login(email, password)
                 .then(response => {
-                    auth.setUserPassword(email, password)
+                    auth.setUserPassword(response.data, password)
                     Event.$emit('loggedIn');
                     this.$router.push('/');
-                }).catch(error => {
+                }).catch(() => {
                     // TODO distinguish between errors
                     auth.logout();
                     this.notValid = true;
+                })
+                .finally(() => {
+                    this.isLoggingIn = false;
                 });
         }
     }
