@@ -51,6 +51,7 @@ export default {
             auth.login(email, password)
                 .then(response => {
                     auth.setUserPassword(email, password)
+                    Event.$emit('loggedIn');
                     this.$router.push('/');
                 }).catch(error => {
                     // TODO distinguish between errors

@@ -1,19 +1,29 @@
 <template>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top background-black">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top background-black">
         <router-link class="navbar-brand beta-title" to="/">Beta me.</router-link>
 
-        <!-- Page Links -->
-        <ul class="navbar-nav">
-            <li class="nav-item" v-if="!loggedIn">
-                <router-link class="nav-link beta-text" to="/login">Login</router-link>
-            </li>
-            <li class="nav-item" v-if="loggedIn">
-                <router-link class="nav-link beta-text" to="/me">My Account</router-link>
-            </li>
-            <li class="nav-item">
-                <router-link class="nav-link beta-text" to="/about">About</router-link>
-            </li>
-        </ul>
+        <button class="navbar-toggler" type="button" @click="toggleNavDropdown">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse" :class="navDropdownClass">
+            <!-- Page Links -->
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item" v-if="!loggedIn">
+                    <router-link class="nav-link beta-text" to="/login">Login</router-link>
+                </li>
+                <li class="nav-item" v-if="loggedIn">
+                    <router-link class="nav-link beta-text" to="/me">My Works</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link beta-text" to="/about">About</router-link>
+                </li>
+            </ul>
+            <!-- Logout Button -->
+            <div class="my-2 my-lg-0" v-if="loggedIn">
+                <button class="btn btn-outline-secondary" @click="logout">Logout</button>
+            </div>
+        </div>
     </nav>
 </template>
 
@@ -22,10 +32,34 @@ import auth from '../services/auth.js'
 
 export default {
     name: 'TopNavBar',
-    computed: {
-        loggedIn() {
-            return auth.isLoggedIn();
+    data() {
+        return {
+            showNavDropdown: false,
+            loggedIn: false
+        };
+    },
+    methods: {
+        toggleNavDropdown() {
+            this.showNavDropdown = !this.showNavDropdown;
+        },
+        logout() {
+            auth.logout();
+            this.$router.push('/');
         }
+    },
+    computed: {
+        navDropdownClass() {
+            return [ this.showNavDropdown ? 'in' : 'collapse'];
+        }
+    },
+    mounted() {
+        Event.$on('loggedOut', event => {
+            this.loggedIn = auth.isLoggedIn();
+        });
+        Event.$on('loggedIn', event => {
+            this.loggedIn = auth.isLoggedIn();
+        });
+        this.loggedIn = auth.isLoggedIn();
     }
 }
 </script>
