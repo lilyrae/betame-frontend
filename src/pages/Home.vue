@@ -17,30 +17,48 @@ import StoryItem from '../components/StoryItem.vue'
 import story from '../services/story.js'
 
 export default {
-  name: 'Home',
-  components: {
-      Default,
-      SearchNavBar,
-      BottomNavBar,
-      StoryItem
-  },
-  data() {
-      return {
-          stories: [],
-          allStories: []
-      }
-  },
-  created() {
-      this.getStories()
-  },
-  methods: {
-      getStories() {
-          story.all().then(response => {
-              this.stories = response.data;
-              this.allStories = response.data;
-          });
-      }
-  }
+    name: 'Home',
+    components: {
+        Default,
+        SearchNavBar,
+        BottomNavBar,
+        StoryItem
+    },
+    data() {
+        return {
+            stories: [],
+            allStories: []
+        }
+    },
+    created() {
+        this.getStories();
+
+        Event.$on('searching', search => {
+            if(search.query == '') {
+                this.stories = this.allStories;
+                Event.$emit('finishedSearch');
+                return;
+            }
+            let i = 0;
+            this.stories = [];
+
+            for (i = 0; i < this.allStories.length; i++) { 
+                if(this.allStories[i].title.toLowerCase().includes(search.query.toLowerCase())) {
+                    this.stories.push(this.allStories[i]);
+                }
+            }
+
+            Event.$emit('finishedSearch');
+        });
+    },
+    methods: {
+        getStories() {
+            story.all().then(response => {
+                this.stories = response.data;
+                this.allStories = response.data;
+            });
+        }
+    }
 }
 </script>
 

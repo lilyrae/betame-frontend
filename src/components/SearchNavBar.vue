@@ -2,11 +2,18 @@
     <div>
         <nav class="navbar navbar-light bg-light big-margin beta-innerbar">
             <!-- Temporary Frontend Search  -->
-            <form class="form-inline col-lg-8 col-md-12">
+            <form class="form-inline col-lg-8 col-md-12" v-on:submit.prevent="search">
                 <div class="col-md-10 no-sm-padding">
-                    <input :v-model="search" class="beta-search form-control my-6" type="text" placeholder="Search" aria-label="Search">
+                    <input v-model="query" class="beta-search form-control my-6" type="text" placeholder="Search" aria-label="Search">
                 </div>
-                <button class="btn btn-outline-info col-md-2 my-2 my-md-0 no-sm-padding" type="submit">Search</button>
+                <button 
+                    class="btn btn-outline-info col-md-2 my-2 my-md-0 no-sm-padding ld-ext-right"
+                    type="submit"
+                    :class="{'running': isSearching }"
+                    >
+                    Search
+                    <div class="ld ld-ring ld-spin"></div>
+                </button>
             </form>
             <div class="hide">
                 <router-link v-if="!loggedIn" class="btn btn-danger" to="/login">Login to Post <i class="fas fa-pen-fancy"></i></router-link>
@@ -23,16 +30,29 @@ export default {
     name: 'SearchNavBar',
     data() {
         return {
-            search: "",
-            loggedIn: false
+            query: "",
+            loggedIn: false,
+            isSearching: false
+        }
+    },
+    methods: {
+        search() {
+            this.isSearching = true;
+
+            Event.$emit('searching', {
+                query: this.query
+            });
         }
     },
     mounted() {
-        Event.$on('loggedOut', event => {
+        Event.$on('loggedOut', () => {
             this.loggedIn = auth.isLoggedIn();
         });
-        Event.$on('loggedIn', event => {
+        Event.$on('loggedIn', () => {
             this.loggedIn = auth.isLoggedIn();
+        });
+        Event.$on('finishedSearch', () => {
+            this.isSearching = false;
         });
         this.loggedIn = auth.isLoggedIn();
     }
