@@ -61,6 +61,10 @@ export default {
   font-size: 18px;
 }
 
+.font14 {
+  font-size: 14px;
+}
+
 .small-margin {
   margin: 2px;
 }
@@ -201,5 +205,11 @@ export default {
 #tag-select.dropdown li:hover a {
     background: #23C9FF;
     color: #fff;
+}
+
+a { color: inherit; }
+
+a:hover {
+  color: #17a2b8;
 }
 </style>

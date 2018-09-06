@@ -6,19 +6,19 @@
             <div class="form-group row">
                 <label for="title" class="col-sm-2 col-form-label">Title</label>
                 <div class="col-sm-9">
-                <input type="text" class="form-control" placeholder="Brave New Post" required>
+                <input v-model="title" type="text" class="form-control" placeholder="Brave New Post" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="intent" class="col-sm-2 col-form-label">Notes</label>
                 <div class="col-sm-9">
-                <textarea type="text" class="form-control" placeholder="I want to tell a story about.." required></textarea>
+                <textarea v-model="notes" type="text" class="form-control" placeholder="I want to tell a story about.." required></textarea>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="url" class="col-sm-2 col-form-label">Link</label>
                 <div class="col-sm-9">
-                <input type="text" class="form-control" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1umopb9lKxII6bwK2GDS0BN1xJg2O4MHrw-dBJTeEqn4/edit?usp=sharing" required>
+                <input v-model="url" type="text" class="form-control" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1umopb9lKxII6bwK2GDS0BN1xJg2O4MHrw-dBJTeEqn4/edit?usp=sharing" required>
                 <small id="urlHelpBlock" class="form-text text-muted">
                     This is the link to your writing. For Google docs, click <strong>SHARE</strong> in the top right corner, then click <strong>Get shareable link</strong>. Select the permission <strong>Anyone with the link can comment</strong> and copy the link into this box.
                     <br>
@@ -53,6 +53,7 @@
 
 <script>
 import Jumbotron from '../templates/Jumbotron.vue'
+import story from '../services/story.js'
 
 export default {
     name: 'Me',
@@ -61,6 +62,9 @@ export default {
     },
     data() {
         return {
+            title: '',
+            notes: '',
+            url: '',
             topics: null,
             tags: null,
             language: null,
@@ -83,7 +87,11 @@ export default {
     },
     methods: {
         createStory() {
-
+            story.create(this.title, this.notes, this.url)
+                .then(response => {
+                })
+                .catch(error => {
+                });
         }
     }
 }
