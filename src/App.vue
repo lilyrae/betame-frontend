@@ -128,6 +128,7 @@ export default {
 #language-select {
   font-family: 'PT Sans', sans-serif;
   font-size: 16px;
+  background-color: #fff;
 }
 
 #language-select .selected-tag {
@@ -156,6 +157,7 @@ export default {
   font-family: 'PT Sans', sans-serif;
   font-size: 16px;
   color: #312e2b;
+  background-color: #fff;
 }
 
 #topic-select .selected-tag {
@@ -184,6 +186,7 @@ export default {
   font-family: 'PT Sans', sans-serif;
   font-size: 16px;
   color: #312e2b;
+  background-color: #fff;
 }
 
 #tag-select .selected-tag {

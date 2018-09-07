@@ -30,7 +30,7 @@ export default {
             allStories: []
         }
     },
-    created() {
+    mounted() {
         this.getStories();
 
         Event.$on('searching', search => {
