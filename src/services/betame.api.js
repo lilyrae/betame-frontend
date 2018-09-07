@@ -13,4 +13,8 @@ if (localStorage.getItem('bm_password') != '') {
     }
 }
 
-export default axios.create(config);
+const api = axios.create(config);
+
+api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+export default api;
