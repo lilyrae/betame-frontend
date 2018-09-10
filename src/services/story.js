@@ -7,6 +7,9 @@ export default {
     all() {
         return api.get(storyUrl);
     },
+    byId(id) {
+        return api.get(storyUrl + "/" + id);
+    },
     withUserID(userId) {
         return api.get(storyUrl, {userId});
     },
