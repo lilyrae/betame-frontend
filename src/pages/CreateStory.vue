@@ -9,7 +9,7 @@
             Your story has been created:
         </div>
         <div v-else-if="createdStory">
-            <StoryTagForm></StoryTagForm>
+            <StoryTagForm :storyId="storyId"></StoryTagForm>
         </div>
         <div v-else>
             <StoryForm></StoryForm>
@@ -33,11 +33,13 @@ export default {
         return {
             createdStory: false,
             createdEverything: false,
+            storyId: null
         }
     },
     mounted() {
-        Event.$on('createdStory', () => {
+        Event.$on('createdStory', story => {
             this.createdStory = true;
+            this.storyId = story.story_id;
         })
     }
 }

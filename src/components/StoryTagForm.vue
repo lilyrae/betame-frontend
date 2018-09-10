@@ -3,19 +3,25 @@
         <div class="form-group row">
             <label for="language" class="col-sm-2 col-form-label">Language</label>
             <div class="col-sm-9">
-            <v-select id="language-select" v-model="language" :options="languageOptions"></v-select>
+            <v-select 
+                id="language-select"
+                v-model="language"
+                :options="languageOptions"
+                label="text"
+                >
+            </v-select>
             </div>
         </div>
         <div class="form-group row">
             <label for="topics" class="col-sm-2 col-form-label">Topics</label>
             <div class="col-sm-9">
-            <v-select id="topic-select" v-model="topics" :options="topicOptions" multiple taggable></v-select>
+            <TagBox id="topic-select" :tagTypeId="topicId"></TagBox>
             </div>
         </div>
         <div class="form-group row">
             <label for="tags" class="col-sm-2 col-form-label">Tags</label>
             <div class="col-sm-9">
-            <v-select id="tag-select" v-model="tags" :options="tagOptions" multiple taggable></v-select>
+            <TagBox id="tag-select" :tagTypeId="customId"></TagBox>
             </div>
         </div>
         <br>
@@ -24,30 +30,24 @@
 </template>
 
 <script>
+import TagBox from './TagBox.vue'
+import tag from '../services/tag.js'
+
 export default {
     name: 'StoryTagForm',
+    components: {
+        TagBox
+    },
     data() {
         return {
-            story_id: null,
-            topics: null,
-            tags: null,
+            customId: null,
+            topicId: null,
             language: null,
-            languageOptions: [
-                {label: 'English', id: 1},
-                {label: 'French', id: 2},
-                {label: 'Spanish', id: 3}
-            ],
-            topicOptions: [
-                {label: 'Biology', id: 4},
-                {label: 'Harry Potter', id: 5},
-                {label: 'Haikyuu!!', id: 6}
-            ],
-            tagOptions: [
-                {label: 'First Post', id: 1},
-                {label: 'Go easy on me!', id: 2},
-                {label: 'Constructive criticism', id: 3}
-            ],
+            languageOptions: []
         }
+    },
+    props: {
+        storyId: null
     },
     methods: {
         addTags() {
@@ -55,12 +55,13 @@ export default {
         }
     },
     mounted() {
-        Event.$on('createdStory', story => {
-            this.createdStory = true;
-            this.story_id = story.story_id;
-            console.log(this.story_id);
-        });
-        console.log(this.story_id);
+        this.topicId = tag.topicTagTypeId();
+        this.customId = tag.customTagTypeId();
+
+        tag.search(tag.languageTagTypeId())
+            .then(response => {
+                this.languageOptions = response.data;
+            });
     }
 }
 </script>
