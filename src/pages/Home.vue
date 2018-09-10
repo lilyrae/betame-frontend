@@ -5,6 +5,10 @@
     <ul class="list-group list-group-flush">
       <StoryItem v-for="story in stories" v-bind:key="story.id" v-bind:story="story"></StoryItem>
     </ul>
+    <!-- no stories -->
+    <div v-show="stories.length <= 0">
+        There are no stories here yet!
+    </div>
     <BottomNavBar />
   </Default>
 </template>
