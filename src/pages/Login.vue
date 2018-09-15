@@ -59,7 +59,7 @@ export default {
 
             auth.login(email, password)
                 .then(response => {
-                    auth.setUserPassword(response.data, password)
+                    auth.setUserPassword(response.data, email, password)
                     Event.$emit('loggedIn');
                     this.$router.push('/');
                 }).catch(() => {

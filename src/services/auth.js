@@ -19,9 +19,9 @@ export default {
     isLoggedIn() {
         return localStorage.getItem('bm_password') != '';
     },
-    setUserPassword(user, password) {
+    setUserPassword(user, email, password) {
         localStorage.setItem('bm_user', user);
-        localStorage.setItem('bm_email', user.email);
+        localStorage.setItem('bm_email', email);
         localStorage.setItem('bm_password', password);
     }
 }
