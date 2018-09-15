@@ -3,8 +3,9 @@
         <div class="jumbotron beta-jumbotron">
             <h3 class="beta-title"><slot name="title"></slot></h3>
             <slot name="subtitle"></slot>
-            <br>
-            <slot></slot>
+            <div class="font18">
+                <slot></slot>
+            </div>
         </div>
     </Default>
 </template>

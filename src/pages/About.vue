@@ -11,6 +11,9 @@
             The site is a work in progress and there are many ideas for the future!
             If you have any thoughts or feedback, they would be much appreciated!
         </p>
+        <p>
+          <i class="fas fa-pen-nib text-danger font18"></i>
+        </p>
     </div>
   </Jumbotron>
 </template>

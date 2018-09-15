@@ -9,7 +9,7 @@
         <div class="form-group row">
             <label for="intent" class="col-sm-2 col-form-label">Notes</label>
             <div class="col-sm-9">
-            <textarea v-model="notes" type="text" class="form-control" placeholder="Notes" required></textarea>
+            <textarea v-model="notes" type="text" class="form-control" placeholder="I want to improve my ..." required></textarea>
             </div>
         </div>
         <div class="form-group row">
@@ -33,7 +33,8 @@
         <button type="submit" class="btn btn-lg btn-info ld-ext-right"
             :class="{'running': isCreating }"
             >
-            Create
+            Create 
+            <i class="fas fa-pen-nib"></i>
             <div class="ld ld-ring ld-spin"></div>
         </button>
     </form>

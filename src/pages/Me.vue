@@ -6,7 +6,7 @@
       <StoryItem v-for="story in stories" v-bind:key="story.id" v-bind:story="story">
         <p class="float-right">
           <!-- <button class="btn btn-outline-info small-margin">Edit</button> -->
-          <button class="btn btn-outline-danger ">Delete</button>
+          <button class="btn btn-dark btn-sm">Delete</button>
         </p>
       </StoryItem>
     </ul>
