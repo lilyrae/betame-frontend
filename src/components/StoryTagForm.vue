@@ -9,6 +9,9 @@
                 :options="languageOptions"
                 label="text"
                 >
+                <template slot="no-options">
+                    Loading languages..
+                </template>
             </v-select>
             </div>
         </div>
@@ -43,7 +46,8 @@ export default {
             customId: null,
             topicId: null,
             language: null,
-            languageOptions: []
+            languageOptions: [],
+            tagIds: []
         }
     },
     props: {
@@ -51,7 +55,10 @@ export default {
     },
     methods: {
         addTags() {
-            
+            tag.addToStory(this.tagIds)
+                .then(response => {
+                    Event.$emit('createdTags');
+                });
         }
     },
     mounted() {
