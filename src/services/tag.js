@@ -10,15 +10,18 @@ export default {
     searchWithText(text, tag_type_id) {
         return api.get(tagUrl+ "?tag_type_id=" + tag_type_id + "&text=" + text);
     },
-    create(tag_type_id, text) {
-        return api.post(tagUrl, qs.stringify({tag_type_id, text}), {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        });
-    },
-    addToStory(tags) {
-        return api.post("/story" + tagUrl, qs.stringify({tags}), {
+    addToStory(storyId, tagIds, topicTexts, customTexts) {
+        let tags = tagIds.join(";");
+        let topic_tag_texts = topicTexts.join(";");
+        let custom_tag_texts = customTexts.join(";");
+
+        // make arrays into strings
+        return api.post("/story" + tagUrl, qs.stringify({
+                story_id: storyId,
+                tags, 
+                topic_tag_texts,
+                custom_tag_texts 
+            }), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }

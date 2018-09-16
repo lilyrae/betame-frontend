@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="topics" class="col-sm-2 col-form-label">Topics</label>
+            <label for="topics" class="col-sm-2 col-form-label">Fandom / Topic</label>
             <div class="col-sm-9">
             <TagBox id="topic-select" :tagTypeId="topicId"></TagBox>
             </div>
@@ -47,7 +47,8 @@ export default {
             topicId: null,
             language: null,
             languageOptions: [],
-            tagIds: []
+            tags: [],
+            newTags: []
         }
     },
     props: {
@@ -55,15 +56,28 @@ export default {
     },
     methods: {
         addTags() {
-            tag.addToStory(this.tagIds)
+            let tags = [];
+            tags = tags.concat(this.tags[this.topicId])
+            tags = tags.concat(this.tags[this.customId]);
+
+            if(this.language != null) {
+                tags.push(this.language.tag_id)
+            }
+
+            tag.addToStory(this.storyId, tags, this.newTags[this.topicId], this.newTags[this.customId])
                 .then(response => {
-                    Event.$emit('createdTags');
+                    Event.$emit('addedTagsToStory');
                 });
         }
     },
     mounted() {
         this.topicId = tag.topicTagTypeId();
         this.customId = tag.customTagTypeId();
+
+        Event.$on('updatedTags', ({tags, newTags, tagTypeId}) => {
+            this.tags[tagTypeId] = tags;
+            this.newTags[tagTypeId] = newTags;
+        });
 
         tag.search(tag.languageTagTypeId())
             .then(response => {

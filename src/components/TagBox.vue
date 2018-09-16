@@ -41,31 +41,30 @@ export default {
                 self.options = response.data;
                 loading(false);
             });
-        }, 350),
-        replaceTag(string, object) {
-            for (let index = 0; index < this.selected.length; index++) {
-                const element = this.selected[index];
-
-                if(element === string) {
-                    this.selected[index] = object;
-                }
-            }
-        }
+        }, 350)
     },
     watch: {
         selected() {
             let selected = this.selected;
 
+            let tags = [];
+            let newTags = [];
+
             for (let index = 0; index < selected.length; index++) {
                 const element = selected[index];
                 
                 if(typeof element === 'string' || element instanceof String) {
-                    tag.create(this.tagTypeId, element)
-                    .then(response => {
-                        this.replaceTag(element, response.data)
-                    });
+                    newTags.push(element);
+                } else {
+                    tags.push(element.tag_id);
                 }
             }
+
+            Event.$emit('updatedTags', {
+                tags,
+                newTags,
+                tagTypeId: this.tagTypeId
+            })
         }
     }
 }
