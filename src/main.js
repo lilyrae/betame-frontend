@@ -25,6 +25,11 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  document.title = 'Beta me.'
+  next()
+})
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

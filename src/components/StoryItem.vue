@@ -11,7 +11,8 @@
             <span class="beta-title font14 float-right">{{ story.created_at | formatDate }}</span>
             </h4>
             <div class="font18">
-                <p>
+                <p>{{ story.notes }}</p>
+                <p class="small-bottom-margin">
                     <span
                     v-for="tag in story.tags"
                     v-bind:key="tag.tag_id"
@@ -25,8 +26,7 @@
                         {{ tag.text }}
                     </span>
                 </p>
-                <p>{{ story.notes }}</p>
-                <p><i>{{ story.word_count }} words</i></p>
+                <p class="small-bottom-margin"><i>{{ story.word_count }} words</i></p>
             </div>
             <slot></slot>
         </div>
@@ -64,5 +64,9 @@ export default {
 .content-col {
     width: 95%;
     padding: 5px;
+}
+
+.small-bottom-margin {
+    margin-bottom: 8px;
 }
 </style>

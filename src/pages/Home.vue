@@ -3,7 +3,7 @@
     <SearchNavBar/>
     <!-- list of stories -->
     <ul class="list-group list-group-flush">
-      <StoryItem v-for="story in stories" v-bind:key="story.id" v-bind:story="story"></StoryItem>
+      <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
     </ul>
     <!-- no stories -->
     <div v-show="stories.length <= 0">

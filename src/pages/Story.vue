@@ -10,6 +10,7 @@
         <hr>
     </div>
     <div>
+        <p>{{ story.notes }}</p>
         <p 
         v-for="tag in story.tags"
         v-bind:key="tag.tag_id"
@@ -22,7 +23,6 @@
         class="badge small-margin">
             {{ tag.text }}
         </p>
-        <p>{{ story.notes }}</p>
         <p><i>{{ story.word_count }} words</i></p>
     </div>
   </Jumbotron>
@@ -52,6 +52,7 @@ export default {
         story.byId(this.id)
             .then((response) => {
                 this.story = response.data;
+                document.title = this.story.title + ' - Beta me.';
             })
     },
     filters: {

@@ -23,7 +23,7 @@
             <div class="col-sm-9">
             <input v-model="url" type="url" class="form-control" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1dtISZ-L0GSyAtqce_fraDIg2ER0EuRxVIoFXfxPXDx8/edit?usp=sharing" required>
             <small id="urlHelpBlock" class="form-text text-muted">
-                This is the link to your writing. For Google docs, click <strong>SHARE</strong> in the top right corner, then click <strong>Get shareable link</strong>. Select the permission <strong>Anyone with the link can comment</strong> (or ) and copy the link into this box.
+                This is the link to your writing. For Google docs, click <strong>SHARE</strong> in the top right corner, then click <strong>Get shareable link</strong>. Select the permission <strong>Anyone with the link can comment</strong> and copy the link into this box.
                 <br>
                 In the future, we won't be using third party services! This is a temporary measure, thank you for your patience.
             </small>
