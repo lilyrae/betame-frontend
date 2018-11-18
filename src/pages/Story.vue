@@ -53,7 +53,9 @@ export default {
             .then((response) => {
                 this.story = response.data;
                 document.title = this.story.title + ' - Beta me.';
-            })
+            }).catch((error) => {
+                // TODO Story not found error
+            });
     },
     filters: {
         formatDate(date) {
