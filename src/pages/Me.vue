@@ -1,48 +1,72 @@
 <template>
-  <Default>
-    <AccountNavBar/>
-    <!-- list of my stories -->
-    <ul class="list-group list-group-flush">
-      <StoryItem v-for="story in stories" v-bind:key="story.id" v-bind:story="story">
-        <p class="float-right">
-          <!-- <button class="btn btn-outline-info small-margin">Edit</button> -->
-          <button class="btn btn-dark btn-sm">Delete</button>
-        </p>
-      </StoryItem>
-    </ul>
-  </Default>
+    <Default>
+        <SearchNavBar/>
+        <ErrorAlert :error="error"/>
+        <!-- list of my stories -->
+        <ul class="list-group list-group-flush">
+        <div v-if="stories.length > 0">
+            <StoryItem v-for="(story, index) in stories" v-bind:key="story.story_id" v-bind:story="story">
+                <p class="float-right">
+                <!-- <button class="btn btn-outline-info small-margin">Edit</button> -->
+                <button class="btn btn-dark btn-sm" @click="deleteStory(story.story_id, index)">Delete</button>
+                </p>
+            </StoryItem>
+        </div>
+        <div v-else>
+            Why don't you create a new story?
+        </div>
+        </ul>
+    </Default>
 </template>
 
 <script>
 import Default from '../templates/Default.vue'
-import AccountNavBar from '../components/AccountNavBar.vue'
+import SearchNavBar from '../components/SearchNavBar.vue'
+import ErrorAlert from '../components/ErrorAlert.vue'
 import StoryItem from '../components/StoryItem.vue'
 import story from '../services/story.js'
 
 export default {
-  name: 'Me',
-  components: {
-      Default,
-      AccountNavBar,
-      StoryItem
-  },
-  data() {
-      return {
-          stories: [],
-          user: {}
-      }
-  },
-  created() {
-      this.user = localStorage.getItem('bm_user');
-      this.getStories();
-  },
-  methods: {
-    getStories() {
-        story.withUserID(this.user.user_id).then(response => {
-            this.stories = response.data;
-        });
+    name: 'Me',
+    components: {
+        Default,
+        SearchNavBar,
+        ErrorAlert,
+        StoryItem
+    },
+    data() {
+        return {
+            stories: [],
+            user_id: '',
+            error: null
+        }
+    },
+    created() {
+        this.user_id = localStorage.getItem('bm_user_id');
+        this.getStories();
+    },
+    methods: {
+        getStories() {
+            this.error = null;
+
+           story.withUserID(this.user_id)
+                .then(response => {
+                    this.stories = response.data;
+                }).catch(error => {
+                    this.error = error;
+                });
+        },
+        deleteStory(id, index) {
+            this.error = null;
+
+            story.delete(id)
+                .then(() => {
+                    this.stories.splice(index, 1);
+                }).catch(error => {
+                    this.error = error;
+                });
+        }
     }
-  }
 }
 </script>
 

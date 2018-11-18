@@ -11,7 +11,7 @@ export default {
         return api.get(storyUrl + "/" + id);
     },
     withUserID(userId) {
-        return api.get(storyUrl, {userId});
+        return api.get(storyUrl + "?user_id=" + userId);
     },
     create(title, notes, url, word_count) {
         return api.post(storyUrl, qs.stringify({title, notes, url, word_count}), {
@@ -19,5 +19,8 @@ export default {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
+    },
+    delete(id) {
+        return api.delete(storyUrl + "/delete/" + id);
     }
 }
