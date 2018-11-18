@@ -1,6 +1,7 @@
 <template>
   <Default>
     <SearchNavBar/>
+    <ErrorAlert :error="error"/>
     <!-- list of stories -->
     <ul class="list-group list-group-flush">
       <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
@@ -17,6 +18,7 @@
 import Default from '../templates/Default.vue'
 import SearchNavBar from '../components/SearchNavBar.vue'
 import BottomNavBar from '../components/BottomNavBar.vue'
+import ErrorAlert from '../components/ErrorAlert.vue'
 import StoryItem from '../components/StoryItem.vue'
 import story from '../services/story.js'
 
@@ -26,12 +28,14 @@ export default {
         Default,
         SearchNavBar,
         BottomNavBar,
+        ErrorAlert,
         StoryItem
     },
     data() {
         return {
             stories: [],
-            allStories: []
+            allStories: [],
+            error: null
         }
     },
     mounted() {
@@ -57,10 +61,15 @@ export default {
     },
     methods: {
         getStories() {
-            story.all().then(response => {
-                this.stories = response.data;
-                this.allStories = response.data;
-            });
+            this.error = null;
+            
+            story.all()
+                .then(response => {
+                    this.stories = response.data;
+                    this.allStories = response.data;
+                }).catch(error => {
+                    this.error = error;
+                });
         }
     }
 }
