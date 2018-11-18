@@ -125,6 +125,12 @@ export default {
   box-shadow: 0 0 0 3px #fff, 0 0 0 5px #312e2b, 0 0 0 10px #fff, 0 0 2px 10px #000000;
 }
 
+.beta-frame {
+  border-radius:30px;
+  -moz-border-radius:30px;
+  -webkit-border-radius:30px;
+}
+
 #language-select {
   font-family: 'PT Sans', sans-serif;
   font-size: 16px;

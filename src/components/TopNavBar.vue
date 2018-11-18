@@ -13,7 +13,7 @@
                     <router-link class="nav-link beta-text" to="/login">Login</router-link>
                 </li>
                 <li class="nav-item" v-if="loggedIn">
-                    <router-link class="nav-link beta-text" to="/me">My Works</router-link>
+                    <router-link class="nav-link beta-text" to="/me">{{ username }}</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link beta-text" to="/about">About</router-link>
@@ -35,8 +35,12 @@ export default {
     data() {
         return {
             showNavDropdown: false,
-            loggedIn: false
+            loggedIn: false,
+            username: ''
         };
+    },
+    created() {
+        this.username = localStorage.getItem('bm_username');
     },
     methods: {
         toggleNavDropdown() {
@@ -53,10 +57,10 @@ export default {
         }
     },
     mounted() {
-        Event.$on('loggedOut', event => {
+        Event.$on('loggedOut', () => {
             this.loggedIn = auth.isLoggedIn();
         });
-        Event.$on('loggedIn', event => {
+        Event.$on('loggedIn', () => {
             this.loggedIn = auth.isLoggedIn();
         });
         this.loggedIn = auth.isLoggedIn();
