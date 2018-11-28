@@ -29,7 +29,7 @@ export default {
         Event.$emit('loggedOut');
     },
     isLoggedIn() {
-        return localStorage.getItem('bm_password') != '';
+        return localStorage.getItem('bm_password') && localStorage.getItem('bm_password')  != '';
     },
     setUserPassword(user_id, username, email, password) {
         localStorage.setItem('bm_user_id', user_id);
