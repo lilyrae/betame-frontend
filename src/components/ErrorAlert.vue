@@ -9,7 +9,7 @@
 export default {
     name: 'ErrorAlert',
     props: {
-        error: Object
+        error: Error
     },
     methods: {
         close() {
