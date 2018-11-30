@@ -11,7 +11,7 @@
             <div class="form-group row">
                 <label for="intent" class="col-sm-2 col-form-label">Notes</label>
                 <div class="col-sm-9">
-                <textarea v-model="notes" type="text" class="form-control" placeholder="I want to improve my ..." required></textarea>
+                <textarea v-model="notes" type="text" class="form-control beta-textarea" placeholder="I want to improve my ..." required></textarea>
                 </div>
             </div>
             <div class="form-group row">
@@ -81,3 +81,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.beta-textarea {
+    height: 130px;
+}
+</style>
