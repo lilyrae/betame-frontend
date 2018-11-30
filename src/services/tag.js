@@ -11,9 +11,9 @@ export default {
     },
     addToStory(story_id, tagIds, topicTexts, customTexts) {
         // make arrays into strings
-        let tags = tagIds.join(";");
-        let topic_tag_texts = topicTexts.join(";");
-        let custom_tag_texts = customTexts.join(";");
+        let tags = tagIds.join(",");
+        let topic_tag_texts = topicTexts.join(",");
+        let custom_tag_texts = customTexts.join(",");
 
         return api.post("/story" + tagUrl, {
             story_id,

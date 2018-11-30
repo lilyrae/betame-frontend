@@ -9,8 +9,8 @@ export default {
     byId(id) {
         return api.get(storyUrl + "/" + id);
     },
-    withUserID(userId) {
-        return api.get(storyUrl, {userId});
+    withUserID(user_id) {
+        return api.get(storyUrl, {user_id});
     },
     create(title, notes, url, word_count) {
         return api.post(storyUrl, {title, notes, url, word_count});
