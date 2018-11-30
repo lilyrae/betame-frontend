@@ -6,7 +6,7 @@
         </div>
         <div class="content-col">
             <h4>
-            <a :href="storyUrl" class="beta-title" target="_blank">{{ story.title }}</a>&nbsp;
+            <router-link class="beta-title" :to="storyUrl">{{ story.title }}</router-link>&nbsp;
             <span class="font18 grey">by {{ story.user.username }}</span>
             <span class="beta-title font14 float-right">{{ story.created_at | formatDate }}</span>
             </h4>
@@ -49,7 +49,7 @@ export default {
     },
     computed: {
         storyUrl() {
-            return "/#/story/" + this.story.story_id;
+            return "/story/" + this.story.story_id;
         }
     }
 }
