@@ -9,6 +9,7 @@ import Me from './pages/Me.vue'
 import About from './pages/About.vue'
 import CreateStory from './pages/CreateStory.vue'
 import Story from './pages/Story.vue'
+import NotFound from './pages/NotFound.vue'
 
 Vue.component('v-select', vSelect)
 Vue.use(VueRouter)
@@ -20,7 +21,9 @@ const routes = [
   { path: '/me', component: Me },
   { path: '/about', component: About },
   { path: '/story/new', component: CreateStory },
-  { path: '/story/:id', component: Story, props: true }
+  { path: '/story/:id', component: Story, props: true },
+  { path: '/404', component: NotFound },  
+  { path: '*', redirect: '/404' }
 ]
 
 const router = new VueRouter({

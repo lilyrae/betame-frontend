@@ -221,4 +221,72 @@ a { color: inherit; }
 a:hover {
   color: #17a2b8;
 }
+
+#loading image
+.lds-circle {
+  display: inline-block;
+  transform: translateZ(1px);
+}
+.lds-circle > div {
+  display: inline-block;
+  width: 51px;
+  height: 51px;
+  margin: 6px;
+  border-radius: 50%;
+  background: #17a2b8;
+  animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+@keyframes lds-circle {
+  0%, 100% {
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(1800deg);
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+  }
+  100% {
+    transform: rotateY(3600deg);
+  }
+}
+
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #17a2b8;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 28px;
+    left: 28px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: -1px;
+    left: -1px;
+    width: 58px;
+    height: 58px;
+    opacity: 0;
+  }
+}
+
+.loading-screen {
+    margin: 50px;
+}
+
 </style>

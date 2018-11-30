@@ -1,29 +1,41 @@
 <template>
   <Jumbotron class="text-left">
     <div slot="title">
-        {{ story.title }}
-        <span class="font18 beta-text"> by {{ story.user.username }}</span>
-        <span class="font14 float-right">{{ story.created_at | formatDate }}</span>
+        <span v-if="isLoadingPage">
+            <center>..Loading..</center>
+        </span>
+        <span v-else>
+            {{ story.title }}
+            <span class="font18 beta-text"> by {{ story.user.username }}</span>
+            <span class="font14 float-right">{{ story.created_at | formatDate }}</span>
+        </span>
     </div>
     <div slot="subtitle">
-        <h5><a class="text-info" :href="story.url">{{ story.url }}</a></h5>
+        <span v-if="!isLoadingPage">
+            <h5><a class="text-info" :href="story.url">{{ story.url }}</a></h5>
+        </span>
         <hr>
     </div>
     <div>
-        <p>{{ story.notes }}</p>
-        <p 
-        v-for="tag in story.tags"
-        v-bind:key="tag.tag_id"
-        v-bind:class="{
-            'beta-grey-badge': tag.tag_type_id == 1,
-            'beta-blue-badge': tag.tag_type_id == 2,
-            'beta-dark-blue-badge': tag.tag_type_id == 3,
-            'badge-info': tag.tag_type_id == 4
-        }"
-        class="badge small-margin">
-            {{ tag.text }}
-        </p>
-        <p><i>{{ story.word_count }} words</i></p>
+        <div v-if="isLoadingPage">
+            <center><div class="lds-circle"><div></div></div></center>
+        </div>
+        <div v-else>
+            <p>{{ story.notes }}</p>
+            <p 
+            v-for="tag in story.tags"
+            v-bind:key="tag.tag_id"
+            v-bind:class="{
+                'beta-grey-badge': tag.tag_type_id == 1,
+                'beta-blue-badge': tag.tag_type_id == 2,
+                'beta-dark-blue-badge': tag.tag_type_id == 3,
+                'badge-info': tag.tag_type_id == 4
+            }"
+            class="badge small-margin">
+                {{ tag.text }}
+            </p>
+            <p><i>{{ story.word_count }} words</i></p>
+        </div>
     </div>
   </Jumbotron>
 </template>
@@ -45,16 +57,20 @@ export default {
         return {
             story: {
                 user: {}
-            }
+            },
+            isLoadingPage: false
         };
     },
     created() {
+        this.isLoadingPage = true;
         story.byId(this.id)
             .then((response) => {
                 this.story = response.data;
                 document.title = this.story.title + ' - Beta me.';
             }).catch((error) => {
-                // TODO Story not found error
+                this.$router.push('/404')
+            }).finally(() => {
+                this.isLoadingPage = false;
             });
     },
     filters: {

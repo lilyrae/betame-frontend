@@ -2,12 +2,20 @@
   <Default>
     <SearchNavBar/>
     <ErrorAlert :error="error"/>
-    <!-- list of stories -->
-    <ul class="list-group list-group-flush">
-      <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
-    </ul>
-    <!-- no stories -->
-    <div v-show="stories.length <= 0">
+    <div v-if="isLoadingPage">
+        <center class="loading-screen">
+            <div class="lds-ripple"><div></div><div></div></div>
+            <div class="lds-ripple"><div></div><div></div></div>
+            <div class="lds-ripple"><div></div><div></div></div>
+        </center>
+    </div>
+    <div v-else-if="stories.length > 0">
+        <!-- list of stories -->
+        <ul class="list-group list-group-flush">
+        <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
+        </ul>
+    </div>
+    <div v-else>
         There are no stories here yet!
     </div>
     <BottomNavBar />
@@ -35,7 +43,8 @@ export default {
         return {
             stories: [],
             allStories: [],
-            error: null
+            error: null,
+            isLoadingPage: false
         }
     },
     mounted() {
@@ -62,6 +71,7 @@ export default {
     methods: {
         getStories() {
             this.error = null;
+            this.isLoadingPage = true;
             
             story.all()
                 .then(response => {
@@ -69,6 +79,8 @@ export default {
                     this.allStories = response.data;
                 }).catch(error => {
                     this.error = error;
+                }).finally(() => {
+                    this.isLoadingPage = false;
                 });
         }
     }

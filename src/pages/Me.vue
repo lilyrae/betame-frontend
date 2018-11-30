@@ -4,7 +4,14 @@
         <ErrorAlert :error="error"/>
         <!-- list of my stories -->
         <ul class="list-group list-group-flush">
-        <div v-if="stories.length > 0">
+        <div v-if="isLoadingPage">
+            <center class="loading-screen">
+                <div class="lds-ripple"><div></div><div></div></div>
+                <div class="lds-ripple"><div></div><div></div></div>
+                <div class="lds-ripple"><div></div><div></div></div>
+            </center>
+        </div>
+        <div v-else-if="stories.length > 0">
             <StoryItem v-for="(story, index) in stories" v-bind:key="story.story_id" v-bind:story="story">
                 <p class="float-right">
                 <!-- <button class="btn btn-outline-info small-margin">Edit</button> -->
@@ -38,7 +45,8 @@ export default {
         return {
             stories: [],
             user_id: '',
-            error: null
+            error: null,
+            isLoadingPage: false
         }
     },
     created() {
@@ -48,12 +56,15 @@ export default {
     methods: {
         getStories() {
             this.error = null;
+            this.isLoadingPage = true;
 
            story.withUserID(this.user_id)
                 .then(response => {
                     this.stories = response.data;
                 }).catch(error => {
                     this.error = error;
+                }).finally(() => {
+                    this.isLoadingPage = false;
                 });
         },
         deleteStory(id, index) {
