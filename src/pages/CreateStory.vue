@@ -53,8 +53,6 @@ export default {
         }
     },
     mounted() {
-        this.createdStory = false;
-        this.createdEverything = false;
         this.storyId = null;
         this.story = {};
 

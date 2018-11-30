@@ -1,7 +1,7 @@
 <template>
     <div>
         <ErrorAlert :error="error"/>
-        <form v-on:submit.prevent="addTags">
+        <form class="text-left" v-on:submit.prevent="addTags">
             <div class="form-group row">
                 <label for="language" class="col-sm-2 col-form-label">Language</label>
                 <div class="col-sm-9">
