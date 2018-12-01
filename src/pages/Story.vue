@@ -12,7 +12,7 @@
     </div>
     <div slot="subtitle">
         <span v-if="!isLoadingPage">
-            <h5><a class="text-info" :href="story.url">{{ story.url }}</a></h5>
+            <h5><a class="text-info" :href="story.url" target="_blank">{{ story.url }}</a></h5>
         </span>
         <hr>
     </div>

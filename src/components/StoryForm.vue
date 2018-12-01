@@ -21,9 +21,12 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="url" class="col-sm-2 col-form-label">Link</label>
+                <label for="url" class="col-sm-2 col-form-label">Google Docs Link</label>
                 <div class="col-sm-9">
-                <input v-model="url" type="url" class="form-control" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1dtISZ-L0GSyAtqce_fraDIg2ER0EuRxVIoFXfxPXDx8/edit?usp=sharing" required>
+                <input v-model="url" type="url" @keyup="checkGoogleLink" class="form-control" :class="{'is-invalid' : invalidGoogleLink}" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1dtISZ-L0GSyAtqce_fraDIg2ER0EuRxVIoFXfxPXDx8/edit?usp=sharing" required>
+                <div v-show="invalidGoogleLink" class="invalid-feedback text-left">
+                    Please provide a valid Google docs link.
+                </div>
                 <small id="urlHelpBlock" class="form-text text-muted">
                     This is the link to your writing. For Google docs, click <strong>SHARE</strong> in the top right corner, then click <strong>Get shareable link</strong>. Select the permission <strong>Anyone with the link can comment</strong> and copy the link into this box.
                     <br>
@@ -44,6 +47,8 @@
 </template>
 
 <script>
+import debounce from 'debounce'
+import google from '../services/google.js'
 import story from '../services/story.js'
 import ErrorAlert from '../components/ErrorAlert.vue'
 
@@ -59,7 +64,8 @@ export default {
             url: '',
             word_count: '',
             isCreating: false,
-            error: null
+            error: null,
+            invalidGoogleLink: false
         };
     },
     methods: {
@@ -77,7 +83,30 @@ export default {
                 .finally(() => {
                     this.isCreating = false;
                 });
+        },
+        checkGoogleLink() {
+            if(!google.isGoogleDocsLink(this.url)) {
+                this.invalidGoogleLink = true;
+
+                if(this.url == "") {
+                    this.invalidGoogleLink = false;
+                }
+                return;
+            }
+            
+            this.invalidGoogleLink = false;
+
+            google.docHeaders(this.url)
+                .then(response => console.info("headers:", response.headers))
+                .catch(error => {
+                    console.log("error")
+                    console.log(error)
+                })
+
         }
+    },
+    created() {
+        this.checkGoogleLink = debounce(this.checkGoogleLink, 500)
     }
 }
 </script>

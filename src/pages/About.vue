@@ -11,7 +11,7 @@
             The site is a work in progress and there are many ideas for the future!
             If you have any thoughts or feedback, they would be much appreciated!
             You can find me in the BetaMe Server on 
-            <a class="text-info"  target="_blank" href="https://discord.gg/G42mrwz">Discord</a>.
+            <a class="text-info" target="_blank" href="https://discord.gg/G42mrwz">Discord</a>.
         </p>
         <p>
           <i class="fas fa-pen-nib text-danger font18"></i>
