@@ -66,6 +66,16 @@ export default {
     padding: 5px;
 }
 
+@media only screen and (max-width: 1000px) {
+    .bullet-point-col {
+        width: 10%;
+    }
+
+    .content-col {
+        width: 90%;
+    }
+}
+
 .small-bottom-margin {
     margin-bottom: 8px;
 }
