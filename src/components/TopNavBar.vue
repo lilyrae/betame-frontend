@@ -9,19 +9,22 @@
         <div class="navbar-collapse" :class="navDropdownClass">
             <!-- Page Links -->
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item" v-if="!loggedIn">
-                    <router-link class="nav-link beta-text" to="/login">Login</router-link>
-                </li>
                 <li class="nav-item" v-if="loggedIn">
-                    <router-link class="nav-link beta-text" to="/me">{{ username }}</router-link>
+                    <router-link class="nav-link beta-text" to="/story/new">Create New</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link beta-text" to="/about">About</router-link>
                 </li>
             </ul>
             <!-- Logout Button -->
-            <div class="my-2 my-lg-0" v-if="loggedIn">
-                <button class="btn btn-outline-secondary" @click="logout">Logout</button>
+            <div class="my-2 my-lg-0" >
+                <div v-if="loggedIn">
+                    <router-link class="btn betame-button" to="/me">My Account</router-link>
+                    <button class="btn btn-secondary" @click="logout">Logout</button>
+                </div>
+                <div v-else>
+                    <router-link class="btn betame-button" to="/login">Login</router-link>
+                </div>
             </div>
         </div>
     </nav>
@@ -35,12 +38,8 @@ export default {
     data() {
         return {
             showNavDropdown: false,
-            loggedIn: false,
-            username: ''
+            loggedIn: false
         };
-    },
-    created() {
-        this.username = localStorage.getItem('bm_username');
     },
     methods: {
         toggleNavDropdown() {

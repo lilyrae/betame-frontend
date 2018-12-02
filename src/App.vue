@@ -219,7 +219,7 @@ export default {
 a { color: inherit; }
 
 a:hover {
-  color: #17a2b8;
+  color: #3e828e;
 }
 
 #loading image
@@ -233,7 +233,7 @@ a:hover {
   height: 51px;
   margin: 6px;
   border-radius: 50%;
-  background: #17a2b8;
+  background: #3e828e;
   animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 @keyframes lds-circle {
@@ -260,7 +260,7 @@ a:hover {
 }
 .lds-ripple div {
   position: absolute;
-  border: 4px solid #17a2b8;
+  border: 4px solid #3e828e;
   opacity: 1;
   border-radius: 50%;
   animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
@@ -316,5 +316,29 @@ a:hover {
 /* Show the tooltip text when you mouse over the tooltip container */
 .betame-tooltip:hover .betame-tooltiptext {
   visibility: visible;
+}
+
+.betame-button {
+  color: #312e2b;
+  background-color: #bfdde2!important;
+}
+
+.betame-dark-button {
+  color: white;
+  background-color: #17a2b8!important;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #58a068;
+    border-color: #58a068;
+}
+
+.btn-danger {
+  background-color: #de515e;
+}
+
+.betame-red {
+  color: #de515e;
 }
 </style>

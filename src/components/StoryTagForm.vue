@@ -30,8 +30,10 @@
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-lg btn-info">Add</button>&nbsp;
-            <button type="button" @click="skipAddingTags" class="btn btn-lg btn-info">Skip</button>
+            <center>
+                <button type="submit" class="btn btn-lg betame-dark-button">Add</button>&nbsp;
+                <button type="button" @click="skipAddingTags" class="btn btn-lg betame-dark-button">Skip</button>
+            </center>
         </form>
     </div>
 </template>

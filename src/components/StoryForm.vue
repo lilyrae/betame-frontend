@@ -49,7 +49,7 @@
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-lg btn-info ld-ext-right"
+            <button type="submit" class="btn btn-lg betame-dark-button ld-ext-right"
                 :class="{'running': isCreating }"
                 >
                 Create 

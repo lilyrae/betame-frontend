@@ -2,7 +2,7 @@
     <li class="list-group-item beta-text">
         <div class="row">
         <div class="bullet-point-col">
-            <i class="fas fa-pen-nib text-danger font14"></i>
+            <i class="fas fa-pen-nib betame-red font14"></i>
         </div>
         <div class="content-col">
             <h4>
