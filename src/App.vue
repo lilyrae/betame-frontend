@@ -289,4 +289,32 @@ a:hover {
     margin: 50px;
 }
 
+/* Tooltip container */
+.betame-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.betame-tooltip .betame-tooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: #312e2b;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -160px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.betame-tooltip:hover .betame-tooltiptext {
+  visibility: visible;
+}
 </style>

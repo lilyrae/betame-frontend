@@ -4,34 +4,48 @@
         <form v-on:submit.prevent="createStory">
             <div class="form-group row">
                 <label for="title" class="col-sm-2 col-form-label">Title</label>
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                 <input v-model="title" type="text" class="form-control" placeholder="Title" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="intent" class="col-sm-2 col-form-label">Notes</label>
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                 <textarea v-model="notes" type="text" class="form-control beta-textarea" placeholder="I want to improve my ..." required></textarea>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="intent" class="col-sm-2 col-form-label">Word Count</label>
-                <div class="col-sm-9">
-                <input v-model="word_count" type="number" class="form-control" placeholder="2000" min="1" required>
+                <div class="col-sm-8">
+                    <input v-model="word_count" type="number" class="form-control" placeholder="2000" min="1" required>
+                </div>
+                <div class="col-sm-1">
+                    <div class="betame-tooltip"><i class="fas fa-info-circle font18"></i>
+                        <span class="betame-tooltiptext">
+                            Inside your Google doc, click <strong class="text-info">Tools</strong>, then click <strong class="text-info">Word Count</strong>.
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="url" class="col-sm-2 col-form-label">Google Docs Link</label>
-                <div class="col-sm-9">
-                <input v-model="url" type="url" @keyup="checkGoogleLink" class="form-control" :class="{'is-invalid' : invalidGoogleLink}" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1dtISZ-L0GSyAtqce_fraDIg2ER0EuRxVIoFXfxPXDx8/edit?usp=sharing" required>
-                <div v-show="invalidGoogleLink" class="invalid-feedback text-left">
-                    Please provide a valid Google docs link.
+                <div class="col-sm-8">
+                    <input v-model="url" type="url" @keyup="checkGoogleLink" class="form-control" :class="{'is-invalid' : invalidGoogleLink}" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1dtISZ-L0GSyAtqce_fraDIg2ER0EuRxVIoFXfxPXDx8/edit?usp=sharing" required>
+                    <div v-show="invalidGoogleLink" class="invalid-feedback text-left">
+                        <span v-if="invalidGoogleDoc">
+                            This link does not seem correct. Did you make the Google Doc public?
+                        </span>
+                        <span v-else>
+                            Please provide a valid Google docs link.
+                        </span>
+                    </div>
                 </div>
-                <small id="urlHelpBlock" class="form-text text-muted">
-                    This is the link to your writing. For Google docs, click <strong>SHARE</strong> in the top right corner, then click <strong>Get shareable link</strong>. Select the permission <strong>Anyone with the link can comment</strong> and copy the link into this box.
-                    <br>
-                    In the future, we won't be using third party services! This is a temporary measure, thank you for your patience.
-                </small>
+                <div class="col-sm-1">
+                    <div class="betame-tooltip"><i class="fas fa-info-circle font18"></i>
+                        <span class="betame-tooltiptext">
+                            Inside your Google doc, click <strong class="text-info">SHARE</strong> in the top right corner, then click <strong class="text-info">Get shareable link</strong>. Select the permission <strong class="text-info">Anyone with the link can comment</strong> and copy the link here.
+                        </span>
+                    </div>
                 </div>
             </div>
             <br>
@@ -65,7 +79,8 @@ export default {
             word_count: '',
             isCreating: false,
             error: null,
-            invalidGoogleLink: false
+            invalidGoogleLink: false,
+            invalidGoogleDoc: false
         };
     },
     methods: {
@@ -85,28 +100,28 @@ export default {
                 });
         },
         checkGoogleLink() {
+            this.invalidGoogleDoc = false;
+            this.invalidGoogleLink = false;
+
+            if(this.url == "") {
+                return;
+            }
+
             if(!google.isGoogleDocsLink(this.url)) {
                 this.invalidGoogleLink = true;
-
-                if(this.url == "") {
-                    this.invalidGoogleLink = false;
-                }
                 return;
             }
             
-            this.invalidGoogleLink = false;
-
             google.docHeaders(this.url)
-                .then(response => console.info("headers:", response.headers))
-                .catch(error => {
-                    console.log("error")
-                    console.log(error)
+                .catch(() => {
+                    this.invalidGoogleDoc = true;
+                    this.invalidGoogleLink = true;
                 })
 
         }
     },
     created() {
-        this.checkGoogleLink = debounce(this.checkGoogleLink, 500)
+        this.checkGoogleLink = debounce(this.checkGoogleLink, 300)
     }
 }
 </script>
