@@ -24,9 +24,15 @@
                 </div>
             </div>
             <div class="form-group row">
+                <label for="tags" class="col-sm-2 col-form-label">Help Tags</label>
+                <div class="col-sm-9">
+                <TagBox id="tag-select" :tagTypeId="helpId"></TagBox>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="tags" class="col-sm-2 col-form-label">Tags</label>
                 <div class="col-sm-9">
-                <TagBox id="tag-select" :tagTypeId="customId"></TagBox>
+                <TaggableTagBox id="tag-select" :tagTypeId="customId"></TaggableTagBox>
                 </div>
             </div>
             <br>
@@ -41,18 +47,21 @@
 <script>
 import ErrorAlert from '../components/ErrorAlert.vue'
 import TagBox from './TagBox.vue'
+import TaggableTagBox from './TaggableTagBox.vue'
 import tag from '../services/tag.js'
 
 export default {
     name: 'StoryTagForm',
     components: {
         TagBox,
+        TaggableTagBox,
         ErrorAlert
     },
     data() {
         return {
             customId: null,
             topicId: null,
+            helpId: null,
             language: null,
             languageOptions: [],
             tags: [],
@@ -73,15 +82,17 @@ export default {
             }
 
             let tags = [];
-            tags = tags.concat(this.tags[this.topicId])
-            tags = tags.concat(this.tags[this.customId]);
 
             if(this.language != null) {
                 tags.push(this.language.tag_id)
             }
 
-            tag.addToStory(this.storyId, tags, this.newTags[this.topicId], this.newTags[this.customId])
-                .then(response => {
+            tags = tags.concat(this.tags[this.topicId])
+            tags = tags.concat(this.tags[this.helpId]);
+            tags = tags.concat(this.tags[this.customId]);
+
+            tag.addToStory(this.storyId, tags, this.newTags[this.customId])
+                .then(() => {
                     Event.$emit('addedTagsToStory');
                 }).catch(error => {
                     this.error = error;
@@ -101,16 +112,21 @@ export default {
     mounted() {
         this.topicId = tag.topicTagTypeId();
         this.customId = tag.customTagTypeId();
+        this.helpId = tag.helpTagTypeId();
 
         // initialise new tags to empty array
-        this.newTags[this.topicId] = []
         this.newTags[this.customId] = []
         this.tags[this.topicId] = []
         this.tags[this.customId] = []
+        this.tags[this.helpId] = []
 
         Event.$on('updatedTags', ({tags, newTags, tagTypeId}) => {
             this.tags[tagTypeId] = tags;
             this.newTags[tagTypeId] = newTags;
+        });
+
+        Event.$on('tagsError', ({error}) => {
+            this.error = error;
         });
 
         tag.search(tag.languageTagTypeId())

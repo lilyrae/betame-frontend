@@ -22,17 +22,8 @@
         </div>
         <div v-else>
             <p>{{ story.notes }}</p>
-            <p 
-            v-for="tag in story.tags"
-            v-bind:key="tag.tag_id"
-            v-bind:class="{
-                'beta-grey-badge': tag.tag_type_id == 1,
-                'beta-blue-badge': tag.tag_type_id == 2,
-                'beta-dark-blue-badge': tag.tag_type_id == 3,
-                'badge-info': tag.tag_type_id == 4
-            }"
-            class="badge small-margin">
-                {{ tag.text }}
+            <p>
+                <TagList :tags="story.tags"/>
             </p>
             <p><i>{{ story.word_count }} words</i></p>
         </div>
@@ -42,13 +33,15 @@
 
 <script>
 import Jumbotron from '../templates/Jumbotron.vue'
+import TagList from '../components/TagList.vue'
 import story from '../services/story.js'
 import moment from 'moment'
 
 export default {
     name: 'Story',
     components: {
-        Jumbotron
+        Jumbotron,
+        TagList
     },
     props: {
         id: null
@@ -67,7 +60,7 @@ export default {
             .then((response) => {
                 this.story = response.data;
                 document.title = this.story.title + ' - Beta me.';
-            }).catch((error) => {
+            }).catch(() => {
                 this.$router.push('/404')
             }).finally(() => {
                 this.isLoadingPage = false;

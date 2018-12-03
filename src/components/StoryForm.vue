@@ -22,13 +22,13 @@
                 <div class="col-sm-1">
                     <div class="betame-tooltip"><i class="fas fa-info-circle font18"></i>
                         <span class="betame-tooltiptext">
-                            Inside your Google doc, click <strong class="text-info">Tools</strong>, then click <strong class="text-info">Word Count</strong>.
+                            Inside your Google Doc, click <strong class="text-info">Tools</strong>, then click <strong class="text-info">Word Count</strong>.
                         </span>
                     </div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="url" class="col-sm-2 col-form-label">Google Docs Link</label>
+                <label for="url" class="col-sm-2 col-form-label">Google Doc Link</label>
                 <div class="col-sm-8">
                     <input v-model="url" type="url" @keyup="checkGoogleLink" class="form-control" :class="{'is-invalid' : invalidGoogleLink}" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1dtISZ-L0GSyAtqce_fraDIg2ER0EuRxVIoFXfxPXDx8/edit?usp=sharing" required>
                     <div v-show="invalidGoogleLink" class="invalid-feedback text-left">
@@ -36,7 +36,7 @@
                             This link does not seem correct. Did you make the Google Doc public?
                         </span>
                         <span v-else>
-                            Please provide a valid Google docs link.
+                            Please provide a valid Google Doc link.
                         </span>
                     </div>
                 </div>
@@ -85,6 +85,10 @@ export default {
     },
     methods: {
         createStory() {
+            if (this.invalidGoogleLink) {
+                return;
+            }
+
             this.error = null;
             this.isCreating = true;
 

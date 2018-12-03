@@ -13,18 +13,7 @@
             <div class="font18">
                 <p>{{ story.notes }}</p>
                 <p class="small-bottom-margin">
-                    <span
-                    v-for="tag in story.tags"
-                    v-bind:key="tag.tag_id"
-                    v-bind:class="{
-                        'beta-grey-badge': tag.tag_type_id == 1,
-                        'beta-blue-badge': tag.tag_type_id == 2,
-                        'beta-dark-blue-badge': tag.tag_type_id == 3,
-                        'badge-info': tag.tag_type_id == 4
-                    }"
-                    class="badge small-margin">
-                        {{ tag.text }}
-                    </span>
+                    <TagList :tags="story.tags"/>
                 </p>
                 <p class="small-bottom-margin"><i>{{ story.word_count }} words</i></p>
             </div>
@@ -36,9 +25,13 @@
 
 <script>
 import moment from 'moment'
+import TagList from './TagList.vue'
 
 export default {
     name: 'StoryItem',
+    components: {
+        TagList
+    },
     props: {
         story: {}
     },

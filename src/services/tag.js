@@ -9,17 +9,15 @@ export default {
     searchWithText(text, tag_type_id) {
         return api.get(tagUrl, {tag_type_id, text});
     },
-    addToStory(story_id, tagIds, topicTexts, customTexts) {
+    addToStory(story_id, tagIds, customTexts) {
         // make arrays into strings
         let tags = tagIds.join(",");
-        let topic_tag_texts = topicTexts.join(",");
-        let custom_tag_texts = customTexts.join(",");
+        let new_tags = customTexts.join(",");
 
         return api.post("/story" + tagUrl, {
             story_id,
             tags, 
-            topic_tag_texts,
-            custom_tag_texts 
+            new_tags 
         });
     },
     languageTagTypeId() {
@@ -33,5 +31,8 @@ export default {
     },
     customTagTypeId() {
         return 4;
+    },
+    helpTagTypeId() {
+        return 5;
     }
 }

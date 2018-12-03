@@ -107,10 +107,16 @@ export default {
 }
 
 .beta-dark-blue-badge {
+  color: white;
   background-color: #23C9FF;
 }
 
+.badge {
+  font-size: 85%;
+}
+
 .beta-blue-badge {
+  color: white;
   background-color: #80CED7;
 }
 
