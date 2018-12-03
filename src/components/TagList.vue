@@ -21,7 +21,7 @@ import tag from '../services/tag.js'
 export default {
     name: 'TagList',
     props: {
-        tags: []
+        tags: Array
     },
     computed: {
         topicId() {

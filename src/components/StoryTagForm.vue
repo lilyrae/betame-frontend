@@ -109,7 +109,7 @@ export default {
             Event.$emit('addedTagsToStory');
         }
     },
-    mounted() {
+    created() {
         this.topicId = tag.topicTagTypeId();
         this.customId = tag.customTagTypeId();
         this.helpId = tag.helpTagTypeId();

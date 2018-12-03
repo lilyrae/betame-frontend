@@ -27,7 +27,7 @@ export default {
             options: []
         }
     },
-    created() {
+    mounted() {
         this.getTagList();
     },
     methods: {
