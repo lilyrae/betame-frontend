@@ -6,7 +6,7 @@
         </div>
         <div class="content-col">
             <h4 class="hide-overflow">
-            <router-link class="beta-title" :to="storyUrl">{{ story.title }}</router-link>&nbsp;
+            <router-link class="beta-title beta-link" :to="storyUrl">{{ story.title }}</router-link>&nbsp;
             <span class="font18 grey">by {{ story.user.username }}</span>
             <span class="beta-title font14 float-right">{{ story.created_at | formatDate }}</span>
             </h4>

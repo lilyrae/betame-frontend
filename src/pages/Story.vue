@@ -12,7 +12,7 @@
     </div>
     <div slot="subtitle">
         <span v-if="!isLoadingPage">
-            <h5 class="hide-overflow"><a class="text-info" :href="story.url" target="_blank">{{ story.url }}</a></h5>
+            <h5 class="hide-overflow"><a class="text-info beta-link" :href="story.url" target="_blank">{{ story.url }}</a></h5>
         </span>
         <hr>
     </div>
