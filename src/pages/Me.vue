@@ -120,6 +120,7 @@ body {
 }
 
 .account-title {
+    text-overflow: ellipsis;
     -webkit-text-stroke: 1px black;
     color: white;
     text-shadow:
@@ -128,8 +129,12 @@ body {
         1px -1px 0 #312e2b,
         -1px 1px 0 #312e2b,
         1px 1px 0 #312e2b;
-        overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.fa-user-astronaut path {
+  stroke: black;
+  stroke-width: 25;
 }
 
 </style>
