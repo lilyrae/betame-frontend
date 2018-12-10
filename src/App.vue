@@ -5,8 +5,7 @@
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import('bootstrap/dist/css/bootstrap.css')
 
 export default {
   name: 'app'
@@ -230,9 +229,9 @@ export default {
     color: #fff;
 }
 
-a { color: inherit; }
+.beta-link { color: inherit; }
 
-a:hover {
+.beta-link:hover {
   color: #3e828e;
 }
 
