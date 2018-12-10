@@ -15,7 +15,7 @@
             <p>
                 <router-link class="btn btn-lg btn-success" to="/me">
                     My Works&nbsp;
-                    <i class="fas fa-book-open"></i>
+                    <font-awesome-icon icon="book-open" />
                 </router-link>
             </p>
             <br>

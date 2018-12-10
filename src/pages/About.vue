@@ -3,18 +3,19 @@
     <span slot="title">About</span>
     <div>
         <p>
-            Hello and welcome to Beta Me! This is a small project I started recently 
-            with the aim of encouraging fellow writers to help each other improve their
-            works. The idea came to me when I was having trouble writing a blog post and
-            wanted to get some honest feedback. I hope it 
-            can help other people (and me hehe :D).
+            Hello and welcome to Beta Me! This is the place to come for giving and receiving 
+            constructive criticism on your writing. Please feel free to post a snippet of your
+            work, read over other works and suggest improvements.
+            I hope that together we can help many people (including me hehe :D).
+        </p>
+        <p>
             The site is a work in progress and there are many ideas for the future!
             If you have any thoughts or feedback, they would be much appreciated!
             You can find me in the BetaMe Server on 
             <a class="text-info" target="_blank" href="https://discord.gg/G42mrwz">Discord</a>.
         </p>
         <p>
-          <i class="fas fa-pen-nib text-danger font18"></i>
+          <font-awesome-icon icon="pen-nib" class="betame-red font18"/>
         </p>
     </div>
   </Jumbotron>

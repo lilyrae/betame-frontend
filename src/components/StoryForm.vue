@@ -20,7 +20,7 @@
                     <input v-model="word_count" type="number" class="form-control" placeholder="2000" min="1" required>
                 </div>
                 <div class="col-sm-1">
-                    <div class="betame-tooltip"><i class="fas fa-info-circle font18"></i>
+                    <div class="betame-tooltip"><font-awesome-icon icon="info-circle" class="font18" />
                         <span class="betame-tooltiptext">
                             Inside your Google Doc, click <strong class="text-info">Tools</strong>, then click <strong class="text-info">Word Count</strong>.
                         </span>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="col-sm-1">
-                    <div class="betame-tooltip"><i class="fas fa-info-circle font18"></i>
+                    <div class="betame-tooltip"><font-awesome-icon icon="info-circle" class="font18" />
                         <span class="betame-tooltiptext">
                             Inside your Google doc, click <strong class="text-info">SHARE</strong> in the top right corner, then click <strong class="text-info">Get shareable link</strong>. Select the permission <strong class="text-info">Anyone with the link can comment</strong> and copy the link here.
                         </span>
@@ -53,7 +53,7 @@
                 :class="{'running': isCreating }"
                 >
                 Create 
-                <i class="fas fa-pen-nib"></i>
+                <font-awesome-icon icon="pen-nib" />
                 <div class="ld ld-ring ld-spin"></div>
             </button>
         </form>
@@ -85,10 +85,6 @@ export default {
     },
     methods: {
         createStory() {
-            if (this.invalidGoogleLink) {
-                return;
-            }
-
             this.error = null;
             this.isCreating = true;
 

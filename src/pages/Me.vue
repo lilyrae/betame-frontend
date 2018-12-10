@@ -1,10 +1,10 @@
 <template>
     <Wide>
-        <div class="row top-row">
+        <div class="row top-row h-100">
             <div class="col-md-3 panel">
                 <div class="user-panel text-left">
                     <h3 class="beta-title account-title">
-                        <i class="fas fa-user-astronaut"></i>&nbsp;{{ username }}
+                        <font-awesome-icon icon="user-astronaut" />&nbsp;{{ username }}
                     </h3>
                     <hr class="title-hr">
                 </div>
@@ -98,6 +98,9 @@ export default {
 </script>
 
 <style scoped>
+body {
+    height: 100%;
+}
 .small-margin {
   margin-right: 5px;
 }

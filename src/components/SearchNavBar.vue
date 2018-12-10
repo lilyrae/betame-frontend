@@ -16,8 +16,8 @@
                 </button>
             </form>
             <div class="hide">
-                <router-link v-if="!loggedIn" class="btn btn-danger" to="/login">Login to Post <i class="fas fa-pen-nib"></i></router-link>
-                <router-link v-if="loggedIn" class="btn btn-danger" to="/story/new">New <i class="fas fa-pen-nib"></i></router-link>
+                <router-link v-if="!loggedIn" class="btn btn-danger" to="/login">Login to Post <font-awesome-icon icon="pen-nib" /></router-link>
+                <router-link v-if="loggedIn" class="btn btn-danger" to="/story/new">New <font-awesome-icon icon="pen-nib" /></router-link>
             </div>
         </nav>
     </div>

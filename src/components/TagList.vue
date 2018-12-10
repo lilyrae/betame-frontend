@@ -9,7 +9,7 @@
             'badge-info': tag.tag_type_id == customId,
             'beta-dark-blue-badge': tag.tag_type_id == helpId
         }"
-        class="badge small-margin">
+        class="badge small-margin hide-overflow">
             {{ tag.text }}
         </span>
     </span>

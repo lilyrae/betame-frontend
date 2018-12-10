@@ -5,14 +5,14 @@
             <center>..Loading..</center>
         </span>
         <span v-else>
-            {{ story.title }}
+            <span class="hide-overflow">{{ story.title }}</span>
             <span class="font18 beta-text"> by {{ story.user.username }}</span>
             <span class="font14 float-right">{{ story.created_at | formatDate }}</span>
         </span>
     </div>
     <div slot="subtitle">
         <span v-if="!isLoadingPage">
-            <h5><a class="text-info" :href="story.url" target="_blank">{{ story.url }}</a></h5>
+            <h5 class="hide-overflow"><a class="text-info" :href="story.url" target="_blank">{{ story.url }}</a></h5>
         </span>
         <hr>
     </div>
@@ -21,7 +21,7 @@
             <center><div class="lds-circle"><div></div></div></center>
         </div>
         <div v-else>
-            <p>{{ story.notes }}</p>
+            <p class="hide-overflow">{{ story.notes }}</p>
             <p>
                 <TagList :tags="story.tags"/>
             </p>

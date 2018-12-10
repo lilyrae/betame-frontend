@@ -22,9 +22,6 @@
                 <input type="password" v-model="password" class="form-control" required/>
                 </div>
             </div>
-            <div v-show="notValid" class="text-danger">
-                Your email or password is incorrect.
-            </div>
             <br>
             <center>
                 <button
@@ -54,6 +51,7 @@ export default {
     },
     data() {
         return {
+            username: '',
             email: '',
             password: '',
             isSigningUp: false,

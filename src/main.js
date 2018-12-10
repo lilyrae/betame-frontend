@@ -10,8 +10,20 @@ import About from './pages/About.vue'
 import CreateStory from './pages/CreateStory.vue'
 import Story from './pages/Story.vue'
 import NotFound from './pages/NotFound.vue'
+import BootstrapVue from 'bootstrap-vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPenNib, faUserAstronaut, faBookOpen, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+library.add(faPenNib)
+library.add(faUserAstronaut)
+library.add(faBookOpen)
+library.add(faInfoCircle)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('v-select', vSelect)
+
+Vue.use(BootstrapVue);
 Vue.use(VueRouter)
 
 const routes = [

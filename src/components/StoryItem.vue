@@ -2,16 +2,16 @@
     <li class="list-group-item beta-text">
         <div class="row">
         <div class="bullet-point-col">
-            <i class="fas fa-pen-nib betame-red font14"></i>
+            <font-awesome-icon icon="pen-nib" class="betame-red font14"/>
         </div>
         <div class="content-col">
-            <h4>
+            <h4 class="hide-overflow">
             <router-link class="beta-title" :to="storyUrl">{{ story.title }}</router-link>&nbsp;
             <span class="font18 grey">by {{ story.user.username }}</span>
             <span class="beta-title font14 float-right">{{ story.created_at | formatDate }}</span>
             </h4>
             <div class="font18">
-                <p>{{ story.notes }}</p>
+                <p class="hide-overflow">{{ story.notes }}</p>
                 <p class="small-bottom-margin">
                     <TagList :tags="story.tags"/>
                 </p>

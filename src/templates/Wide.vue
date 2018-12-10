@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid h-100">
     <TopNavBar/>
     <slot></slot>
   </div>
