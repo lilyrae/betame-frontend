@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPenNib, faUserAstronaut, faBookOpen, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueMatomo from 'vue-matomo'
 
 library.add(faPenNib)
 library.add(faUserAstronaut)
@@ -44,6 +45,17 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = 'Beta me.'
   next()
+})
+
+Vue.use(VueMatomo, {
+  host: 'https://kulplex.com/logger',
+  siteId: 2,
+  router: router,
+  enableLinkTracking: true,
+  requireConsent: false,
+  trackInitialView: true,
+  trackerFileName: 'piwik',
+  debug: true
 })
 
 Vue.config.productionTip = false
