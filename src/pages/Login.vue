@@ -30,6 +30,9 @@
                 </button>
             </center>
         </form>
+        <p class="signup-para">
+            Don't have an account? You can <router-link to="/register" class="text-info">sign up here!</router-link>
+        </p>
     </div>
   </Jumbotron>
 </template>
@@ -79,3 +82,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.signup-para {
+    margin-top: 50px;
+}
+</style>

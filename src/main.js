@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import Home from './pages/Home.vue'
 import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
+import BetaSignup from './pages/BetaSignup.vue'
 import Me from './pages/Me.vue'
 import About from './pages/About.vue'
 import CreateStory from './pages/CreateStory.vue'
@@ -29,6 +30,7 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },
+  { path: '/register', component: BetaSignup },
   { path: '/abc123', component: Signup },
   { path: '/me', component: Me },
   { path: '/about', component: About },

@@ -24,6 +24,7 @@
                 </div>
                 <div v-else>
                     <router-link class="btn betame-button" to="/login">Login</router-link>
+                    <router-link class="btn betame-dark-button" to="/register">Sign up</router-link>
                 </div>
             </div>
         </div>
