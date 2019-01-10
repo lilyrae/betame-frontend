@@ -1,23 +1,23 @@
 <template>
     <div>
-        <ErrorAlert :error="error"/>
+        <ErrorAlert :error="error" :errorMessage="errorMessage"/>
         <form v-on:submit.prevent="createStory">
             <div class="form-group row">
                 <label for="title" class="col-sm-2 col-form-label">Title</label>
                 <div class="col-sm-8">
-                <input v-model="title" type="text" class="form-control" placeholder="Title" required>
+                <input v-model="title" type="text" class="form-control" placeholder="Title" required maxlength="100">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="intent" class="col-sm-2 col-form-label">Notes</label>
                 <div class="col-sm-8">
-                <textarea v-model="notes" type="text" class="form-control beta-textarea" placeholder="I want to improve my ..." required></textarea>
+                <textarea v-model="notes" type="text" class="form-control beta-textarea" placeholder="I want to improve my ..." required maxlength="1000"></textarea>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="intent" class="col-sm-2 col-form-label">Word Count</label>
                 <div class="col-sm-8">
-                    <input v-model="word_count" type="number" class="form-control" placeholder="2000" min="1" required>
+                    <input v-model="word_count" type="number" class="form-control" placeholder="2000" min="1" max="50000" required maxlength="5">
                 </div>
                 <div class="col-sm-1">
                     <div class="betame-tooltip"><font-awesome-icon icon="info-circle" class="font18" />
@@ -79,12 +79,23 @@ export default {
             word_count: '',
             isCreating: false,
             error: null,
+            errorMessage: '',
             invalidGoogleLink: false,
-            invalidGoogleDoc: false
+            invalidGoogleDoc: false,
+            invalidInput: false
         };
     },
     methods: {
         createStory() {
+            let isValid = this.validateInput()
+
+            if (!isValid) {
+                if(!this.error && !this.errorMessage) {
+                    this.errorMessage = "Your input is invalid"
+                }
+                return
+            }
+
             this.error = null;
             this.isCreating = true;
 
@@ -118,6 +129,49 @@ export default {
                     this.invalidGoogleLink = true;
                 })
 
+        },
+        validateInput() {
+            this.title = this.title.trim()
+            if(!this.title) {
+                this.errorMessage = 'Title is required.'
+                return false
+            } else if(this.title.length > 100) {
+                this.errorMessage = 'Title must be less than 100 characters.'
+                return false
+            }
+
+            this.notes = this.notes.trim()
+            if(!this.notes) {
+                this.errorMessage = 'Notes are required.'
+                return false
+            } else if(this.notes.length > 1000) {
+                this.errorMessage = 'Notes must be less than 1000 characters.'
+                return false
+            }
+
+            this.url = this.url.trim()
+            if(!this.url) {
+                this.errorMessage = 'Google Docs link is required.'
+                return false
+            } else if(this.url.length > 200) {
+                this.errorMessage = 'Google Docs link must be less than 200 characters.'
+                return false
+            }
+
+            this.word_count = this.word_count.trim()
+            let wordCount = parseInt(this.word_count)
+            if(!wordCount) {
+                this.errorMessage = 'Word count is required.'
+                return false
+            } else if(wordCount > 50000) {
+                this.errorMessage = 'Word count must be less than 50,000.'
+                return false
+            } else if(wordCount < 1) {
+                this.errorMessage = 'Word count must be greater than 0.'
+                return false
+            }
+
+            return true
         }
     },
     created() {
