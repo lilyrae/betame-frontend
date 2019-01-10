@@ -81,21 +81,11 @@ export default {
             error: null,
             errorMessage: '',
             invalidGoogleLink: false,
-            invalidGoogleDoc: false,
-            invalidInput: false
+            invalidGoogleDoc: false
         };
     },
     methods: {
         createStory() {
-            let isValid = this.validateInput()
-
-            if (!isValid) {
-                if(!this.error && !this.errorMessage) {
-                    this.errorMessage = "Your input is invalid"
-                }
-                return
-            }
-
             this.error = null;
             this.isCreating = true;
 
@@ -129,49 +119,6 @@ export default {
                     this.invalidGoogleLink = true;
                 })
 
-        },
-        validateInput() {
-            this.title = this.title.trim()
-            if(!this.title) {
-                this.errorMessage = 'Title is required.'
-                return false
-            } else if(this.title.length > 100) {
-                this.errorMessage = 'Title must be less than 100 characters.'
-                return false
-            }
-
-            this.notes = this.notes.trim()
-            if(!this.notes) {
-                this.errorMessage = 'Notes are required.'
-                return false
-            } else if(this.notes.length > 1000) {
-                this.errorMessage = 'Notes must be less than 1000 characters.'
-                return false
-            }
-
-            this.url = this.url.trim()
-            if(!this.url) {
-                this.errorMessage = 'Google Docs link is required.'
-                return false
-            } else if(this.url.length > 200) {
-                this.errorMessage = 'Google Docs link must be less than 200 characters.'
-                return false
-            }
-
-            this.word_count = this.word_count.trim()
-            let wordCount = parseInt(this.word_count)
-            if(!wordCount) {
-                this.errorMessage = 'Word count is required.'
-                return false
-            } else if(wordCount > 50000) {
-                this.errorMessage = 'Word count must be less than 50,000.'
-                return false
-            } else if(wordCount < 1) {
-                this.errorMessage = 'Word count must be greater than 0.'
-                return false
-            }
-
-            return true
         }
     },
     created() {
