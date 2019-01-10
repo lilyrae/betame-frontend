@@ -12,7 +12,7 @@
     </div>
     <div slot="subtitle">
         <span v-if="!isLoadingPage">
-            <h5 class="hide-overflow"><a class="text-info beta-link" :href="story.url" target="_blank">{{ story.url }}</a></h5>
+            <h5 class="hide-overflow"><a @click="recordClick" class="text-info beta-link" :href="story.url" target="_blank">{{ story.url }}</a></h5>
         </span>
         <hr>
     </div>
@@ -65,6 +65,11 @@ export default {
             }).finally(() => {
                 this.isLoadingPage = false;
             });
+    },
+    methods: {
+        recordClick() {
+            this.$matomo.trackPageView(this.story.url)
+        }
     },
     filters: {
         formatDate(date) {
