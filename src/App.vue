@@ -365,4 +365,18 @@ export default {
 .betame-red {
   color: #de515e;
 }
+
+/* Placeholder colour */
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #adbdd8 !important;
+  opacity: 1 !important; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #adbdd8 !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #adbdd8 !important;
+}
 </style>
