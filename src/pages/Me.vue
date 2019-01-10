@@ -42,7 +42,6 @@
 <script>
 import Wide from '../templates/Wide.vue'
 import SearchNavBar from '../components/SearchNavBar.vue'
-import AccountNavBar from '../components/AccountNavBar.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 import StoryItem from '../components/StoryItem.vue'
 import story from '../services/story.js'
@@ -52,7 +51,6 @@ export default {
     components: {
         Wide,
         SearchNavBar,
-        AccountNavBar,
         ErrorAlert,
         StoryItem
     },
