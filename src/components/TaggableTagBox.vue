@@ -31,6 +31,17 @@ export default {
         }
     },
     methods: {
+        checkForErrors(tagText) {
+            if (tagText.includes(",")) {  
+                return 'Tags cannot contain commas.';
+            } else if (!tagText) {
+                return 'Tags must contain text.';
+            } else if (tagText.length > 50) {
+                return 'Tags must be less than 50 characters';
+            }
+
+            return false;
+        },
         onSearch(query, loading) {
             loading(true);
             this.search(loading, query, this);
@@ -54,7 +65,15 @@ export default {
                 const element = selected[index];
                 
                 if(typeof element === 'string' || element instanceof String) {
-                    newTags.push(element);
+                    let tagText = element.trim();
+                    let error = this.checkForErrors(tagText)
+
+                    if (error) {
+                        Event.$emit('tagsError', {errorMessage: error})
+                        this.selected.splice( this.selected.indexOf(element), 1 )
+                    } else {
+                        newTags.push(tagText);
+                    }  
                 } else {
                     tags.push(element.tag_id);
                 }

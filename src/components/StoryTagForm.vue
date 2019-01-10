@@ -124,8 +124,12 @@ export default {
             this.newTags[tagTypeId] = newTags;
         });
 
-        Event.$on('tagsError', ({error}) => {
-            this.error = error;
+        Event.$on('tagsError', ({error, errorMessage}) => {
+            if(error) {
+                this.error = error;
+            } else if(errorMessage) {
+                this.errorMessage = errorMessage
+            }
         });
 
         tag.search(tag.languageTagTypeId())
