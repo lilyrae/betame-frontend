@@ -18,8 +18,6 @@
                     <font-awesome-icon icon="book-open" />
                 </router-link>
             </p>
-            <br>
-            <img class="celebration-image beta-frame" src="../assets/fireworks.gif">
         </div>
         <div v-else-if="createdStory">
             <br>
