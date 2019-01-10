@@ -16,7 +16,7 @@
 
 <script>
 import tag from '../services/tag.js'
-import _ from 'lodash'
+import debounce from 'debounce'
 
 export default {
     name: 'TaggableTagBox',
@@ -35,7 +35,7 @@ export default {
             loading(true);
             this.search(loading, query, this);
         },
-        search: _.debounce((loading, query, self) => {
+        search: debounce((loading, query, self) => {
             tag.searchWithText(query, self.tagTypeId)
             .then(response => {
                 self.options = response.data;
