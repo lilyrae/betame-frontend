@@ -8,7 +8,12 @@
 import('bootstrap/dist/css/bootstrap.css')
 
 export default {
-  name: 'app'
+  name: 'app',
+  watch: {
+    '$route' (to) {
+      this.$matomo.trackPageView(to.fullPath)
+    }
+  }
 }
 </script>
 
