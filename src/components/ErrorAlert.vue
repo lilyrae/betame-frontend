@@ -1,5 +1,5 @@
 <template>
-    <div class="alert alert-danger" v-show="showError">
+    <div class="alert alert-danger" v-show="errorIsVisible">
         <a href="#" class="close" @click="close" aria-label="close">&times;</a>
         <strong>Error!</strong> {{ message }}
     </div>
@@ -9,32 +9,46 @@
 export default {
     name: 'ErrorAlert',
     props: {
-        error: Error
+        error: Error,
+        errorMessage: String
+    },
+    data() {
+        return {
+            errorIsVisible: false,
+            message: '',
+            defaultMessage: 'An unexpected error has occured'
+        }
     },
     methods: {
         close() {
-            this.error = null;
+            this.errorIsVisible = false;
+        },
+        toggleErrorDisplay() {
+            if(this.message !== '') {
+                this.errorIsVisible = true
+            } else {
+                this.errorIsVisible = false
+            }
         }
     },
-    computed: {
-        message() {
-            if(this.error &&
-                this.error.response !== undefined
-                && this.error.response.data !== undefined
-                && this.error.response.data.error!== undefined
+    watch: {
+        error(error) {
+            if (!error) {
+                this.message = ''
+            } else if(error.response !== undefined
+                && error.response.data !== undefined
+                && error.response.data.error!== undefined
             ) {
-                return this.error.response.data.error;
+                this.message = error.response.data.error;
+            } else {
+                this.message = this.defaultMessage
             }
 
-            if(this.error &&
-                this.error.message !== undefined
-            ) {
-                return this.error.message;
-            }
-            return "An unexpected error has occured";
+            this.toggleErrorDisplay()
         },
-        showError() {
-            return this.error !== null && this.error !== undefined;
+        errorMessage(errorMessage) {
+            this.message = errorMessage
+            this.toggleErrorDisplay()
         }
     }
 }

@@ -44,7 +44,7 @@ import ErrorAlert from '../components/ErrorAlert.vue'
 import auth from '../services/auth.js'
 
 export default {
-    name: 'Login',
+    name: 'Signup',
     components: {
         Jumbotron,
         ErrorAlert

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ErrorAlert :error="error"/>
+        <ErrorAlert :error="error" :errorMessage="errorMessage"/>
         <form class="text-left" v-on:submit.prevent="addTags">
             <div class="form-group row">
                 <label for="language" class="col-sm-2 col-form-label">Language</label>
@@ -66,7 +66,8 @@ export default {
             languageOptions: [],
             tags: [],
             newTags: [],
-            error: null
+            error: null,
+            errorMessage: ''
         }
     },
     props: {
@@ -75,9 +76,7 @@ export default {
     methods: {
         addTags() {
             if(this.noTagsSelected()) {
-                this.error = {
-                    message: 'No tags have been selected.'
-                };
+                this.errorMessage = 'No tags have been selected.';
                 return;
             }
 
