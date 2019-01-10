@@ -5,6 +5,7 @@ import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
 import BetaSignup from './pages/BetaSignup.vue'
 import Me from './pages/Me.vue'
+import ChangePassword from './pages/Account/ChangePassword.vue'
 import About from './pages/About.vue'
 import CreateStory from './pages/CreateStory.vue'
 import Story from './pages/Story.vue'
@@ -42,6 +43,13 @@ const routes = [
     {
         path: '/me',
         component: Me,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/me/password',
+        component: ChangePassword,
         meta: {
             requiresAuth: true
         }

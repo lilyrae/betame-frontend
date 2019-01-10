@@ -341,6 +341,12 @@ export default {
   background-color: #17a2b8!important;
 }
 
+.betame-light-button {
+  color: white;
+  background-color: #c2cad2;
+  border-color: #f8f9fa;
+}
+
 .btn-success {
     color: #fff;
     background-color: #58a068;

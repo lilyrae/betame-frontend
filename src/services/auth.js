@@ -36,5 +36,18 @@ export default {
         localStorage.setItem('bm_username', username);
         localStorage.setItem('bm_email', email);
         localStorage.setItem('bm_password', password);
+    },
+    setPassword(password) {
+        localStorage.setItem('bm_password', password);
+    },
+    changePassword(oldPassword, newPassword) {
+        const username = localStorage.getItem('bm_email')
+        return axios({
+            method: 'post',
+            url: process.env.VUE_APP_API + "/account/password",
+            withCredentials: true,
+            auth: {username, password: oldPassword},
+            data: qs.stringify({newPassword})
+        });
     }
 }

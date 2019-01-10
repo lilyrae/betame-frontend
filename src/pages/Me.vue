@@ -7,6 +7,7 @@
                         <font-awesome-icon icon="user-astronaut" />&nbsp;{{ username }}
                     </h3>
                     <hr class="title-hr">
+                    <router-link class="btn betame-light-button" to="/me/password">Change Password</router-link>
                 </div>
             </div>
             <div class="col-md-8">
