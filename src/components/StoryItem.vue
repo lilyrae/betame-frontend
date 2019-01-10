@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { format } from 'date-fns'
 import TagList from './TagList.vue'
 
 export default {
@@ -37,7 +37,7 @@ export default {
     },
     filters: {
         formatDate(date) {
-            return moment(date).format('Do MMMM YYYY');
+            return format(date, 'Do MMMM YYYY');
         }
     },
     computed: {

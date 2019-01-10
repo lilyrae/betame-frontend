@@ -35,7 +35,7 @@
 import Jumbotron from '../templates/Jumbotron.vue'
 import TagList from '../components/TagList.vue'
 import story from '../services/story.js'
-import moment from 'moment'
+import { format } from 'date-fns'
 
 export default {
     name: 'Story',
@@ -73,7 +73,7 @@ export default {
     },
     filters: {
         formatDate(date) {
-            return moment(date).format('Do MMMM YYYY');
+            return format(date, 'Do MMMM YYYY');
         }
     }
 }
