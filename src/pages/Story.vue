@@ -28,12 +28,15 @@
             <p><i>{{ story.word_count }} words</i></p>
         </div>
     </div>
+    <br>
+    <Comments :comments="comments"/>
   </Jumbotron>
 </template>
 
 <script>
 import Jumbotron from '../templates/Jumbotron.vue'
 import TagList from '../components/TagList.vue'
+import Comments from '../components/Comments.vue'
 import story from '../services/story.js'
 import { format } from 'date-fns'
 
@@ -41,7 +44,8 @@ export default {
     name: 'Story',
     components: {
         Jumbotron,
-        TagList
+        TagList,
+        Comments
     },
     props: {
         id: null
@@ -51,6 +55,55 @@ export default {
             story: {
                 user: {}
             },
+            comments: [
+                {
+                    user: 'Nesh',
+                    message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
+                    replies: [
+                        {
+                            user: 'lilblister',
+                            message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
+                            replies: [
+                                {
+                                    user: 'Nesh',
+                                    message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
+                                    replies: [
+                                        
+                                    ]
+                                }
+                                
+                            ]
+                        },
+                        {
+                            user: 'Lily',
+                            message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
+                            replies: [
+                                
+                            ]
+                        }
+                    ]
+                },
+                {
+                    user: 'Lily',
+                    message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
+                    replies: [
+                        
+                    ]
+                },
+                {
+                    user: 'lilblister',
+                    message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
+                    replies: [
+                        {
+                            user: 'Nesh',
+                            message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
+                            replies: [
+                                
+                            ]
+                        }
+                    ]
+                }
+            ],
             isLoadingPage: false
         };
     },
