@@ -1,14 +1,17 @@
 <template>
     <div>
-        <div class="comment">
+        <div class="comment" v-if="loggedIn">
             <div class="new-comment">
-            <h6 class="mt-0 beta-title">Comment as <strong>{{ username }}</strong></h6>
-            <textarea></textarea>
+                <h6 class="mt-0 beta-title">Comment as <strong>{{ username }}</strong></h6>
+                <form v-on:submit.prevent="createComment(newComment, '')">
+                    <textarea v-model="newComment" required></textarea>
+                    <button class="btn btn-light float-right">Post</button>
+                </form>
             </div>
         </div>
         <hr>
         <div v-for="commentThread in comments" :key="commentThread.id">
-            <CommentThread :commentThread="commentThread" />
+            <CommentThread :commentThread="commentThread" @newComment="newCommentEvent"/>
             <br />
         </div>
     </div>
@@ -16,6 +19,8 @@
 
 <script>
 import CommentThread from './CommentThread'
+import commentApi from '../services/comment.js'
+import auth from '../services/auth.js'
 
 export default {
     name: 'Comments',
@@ -23,11 +28,47 @@ export default {
         CommentThread
     },
     props: {
-        comments: Array
+        comments: Array,
+        storyId: String
+    },
+    data() {
+        return {
+            newComment: ''
+        }
     },
     computed: {
         username() {
             return localStorage.getItem('bm_username');
+        },
+        loggedIn() {
+            return auth.isLoggedIn()
+        }
+    },
+    methods: {
+        createComment(comment, parentId) {
+            this.$emit('startLoading')
+
+            commentApi.create(this.storyId, parentId, comment)
+                .then(() => {
+                    this.newComment = ''
+                    this.$emit('refresh')
+                    // TODO -> display success
+                }).catch((error) => {
+                    this.$emit('commentsError', error)
+                })
+        },
+        newCommentEvent({comment, parentId}) {
+            console.log('got to the parent')
+            this.createComment(comment, parentId)
+        },
+        deleteComment(commentId) {
+            commentApi.delete(commentId)
+                .then(() => {
+                    this.$emit('refresh')
+                     // TODO -> display success
+                }).catch((error) => {
+                    this.$emit('commentsError', error)
+                })
         }
     }
 }
@@ -47,12 +88,18 @@ export default {
     padding: 3px;
 }
 
+.comment button {
+    margin: 5px;
+}
+
 .new-comment {
     margin: 10px;
+    margin-bottom: 45px;
 }
 
 .new-comment textarea{
     width: 100%;
+    border-radius: 5px;
 }
 
 .dashed-line {

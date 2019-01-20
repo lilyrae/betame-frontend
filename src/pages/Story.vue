@@ -1,5 +1,6 @@
 <template>
   <Jumbotron class="text-left">
+    <ErrorAlert :error="error" />
     <div slot="title">
         <span v-if="isLoadingPage">
             <center>..Loading..</center>
@@ -29,7 +30,12 @@
         </div>
     </div>
     <br>
-    <Comments :comments="comments"/>
+    <Comments 
+        :comments="story.comments"
+        :storyId="id"
+        @refresh="getStory"
+        @startLoading="startLoading"
+        @commentsError="setCommentsError"/>
   </Jumbotron>
 </template>
 
@@ -37,6 +43,7 @@
 import Jumbotron from '../templates/Jumbotron.vue'
 import TagList from '../components/TagList.vue'
 import Comments from '../components/Comments.vue'
+import ErrorAlert from '../components/ErrorAlert.vue'
 import story from '../services/story.js'
 import { format } from 'date-fns'
 
@@ -45,7 +52,8 @@ export default {
     components: {
         Jumbotron,
         TagList,
-        Comments
+        Comments,
+        ErrorAlert
     },
     props: {
         id: null
@@ -53,75 +61,38 @@ export default {
     data() {
         return {
             story: {
-                user: {}
+                user: {},
+                comments: []
             },
-            comments: [
-                {
-                    user: 'Nesh',
-                    message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
-                    replies: [
-                        {
-                            user: 'lilblister',
-                            message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
-                            replies: [
-                                {
-                                    user: 'Nesh',
-                                    message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
-                                    replies: [
-                                        
-                                    ]
-                                }
-                                
-                            ]
-                        },
-                        {
-                            user: 'Lily',
-                            message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
-                            replies: [
-                                
-                            ]
-                        }
-                    ]
-                },
-                {
-                    user: 'Lily',
-                    message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
-                    replies: [
-                        
-                    ]
-                },
-                {
-                    user: 'lilblister',
-                    message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
-                    replies: [
-                        {
-                            user: 'Nesh',
-                            message: 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.',
-                            replies: [
-                                
-                            ]
-                        }
-                    ]
-                }
-            ],
-            isLoadingPage: false
+            isLoadingPage: false,
+            error: null
         };
     },
     created() {
-        this.isLoadingPage = true;
-        story.byId(this.id)
-            .then((response) => {
-                this.story = response.data;
-                document.title = this.story.title + ' - Beta me.';
-            }).catch(() => {
-                this.$router.push('/404')
-            }).finally(() => {
-                this.isLoadingPage = false;
-            });
+        this.getStory()
     },
     methods: {
         recordClick() {
             this.$matomo.trackPageView(this.story.url)
+        },
+        getStory() {
+            this.isLoadingPage = true;
+            story.byId(this.id)
+                .then((response) => {
+                    this.story = response.data;
+                    document.title = this.story.title + ' - Beta me.';
+                }).catch(() => {
+                    this.$router.push('/404')
+                }).finally(() => {
+                    this.isLoadingPage = false;
+                });
+        },
+        startLoading() {
+            this.isLoadingPage = true
+        },
+        setCommentsError({error}) {
+            this.isLoadingPage = false
+            this.error = error
         }
     },
     filters: {
