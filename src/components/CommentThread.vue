@@ -16,6 +16,7 @@
                 v-for="replyCommentThread in commentThread.replies" 
                 :key="replyCommentThread.comment.comment_id"
                 :commentThread="replyCommentThread"
+                @newComment="emitNewComment"
                 />
         </div>
     </div>
@@ -35,14 +36,15 @@ export default {
     },
     methods: {
         createComment() {
-            console.log(this.newComment)
-            console.log(this.commentThread.comment.comment_id)
             this.$emit('newComment', {
                 comment: this.newComment,
                 parentId: this.commentThread.comment.comment_id
             })
             this.newComment = ''
             this.showReplyBox = false
+        },
+        emitNewComment({comment, parentId}) {
+            this.$emit('newComment', {comment, parentId})
         },
         toggleReplyBox() {
             this.showReplyBox = !this.showReplyBox

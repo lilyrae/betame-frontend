@@ -58,7 +58,6 @@ export default {
                 })
         },
         newCommentEvent({comment, parentId}) {
-            console.log('got to the parent')
             this.createComment(comment, parentId)
         },
         deleteComment(commentId) {
