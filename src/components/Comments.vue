@@ -75,16 +75,17 @@ export default {
 
 <style>
 .media {
-    border-left: 1px solid #c5a8a8;
+    border-left: 1.5px solid #776e6e;
     padding-left: 15px;
     font-size: 15px;
-    background-color: #efecec;
+    background-color: #4996a29e;
+    border-radius: 5px;
 }
 
 .comment {
-    background-color: #e2d7d7;
+    background-color: #ffffff7d;
     border-radius: 5px;
-    padding: 3px;
+    padding: 10px;
 }
 
 .comment button {

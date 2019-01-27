@@ -5,10 +5,9 @@
         <span v-if="isLoadingPage">
             <center>..Loading..</center>
         </span>
-        <span v-else>
-            <span class="hide-overflow">{{ story.title }}</span>
-            <span class="font18 beta-text"> by {{ story.user.username }}</span>
-            <span class="font14 float-right">{{ story.created_at | formatDate }}</span>
+        <span v-else class="row">
+            <p class="hide-overflow col">{{ story.title }}&nbsp;<span class="font18 beta-text"> by {{ story.user.username }}</span></p>
+            <span class="font14 float-right col-md-3">{{ story.created_at | formatDate }}</span>
         </span>
     </div>
     <div slot="subtitle">

@@ -5,10 +5,12 @@
             <font-awesome-icon icon="pen-nib" class="betame-red font14"/>
         </div>
         <div class="content-col">
-            <h4 class="hide-overflow">
-            <router-link class="beta-title beta-link" :to="storyUrl">{{ story.title }}</router-link>&nbsp;
-            <span class="font18 grey">by {{ story.user.username }}</span>
-            <span class="beta-title font14 float-right">{{ story.created_at | formatDate }}</span>
+            <h4 class="hide-overflow row story-title">
+                <span class="col">
+                    <router-link class="beta-title beta-link" :to="storyUrl">{{ story.title }}</router-link>
+                    &nbsp;<span class="font18 grey">by {{ story.user.username }}</span>
+                </span>
+                <span class="beta-title font14 col-md-3">{{ story.created_at | formatDate }}</span>
             </h4>
             <div class="font18">
                 <p class="hide-overflow">{{ story.notes }}</p>
@@ -24,7 +26,6 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
 import TagList from './TagList.vue'
 
 export default {
@@ -34,11 +35,6 @@ export default {
     },
     props: {
         story: {}
-    },
-    filters: {
-        formatDate(date) {
-            return format(date, 'Do MMMM YYYY');
-        }
     },
     computed: {
         storyUrl() {
@@ -57,6 +53,10 @@ export default {
 .content-col {
     width: 95%;
     padding: 5px;
+}
+
+.story-title span {
+    margin: 3px;
 }
 
 @media only screen and (max-width: 1000px) {
