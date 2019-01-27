@@ -1,6 +1,6 @@
 <template>
     <div class="media mt-3">
-        <button class="minimise" @click="minimiseThread"><font-awesome-icon icon="window-minimize" /></button>
+        <button class="minimise" @click="minimiseThread"><font-awesome-icon :icon="minimiseIcon" /></button>
         <div class="media-body" v-show="isVisible">
             <div class="comment">
                 <h6 class="mt-0 beta-title row comment-title">
@@ -66,6 +66,13 @@ export default {
     computed: {
         loggedIn() {
             return auth.isLoggedIn()
+        },
+        minimiseIcon() {
+            if(this.isVisible) {
+                return 'window-minimize'
+            } else {
+                return 'plus'
+            }
         }
     }
 }
