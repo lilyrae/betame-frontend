@@ -7,9 +7,17 @@
                     <span class="col">{{ commentThread.user.username }}</span>
                     <span class="font14 col-md-3">{{ commentThread.comment.created_at | formatDate }}</span>
                 </h6>
-                <p>{{ commentThread.comment.text }}</p>
-                <div>
-                    <button class="btn btn-light btn-sm" v-if="loggedIn" @click="toggleReplyBox">Reply</button>
+                <textarea v-if="isEditing && myComment" v-model="commentEdit"></textarea>
+                <p v-else>{{ commentThread.comment.text }}</p>
+                <div v-if="myComment && isEditing">
+                    <button class="btn btn-light btn-sm" @click="stopEditing">Stop Editing</button>
+                    <button class="btn btn-light btn-sm" @click="saveEdit">Save</button>
+                </div>
+                <div v-else-if="myComment">
+                    <button class="btn btn-light btn-sm" @click="editComment">Edit</button>
+                </div>
+                <div v-else-if="loggedIn">
+                    <button class="btn btn-light btn-sm" @click="toggleReplyBox">Reply</button>
                 </div>
                 <div class="new-comment" v-if="loggedIn" v-show="showReplyBox">
                     <hr>
@@ -24,12 +32,14 @@
                 :key="replyCommentThread.comment.comment_id"
                 :commentThread="replyCommentThread"
                 @newComment="emitNewComment"
+                @editComment="emitEditComment"
                 />
         </div>
     </div>
 </template>
 
 <script>
+import commentApi from '../services/comment.js'
 import auth from '../services/auth.js'
 
 export default {
@@ -40,15 +50,17 @@ export default {
     data() {
         return {
             showReplyBox: false,
+            isEditing: false,
             isVisible: true,
-            newComment: ''
+            newComment: '',
+            commentEdit: ''
         }
     },
     methods: {
         createComment() {
             this.$emit('newComment', {
-                comment: this.newComment,
-                parentId: this.commentThread.comment.comment_id
+                comment: this.commentThread.comment.comment_id,
+                text: this.commentEdit
             })
             this.newComment = ''
             this.showReplyBox = false
@@ -61,6 +73,23 @@ export default {
         },
         minimiseThread() {
             this.isVisible = !this.isVisible;
+        },
+        editComment() {
+            this.commentEdit = this.commentThread.comment.text
+            this.isEditing = true
+        },
+        stopEditing() {
+            this.isEditing = false
+        },
+        saveEdit() {
+            this.$emit('editComment', {
+                commentId: this.commentThread.comment.comment_id,
+                text: this.commentEdit
+            })
+            this.isEditing = false
+        },
+        emitEditComment({commentId, text}) {
+            this.$emit('editComment', {commentId, text})
         }
     },
     computed: {
@@ -73,6 +102,10 @@ export default {
             } else {
                 return 'plus'
             }
+        },
+        myComment() {
+            return this.loggedIn &&
+                this.commentThread.user.user_id == localStorage.getItem('bm_user_id')
         }
     }
 }

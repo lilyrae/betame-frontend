@@ -11,7 +11,7 @@
         </div>
         <hr>
         <div v-for="commentThread in comments" :key="commentThread.id">
-            <CommentThread :commentThread="commentThread" @newComment="newCommentEvent"/>
+            <CommentThread :commentThread="commentThread" @newComment="newCommentEvent" @editComment="editComment"/>
             <br />
         </div>
     </div>
@@ -60,11 +60,12 @@ export default {
         newCommentEvent({comment, parentId}) {
             this.createComment(comment, parentId)
         },
-        deleteComment(commentId) {
-            commentApi.delete(commentId)
+        editComment({commentId, text}) {
+            this.$emit('startLoading')
+            
+            commentApi.edit(commentId, text)
                 .then(() => {
                     this.$emit('refresh')
-                     // TODO -> display success
                 }).catch((error) => {
                     this.$emit('commentsError', error)
                 })
@@ -75,7 +76,6 @@ export default {
 
 <style>
 .media {
-    border-left: 1.5px solid #776e6e;
     padding-left: 15px;
     font-size: 15px;
     background-color: #4996a29e;
@@ -97,9 +97,10 @@ export default {
     margin-bottom: 45px;
 }
 
-.new-comment textarea{
+.comment textarea{
     width: 100%;
     border-radius: 5px;
+    padding: 10px;
 }
 
 .dashed-line {
