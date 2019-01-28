@@ -6,5 +6,5 @@ Vue.filter('formatDate', date => {
 });
 
 Vue.filter('pluralise', (value, count) => {
-  return count !== 1 ? `${value}s` : `${value}`
+  return count != 1 ? `${value}s` : `${value}`
 })
