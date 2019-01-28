@@ -1,0 +1,16 @@
+build site:
+  image: node:6
+  stage: build
+  script:
+    - npm install --progress=false
+    - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+
+deploy:
+  image: alpine
+  stage: deploy
+  script:
+    - rsync -rav --delete dist/ /home/ubusrv/BetaMe/frontend
