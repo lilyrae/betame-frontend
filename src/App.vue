@@ -70,11 +70,11 @@ export default {
 }
 
 .font18 {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .font14 {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .small-margin {

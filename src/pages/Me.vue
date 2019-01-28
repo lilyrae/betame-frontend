@@ -23,6 +23,11 @@
                         </center>
                     </div>
                     <div v-else-if="stories.length > 0">
+                        <div class="navbar navbar-light bg-light beta-innerbar title-bar">
+                            <h3 class="text-left muted-title">
+                                My Stories
+                            </h3>
+                        </div>
                         <StoryItem v-for="(story, index) in stories" v-bind:key="story.story_id" v-bind:story="story">
                             <p class="float-right">
                             <!-- <button class="btn btn-outline-info small-margin">Edit</button> -->
@@ -131,9 +136,20 @@ body {
     overflow: hidden;
 }
 
+.title-bar {
+    padding: 20px;
+}
+
 .fa-user-astronaut path {
   stroke: black;
   stroke-width: 25;
+}
+
+.muted-title {
+    color: rgb(202, 202, 202);
+    -webkit-text-stroke: 1px #a7a4a4;
+    padding-left: 25px;
+    margin-bottom: 30px;
 }
 
 </style>

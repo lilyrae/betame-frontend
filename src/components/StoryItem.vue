@@ -17,7 +17,11 @@
                 <p class="small-bottom-margin">
                     <TagList :tags="story.tags"/>
                 </p>
-                <p class="small-bottom-margin"><i>{{ story.word_count }} words</i></p>
+                <p class="small-bottom-margin row stats">
+                    <span class="col"></span>
+                    <span class="col-md-3">{{ story.word_count }} words,&nbsp;{{ story.comment_count }} {{ 'comment' | pluralise(story.comment_count) }}</span>
+                    <span class="col"></span>
+                </p>
             </div>
             <slot></slot>
         </div>
@@ -71,5 +75,9 @@ export default {
 
 .small-bottom-margin {
     margin-bottom: 8px;
+}
+
+.stats {
+    font-size: 18px;
 }
 </style>
