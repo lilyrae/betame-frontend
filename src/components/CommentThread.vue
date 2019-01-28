@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import commentApi from '../services/comment.js'
 import auth from '../services/auth.js'
 
 export default {
