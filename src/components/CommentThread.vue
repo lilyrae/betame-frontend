@@ -7,17 +7,19 @@
                     <span class="col">{{ commentThread.user.username }}</span>
                     <span class="font14 col-md-3">{{ commentThread.comment.created_at | formatDate }}</span>
                 </h6>
-                <textarea v-if="isEditing && myComment" v-model="commentEdit"></textarea>
-                <p v-else>{{ commentThread.comment.text }}</p>
-                <div v-if="myComment && isEditing">
+                <form v-if="isEditing && myComment" v-on:submit.prevent="saveEdit">
+                    <textarea  v-model="commentEdit" required maxlength="10000"></textarea>
                     <button class="btn btn-light btn-sm" @click="stopEditing">Stop Editing</button>
-                    <button class="btn btn-light btn-sm" @click="saveEdit">Save</button>
-                </div>
-                <div v-else-if="myComment">
-                    <button class="btn btn-light btn-sm" @click="editComment">Edit</button>
-                </div>
-                <div v-else-if="loggedIn">
-                    <button class="btn btn-light btn-sm" @click="toggleReplyBox">Reply</button>
+                    <button class="btn btn-light btn-sm">Save</button>
+                </form>
+                <div v-else>
+                    <p>{{ commentThread.comment.text }}</p>
+                    <div v-if="myComment">
+                        <button class="btn btn-light btn-sm" @click="editComment">Edit</button>
+                    </div>
+                    <div v-else-if="loggedIn">
+                        <button class="btn btn-light btn-sm" @click="toggleReplyBox">Reply</button>
+                    </div>
                 </div>
                 <div class="new-comment" v-if="loggedIn" v-show="showReplyBox">
                     <hr>
@@ -81,10 +83,12 @@ export default {
             this.isEditing = false
         },
         saveEdit() {
-            this.$emit('editComment', {
-                commentId: this.commentThread.comment.comment_id,
-                text: this.commentEdit
-            })
+            if (this.commentEdit != this.commentThread.comment.text) {
+                this.$emit('editComment', {
+                    commentId: this.commentThread.comment.comment_id,
+                    text: this.commentEdit
+                })
+            }
             this.isEditing = false
         },
         emitEditComment({commentId, text}) {

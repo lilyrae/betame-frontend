@@ -4,7 +4,7 @@
             <div class="new-comment">
                 <h6 class="mt-0 beta-title">Comment as <strong>{{ username }}</strong></h6>
                 <form v-on:submit.prevent="createComment(newComment, '')">
-                    <textarea v-model="newComment" required></textarea>
+                    <textarea v-model="newComment" required maxlength="10000"></textarea>
                     <button class="btn btn-light float-right">Post</button>
                 </form>
             </div>
@@ -62,7 +62,7 @@ export default {
         },
         editComment({commentId, text}) {
             this.$emit('startLoading')
-            
+
             commentApi.edit(commentId, text)
                 .then(() => {
                     this.$emit('refresh')
