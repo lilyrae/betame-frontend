@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Jumbotron from '../../templates/Jumbotron.vue'
+import Jumbotron from '../../layouts/Jumbotron.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
 import auth from '../../services/auth.js'
 

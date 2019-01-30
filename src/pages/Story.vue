@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Jumbotron from '../templates/Jumbotron.vue'
+import Jumbotron from '../layouts/Jumbotron.vue'
 import TagList from '../components/TagList.vue'
 import Comments from '../components/Comments.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'

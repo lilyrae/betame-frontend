@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Default from '../templates/Default.vue'
+import Default from '../layouts/Default.vue'
 import SearchNavBar from '../components/SearchNavBar.vue'
 import BottomNavBar from '../components/BottomNavBar.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'

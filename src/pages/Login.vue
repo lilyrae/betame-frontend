@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Jumbotron from '../templates/Jumbotron.vue'
+import Jumbotron from '../layouts/Jumbotron.vue'
 import auth from '../services/auth.js'
 
 export default {

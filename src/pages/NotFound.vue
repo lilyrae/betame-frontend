@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Jumbotron from '../templates/Jumbotron.vue'
+import Jumbotron from '../layouts/Jumbotron.vue'
 
 export default {
   name: 'NotFound',

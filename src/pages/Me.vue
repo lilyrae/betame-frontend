@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import Wide from '../templates/Wide.vue'
+import Wide from '../layouts/Wide.vue'
 import SearchNavBar from '../components/SearchNavBar.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 import StoryItem from '../components/StoryItem.vue'

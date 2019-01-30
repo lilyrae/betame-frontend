@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Jumbotron from '../templates/Jumbotron.vue'
+import Jumbotron from '../layouts/Jumbotron.vue'
 import StoryForm from '../components/StoryForm.vue'
 import StoryTagForm from '../components/StoryTagForm.vue'
 
