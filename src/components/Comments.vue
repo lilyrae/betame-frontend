@@ -11,7 +11,7 @@
         </div>
         <hr>
         <div v-for="commentThread in comments" :key="commentThread.id">
-            <CommentThread :commentThread="commentThread" @newComment="newCommentEvent" @editComment="editComment"/>
+            <CommentThread :commentThread="commentThread"/>
             <br />
         </div>
     </div>
@@ -21,6 +21,7 @@
 import CommentThread from './CommentThread'
 import commentApi from '../services/comment.js'
 import auth from '../services/auth.js'
+import { EventBus } from '../event-bus.js';
 
 export default {
     name: 'Comments',
@@ -44,11 +45,20 @@ export default {
             return auth.isLoggedIn()
         }
     },
+    created() {
+        EventBus.$on('newComment', ({text, parentId}) => {
+            this.createComment(text, parentId)
+        })
+
+        EventBus.$on('editComment', ({commentId, text}) => {
+            this.editComment(commentId, text)
+        })
+    },
     methods: {
-        createComment(comment, parentId) {
+        createComment(text, parentId) {
             this.$emit('startLoading')
 
-            commentApi.create(this.storyId, parentId, comment)
+            commentApi.create(this.storyId, parentId, text)
                 .then(() => {
                     this.newComment = ''
                     this.$emit('refresh')
@@ -57,10 +67,7 @@ export default {
                     this.$emit('commentsError', error)
                 })
         },
-        newCommentEvent({comment, parentId}) {
-            this.createComment(comment, parentId)
-        },
-        editComment({commentId, text}) {
+        editComment(commentId, text) {
             this.$emit('startLoading')
 
             commentApi.edit(commentId, text)

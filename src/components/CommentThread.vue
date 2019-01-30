@@ -33,8 +33,6 @@
                 v-for="replyCommentThread in commentThread.replies" 
                 :key="replyCommentThread.comment.comment_id"
                 :commentThread="replyCommentThread"
-                @newComment="emitNewComment"
-                @editComment="emitEditComment"
                 />
         </div>
     </div>
@@ -42,6 +40,7 @@
 
 <script>
 import auth from '../services/auth.js'
+import { EventBus } from '../event-bus.js';
 
 export default {
     name: 'CommentThread',
@@ -59,15 +58,12 @@ export default {
     },
     methods: {
         createComment() {
-            this.$emit('newComment', {
-                comment: this.commentThread.comment.comment_id,
-                text: this.commentEdit
+            EventBus.$emit('newComment', {
+                text: this.newComment,
+                parentId: this.commentThread.comment.comment_id
             })
             this.newComment = ''
             this.showReplyBox = false
-        },
-        emitNewComment({comment, parentId}) {
-            this.$emit('newComment', {comment, parentId})
         },
         toggleReplyBox() {
             this.showReplyBox = !this.showReplyBox
@@ -84,15 +80,12 @@ export default {
         },
         saveEdit() {
             if (this.commentEdit != this.commentThread.comment.text) {
-                this.$emit('editComment', {
+                EventBus.$emit('editComment', {
                     commentId: this.commentThread.comment.comment_id,
                     text: this.commentEdit
                 })
             }
             this.isEditing = false
-        },
-        emitEditComment({commentId, text}) {
-            this.$emit('editComment', {commentId, text})
         }
     },
     computed: {
