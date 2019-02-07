@@ -4,7 +4,7 @@
         <div class="media-body" v-show="isVisible">
             <div class="comment">
                 <h6 class="mt-0 beta-title row comment-title">
-                    <span class="col">{{ commentThread.user.username }}</span>
+                    <span class="col">{{ commentThread.user.username }}&nbsp;<font-awesome-icon v-if="hasCookie" class="golden cookie" icon="cookie" /></span>
                     <span class="font14 col-md-3">{{ commentThread.comment.created_at | formatDate }}</span>
                 </h6>
                 <form v-if="isEditing && myComment" v-on:submit.prevent="saveEdit">
@@ -14,11 +14,17 @@
                 </form>
                 <div v-else>
                     <p>{{ commentThread.comment.text }}</p>
-                    <div v-if="myComment">
-                        <button class="btn btn-light btn-sm" @click="editComment">Edit</button>
-                    </div>
-                    <div v-else-if="loggedIn">
-                        <button class="btn btn-light btn-sm" @click="toggleReplyBox">Reply</button>
+                    <div v-if="loggedIn">
+                        <button v-if="myComment" class="btn btn-light btn-sm" @click="editComment">Edit</button>
+                        <div v-else>
+                            <button class="btn btn-light btn-sm" @click="toggleReplyBox">Reply</button>
+                            <button v-if="myStory && !hasCookie" class="btn btn-light btn-sm" @click="showCookieModal">
+                                Give Cookie <font-awesome-icon class="golden" icon="cookie-bite" />
+                            </button>
+                            <button class="btn btn-light btn-sm" @click="showCookieModal">
+                                Report <font-awesome-icon icon="ban" />
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="new-comment" v-if="loggedIn" v-show="showReplyBox">
@@ -33,6 +39,7 @@
                 v-for="replyCommentThread in commentThread.replies" 
                 :key="replyCommentThread.comment.comment_id"
                 :commentThread="replyCommentThread"
+                :karmaUsers="karmaUsers"
                 />
         </div>
     </div>
@@ -45,7 +52,8 @@ import { EventBus } from '../event-bus.js';
 export default {
     name: 'CommentThread',
     props: {
-        commentThread: Object
+        commentThread: Object,
+        karmaUsers: Array
     },
     data() {
         return {
@@ -86,6 +94,11 @@ export default {
                 })
             }
             this.isEditing = false
+        },
+        showCookieModal() {
+            EventBus.$emit('showCookieModal', {
+                user: this.commentThread.user
+            })
         }
     },
     computed: {
@@ -100,8 +113,13 @@ export default {
             }
         },
         myComment() {
-            return this.loggedIn &&
-                this.commentThread.user.user_id == localStorage.getItem('bm_user_id')
+            return this.commentThread.user.user_id == localStorage.getItem('bm_user_id')
+        },
+        myStory() {
+            return true
+        },
+        hasCookie() {
+            return this.karmaUsers && this.karmaUsers.includes(this.commentThread.user.user_id)
         }
     }
 }
@@ -126,6 +144,10 @@ export default {
 
 .media {
     padding-left: 0px;
+}
+
+.highlighted {
+    box-shadow: inset 0px 0px 20px 10px #e7f9f6;
 }
 
 </style>

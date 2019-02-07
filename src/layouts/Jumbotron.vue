@@ -1,22 +1,21 @@
 <template>
     <Default>
-        <div class="jumbotron beta-jumbotron">
-            <h3 class="beta-title hide-overflow"><slot name="title"></slot></h3>
-            <slot name="subtitle"></slot>
-            <div class="font18">
-                <slot></slot>
-            </div>
-        </div>
+        <JumbotronComponent>
+            <span slot="title"><slot name="title"></slot></span>
+            <slot></slot>
+        </JumbotronComponent>
     </Default>
 </template>
 
 <script>
 import Default from './Default.vue'
+import JumbotronComponent from '../components/Jumbotron.vue'
 
 export default {
     name: 'Jumbotron',
     components: {
-        Default
+        Default,
+        JumbotronComponent
     }
 }
 </script>

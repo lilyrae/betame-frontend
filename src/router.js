@@ -4,12 +4,15 @@ import Home from './pages/Home.vue'
 import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
 import BetaSignup from './pages/BetaSignup.vue'
-import Me from './pages/Me.vue'
-import ChangePassword from './pages/Account/ChangePassword.vue'
 import About from './pages/About.vue'
 import CreateStory from './pages/CreateStory.vue'
 import Story from './pages/Story.vue'
+import LeaderBoard from './pages/LeaderBoard.vue'
 import NotFound from './pages/NotFound.vue'
+
+import Me from './pages/Account/Me.vue'
+import ChangePassword from './pages/Account/ChangePassword.vue'
+import MyCookies from './pages/Account/MyCookies.vue'
 
 const routes = [
     { 
@@ -55,6 +58,13 @@ const routes = [
         }
     },
     {
+        path: '/me/cookies',
+        component: MyCookies,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
         path: '/about',
         component: About,
         meta: {
@@ -72,6 +82,13 @@ const routes = [
         path: '/story/:id',
         component: Story,
         props: true,
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/cookies',
+        component: LeaderBoard,
         meta: {
             requiresAuth: false
         }

@@ -15,6 +15,9 @@
                 <li class="nav-item">
                     <router-link class="nav-link beta-text" to="/about">About</router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link class="nav-link beta-text" to="/cookies">Leaderboard</router-link>
+                </li>
             </ul>
             <!-- Logout Button -->
             <div class="my-2 my-lg-0" >

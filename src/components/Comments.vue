@@ -11,7 +11,7 @@
         </div>
         <hr>
         <div v-for="commentThread in comments" :key="commentThread.id">
-            <CommentThread :commentThread="commentThread"/>
+            <CommentThread :commentThread="commentThread" :karmaUsers="karmaUsers"/>
             <br />
         </div>
     </div>
@@ -30,7 +30,8 @@ export default {
     },
     props: {
         comments: Array,
-        storyId: String
+        storyId: String,
+        karmaUsers: Array
     },
     data() {
         return {
