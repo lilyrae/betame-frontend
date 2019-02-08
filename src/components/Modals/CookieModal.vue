@@ -16,8 +16,8 @@
 
 <script>
 import Modal from './Modal.vue'
-import karma from '../services/karma.js'
-import { EventBus } from '../event-bus.js'
+import karma from '../../services/karma.js'
+import { EventBus } from '../../event-bus.js'
 
 export default {
     name: 'CookieModal',

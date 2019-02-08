@@ -45,9 +45,9 @@
 
 <script>
 import Jumbotron from '../layouts/Jumbotron.vue'
-import TagList from '../components/TagList.vue'
+import TagList from '../components/Lists/TagList.vue'
 import Comments from '../components/Comments.vue'
-import CookieModal from '../components/CookieModal.vue'
+import CookieModal from '../components/Modals/CookieModal.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 import story from '../services/story.js'
 

@@ -32,8 +32,8 @@
 
 <script>
 import Jumbotron from '../layouts/Jumbotron.vue'
-import StoryForm from '../components/StoryForm.vue'
-import StoryTagForm from '../components/StoryTagForm.vue'
+import StoryForm from '../components/Forms/StoryForm.vue'
+import StoryTagForm from '../components/Forms/StoryTagForm.vue'
 
 export default {
     name: 'CreateStory',

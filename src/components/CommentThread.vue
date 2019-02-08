@@ -15,7 +15,10 @@
                 <div v-else>
                     <p>{{ commentThread.comment.text }}</p>
                     <div v-if="loggedIn">
-                        <button v-if="myComment" class="btn btn-light btn-sm" @click="editComment">Edit</button>
+                        <div v-if="myComment">
+                            <button class="btn btn-light btn-sm" @click="editComment">Edit</button>
+                            <button class="btn btn-light btn-sm" @click="toggleReplyBox">Reply</button>
+                        </div>
                         <div v-else>
                             <button class="btn btn-light btn-sm" @click="toggleReplyBox">Reply</button>
                             <button v-if="myStory && !hasCookie" class="btn btn-light btn-sm" @click="showCookieModal">

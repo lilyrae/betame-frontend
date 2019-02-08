@@ -37,7 +37,7 @@
 
 <script>
 import Account from '../../layouts/Account.vue'
-import TitleNavBar from '../../components/TitleNavBar.vue'
+import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
 import karma from '../../services/karma.js'

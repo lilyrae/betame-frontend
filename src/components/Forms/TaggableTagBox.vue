@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import tag from '../services/tag.js'
+import tag from '../../services/tag.js'
 import debounce from 'debounce'
 
 export default {

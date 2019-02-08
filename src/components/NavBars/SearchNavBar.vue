@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import auth from '../services/auth.js'
+import auth from '../../services/auth.js'
 
 export default {
     name: 'SearchNavBar',

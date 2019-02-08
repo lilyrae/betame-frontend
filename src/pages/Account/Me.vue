@@ -25,11 +25,11 @@
 
 <script>
 import Account from '../../layouts/Account.vue'
-import SearchNavBar from '../../components/SearchNavBar.vue'
-import TitleNavBar from '../../components/TitleNavBar.vue'
+import SearchNavBar from '../../components/NavBars/SearchNavBar.vue'
+import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
-import StoryItem from '../../components/StoryItem.vue'
+import StoryItem from '../../components/Lists/StoryItem.vue'
 import story from '../../services/story.js'
 
 export default {

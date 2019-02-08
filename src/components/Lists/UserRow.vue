@@ -7,8 +7,7 @@
                 <span v-if="tag">&nbsp;&nbsp;&nbsp;
                     <span class="badge badge-warning"><font-awesome-icon v-if="icon" :icon="icon" /> {{ tag }}</span>
                 </span>
-            </div>
-            
+            </div>            
             <div class="col-3 col-md-2"><font-awesome-icon class="purple" icon="comments" />&nbsp;{{ user.comment_count }}</div>
             <div class="col-3 col-md-2"><font-awesome-icon class="golden" icon="cookie" />&nbsp;{{ user.karma_count }}</div>
         </div>

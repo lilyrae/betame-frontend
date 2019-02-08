@@ -24,10 +24,10 @@
 
 <script>
 import Default from '../layouts/Default.vue'
-import SearchNavBar from '../components/SearchNavBar.vue'
-import BottomNavBar from '../components/BottomNavBar.vue'
+import SearchNavBar from '../components/NavBars/SearchNavBar.vue'
+import BottomNavBar from '../components/NavBars/BottomNavBar.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
-import StoryItem from '../components/StoryItem.vue'
+import StoryItem from '../components/Lists/StoryItem.vue'
 import story from '../services/story.js'
 
 export default {

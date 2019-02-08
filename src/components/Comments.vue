@@ -53,7 +53,7 @@ export default {
             })
         },
         myStory() {
-            return this.story.user_id == localStorage.getItem('bm_user_id')
+            return this.story.user.user_id == localStorage.getItem('bm_user_id')
         }
     },
     created() {

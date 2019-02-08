@@ -26,8 +26,8 @@
 
 <script>
 import Default from '../layouts/Default.vue'
-import TitleNavBar from '../components/TitleNavBar.vue'
-import UserRow from '../components/UserRow.vue'
+import TitleNavBar from '../components/NavBars/TitleNavBar.vue'
+import UserRow from '../components/Lists/UserRow.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 import user from '../services/user.js'
 

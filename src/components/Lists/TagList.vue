@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import tag from '../services/tag.js'
+import tag from '../../services/tag.js'
 
 export default {
     name: 'TagList',

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import TopNavBar from '../components/TopNavBar.vue'
+import TopNavBar from '../components/NavBars/TopNavBar.vue'
 
 export default {
   name: 'Full',

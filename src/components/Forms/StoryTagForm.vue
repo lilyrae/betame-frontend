@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import ErrorAlert from '../components/ErrorAlert.vue'
+import ErrorAlert from '../ErrorAlert.vue'
 import TagBox from './TagBox.vue'
 import TaggableTagBox from './TaggableTagBox.vue'
-import tag from '../services/tag.js'
+import tag from '../../services/tag.js'
 
 export default {
     name: 'StoryTagForm',

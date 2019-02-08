@@ -62,9 +62,9 @@
 
 <script>
 import debounce from 'debounce'
-import google from '../services/google.js'
-import story from '../services/story.js'
-import ErrorAlert from '../components/ErrorAlert.vue'
+import google from '../../services/google.js'
+import story from '../../services/story.js'
+import ErrorAlert from '../ErrorAlert.vue'
 
 export default {
     name: 'StoryForm',
