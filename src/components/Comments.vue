@@ -10,8 +10,8 @@
             </div>
         </div>
         <hr>
-        <div v-for="commentThread in comments" :key="commentThread.id">
-            <CommentThread :commentThread="commentThread" :karmaUsers="karmaUsers"/>
+        <div v-for="commentThread in story.comments" :key="commentThread.id">
+            <CommentThread :commentThread="commentThread" :myStory="myStory" :karmaUsers="karmaUsers"/>
             <br />
         </div>
     </div>
@@ -29,9 +29,7 @@ export default {
         CommentThread
     },
     props: {
-        comments: Array,
-        storyId: String,
-        karmaUsers: Array
+        story: Object
     },
     data() {
         return {
@@ -44,6 +42,18 @@ export default {
         },
         loggedIn() {
             return auth.isLoggedIn()
+        },
+        karmaUsers() {
+            if (!this.story.karma) {
+                return null
+            }
+
+            return this.story.karma.map(karma => {
+                return karma.to_user_id
+            })
+        },
+        myStory() {
+            return this.story.user_id == localStorage.getItem('bm_user_id')
         }
     },
     created() {
@@ -59,7 +69,7 @@ export default {
         createComment(text, parentId) {
             this.$emit('startLoading')
 
-            commentApi.create(this.storyId, parentId, text)
+            commentApi.create(this.story.story_id, parentId, text)
                 .then(() => {
                     this.newComment = ''
                     this.$emit('refresh')

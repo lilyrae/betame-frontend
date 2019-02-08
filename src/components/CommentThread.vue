@@ -52,6 +52,7 @@ import { EventBus } from '../event-bus.js';
 export default {
     name: 'CommentThread',
     props: {
+        myStory: Boolean,
         commentThread: Object,
         karmaUsers: Array
     },
@@ -114,9 +115,6 @@ export default {
         },
         myComment() {
             return this.commentThread.user.user_id == localStorage.getItem('bm_user_id')
-        },
-        myStory() {
-            return true
         },
         hasCookie() {
             return this.karmaUsers && this.karmaUsers.includes(this.commentThread.user.user_id)
