@@ -29,26 +29,17 @@
         </div>
     </div>
     <br>
-    <Comments 
-        :comments="story.comments"
-        :storyId="id"
-        :karmaUsers="karmaUsers"
+    <Comments
+        :story="story"
         @refresh="getStory"
         @startLoading="startLoading"
         @commentsError="setCommentsError"/>
-    <Modal :isVisible="showCookieModal" v-if="cookieUser">
-        <template slot="header">Give a Cookie to {{ cookieUser.username }}</template>
-        <p class="font18">To say thank you for reviewing your story, give your beta a cookie! You can also add a message to make it an extra special treat.</p>
-        <textarea class="form-control beta-textarea" v-show="addMessage" v-model="cookieMessage"></textarea>
-        <template slot="footer">
-            <button v-if="!addMessage" @click="addMessage = true" class="btn">Add Message <font-awesome-icon class="betame-red" icon="heart" /></button>
-            <button class="btn" @click="sendCookie">
-                <span v-if="!addMessage">Give Cookie</span>
-                <span v-else>Send&nbsp;<font-awesome-icon class="betame-red" icon="heart" /></span>
-                &nbsp;<font-awesome-icon class="golden" icon="cookie-bite" />
-            </button>
-        </template>
-    </Modal>
+    <CookieModal
+        :storyId="id"
+        @refresh="getStory"
+        @startLoading="startLoading"
+        @commentsError="setCommentsError"
+    />
   </Jumbotron>
 </template>
 
@@ -56,12 +47,9 @@
 import Jumbotron from '../layouts/Jumbotron.vue'
 import TagList from '../components/TagList.vue'
 import Comments from '../components/Comments.vue'
+import CookieModal from '../components/CookieModal.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
-import Modal from '../components/Modal.vue'
 import story from '../services/story.js'
-import karma from '../services/karma.js'
-import { EventBus } from '../event-bus.js';
-import { format } from 'date-fns'
 
 export default {
     name: 'Story',
@@ -69,8 +57,8 @@ export default {
         Jumbotron,
         TagList,
         Comments,
-        ErrorAlert,
-        Modal
+        CookieModal,
+        ErrorAlert
     },
     props: {
         id: null
@@ -82,34 +70,15 @@ export default {
                 comments: []
             },
             isLoadingPage: false,
-            error: null,
-            showCookieModal: false,
-            addMessage: false,
-            cookieMessage: '',
-            cookieUser: null,
-            isAnonymousCookie: false
+            error: null
         };
     },
     created() {
         this.getStory()
-
-        EventBus.$on('showCookieModal', ({user}) => {
-            this.cookieUser = user
-            this.showCookieModal = true
-        })
-
-        EventBus.$on('closeModal', () => {
-            this.closeCookieModal()
-        })
     },
     methods: {
         recordClick() {
             this.$matomo.trackPageView(this.story.url)
-        },
-        closeCookieModal() {
-            this.showCookieModal = false
-            this.addMessage = false
-            this.cookieMessage = ''
         },
         getStory() {
             this.isLoadingPage = true;
@@ -123,42 +92,12 @@ export default {
                     this.isLoadingPage = false;
                 })
         },
-        sendCookie() {
-            this.isLoadingPage = true
-
-            karma.create(this.id, this.cookieUser.user_id, this.cookieMessage, this.isAnonymousCookie)
-                .then(() => {
-                    // TO DO show success
-                    this.isLoadingPage = false
-                    this.closeCookieModal()
-                    this.getStory()
-                }).catch((error) => {
-                    this.isLoadingPage = false
-                    this.error = error
-                })
-        },
         startLoading() {
             this.isLoadingPage = true
         },
         setCommentsError({error}) {
             this.isLoadingPage = false
             this.error = error
-        }
-    },
-    computed: {
-        karmaUsers() {
-            if (!this.story.karma) {
-                return null
-            }
-
-            return this.story.karma.map(karma => {
-                return karma.to_user_id
-            })
-        }
-    },
-    filters: {
-        formatDate(date) {
-            return format(date, 'Do MMMM YYYY');
         }
     }
 }
