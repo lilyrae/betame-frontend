@@ -13,7 +13,7 @@
                     <button class="btn btn-light btn-sm">Save</button>
                 </form>
                 <div v-else>
-                    <p>{{ commentThread.comment.text }}</p>
+                    <p v-for="line in commentThread.comment.text.split('\n')" :key="line">{{line}}</p>
                     <div v-if="loggedIn">
                         <div v-if="myComment">
                             <button class="btn btn-light btn-sm" @click="editComment">Edit</button>
@@ -23,9 +23,6 @@
                             <button class="btn btn-light btn-sm" @click="toggleReplyBox">Reply</button>
                             <button v-if="myStory && !hasCookie" class="btn btn-light btn-sm" @click="showCookieModal">
                                 Give Cookie <font-awesome-icon class="golden" icon="cookie-bite" />
-                            </button>
-                            <button class="btn btn-light btn-sm" @click="showCookieModal">
-                                Report <font-awesome-icon icon="ban" />
                             </button>
                         </div>
                     </div>
