@@ -13,7 +13,7 @@
                     <button class="btn btn-light btn-sm">Save</button>
                 </form>
                 <div v-else>
-                    <p v-for="line in commentThread.comment.text.split('\n')" :key="line">{{line}}</p>
+                    <LineBreakText :text="commentThread.comment.text"/>
                     <div v-if="loggedIn">
                         <div v-if="myComment">
                             <button class="btn btn-light btn-sm" @click="editComment">Edit</button>
@@ -46,11 +46,15 @@
 </template>
 
 <script>
+import LineBreakText from './LineBreakText.vue'
 import auth from '../services/auth.js'
 import { EventBus } from '../event-bus.js';
 
 export default {
     name: 'CommentThread',
+    components: {
+        LineBreakText
+    },
     props: {
         myStory: Boolean,
         commentThread: Object,
