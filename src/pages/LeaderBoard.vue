@@ -2,6 +2,14 @@
   <Default class="col-md-8 offset-md-2">
     <TitleNavBar title="Leaderboard" />
     <ErrorAlert :error="error"/>
+    <div class="alert alert-info" role="alert">
+        <p>
+            This is where we keep track our most helpful users!
+            When a user reviews or comments on a story, the author may choose to gift them a cookie (basically a point).
+            Here we hope to award our users for all their hard work!
+        </p>
+    </div>
+
     <div v-if="isLoadingPage">
         <center class="loading-screen">
             <div class="lds-ripple"><div></div><div></div></div>
