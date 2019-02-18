@@ -4,7 +4,7 @@
             <span slot="title">Change Your Password</span>
             <br>
             <div class="offset-sm-2 col-sm-8">
-                <ErrorAlert :error="error" :errorMessage="errorMessage"/>
+                <ErrorAlert :error="error" />
                 <Alert :message="successMessage"/>
                 <form class="beta-text" v-on:submit.prevent="changePassword">
                     <div class="form-group row">
@@ -54,15 +54,14 @@ export default {
             oldPassword: '',
             newPassword: '',
             isLoading: false,
-            error: null,
-            errorMessage: '',
+            error: '',
             successMessage: ''
         };
     },
     methods: {
         changePassword() {
             if (this.newPassword === this.oldPassword) {
-                this.errorMessage = "Your new password is the same as your old password."
+                this.error = "Your new password is the same as your old password."
                 return
             }
 
@@ -73,7 +72,7 @@ export default {
                     this.successMessage = "You have changed your password."
                     auth.setPassword(this.newPassword)
                 }).catch(error => {
-                    this.error = error
+                    this.error = error || 'Failed to change password'
                 })
                 .finally(() => {
                     this.isLoading = false;

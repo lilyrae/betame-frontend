@@ -74,7 +74,8 @@ export default {
                     this.newComment = ''
                     this.$emit('refresh')
                     // TODO -> display success
-                }).catch((error) => {
+                }).catch((errorResponse) => {
+                    let error = errorResponse || 'Failed to create comment'
                     this.$emit('commentsError', error)
                 })
         },
@@ -84,7 +85,8 @@ export default {
             commentApi.edit(commentId, text)
                 .then(() => {
                     this.$emit('refresh')
-                }).catch((error) => {
+                }).catch((errorResponse) => {
+                    let error = errorResponse || 'Failed to edit comment'
                     this.$emit('commentsError', error)
                 })
         }

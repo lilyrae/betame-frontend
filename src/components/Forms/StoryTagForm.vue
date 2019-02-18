@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ErrorAlert :error="error" :errorMessage="errorMessage"/>
+        <ErrorAlert :error="error" />
         <form class="text-left" v-on:submit.prevent="addTags">
             <div class="form-group row">
                 <label for="language" class="col-sm-2 col-form-label">Language</label>
@@ -66,8 +66,7 @@ export default {
             languageOptions: [],
             tags: [],
             newTags: [],
-            error: null,
-            errorMessage: ''
+            error: ''
         }
     },
     props: {
@@ -76,7 +75,7 @@ export default {
     methods: {
         addTags() {
             if(this.noTagsSelected()) {
-                this.errorMessage = 'No tags have been selected.';
+                this.error = 'No tags have been selected.';
                 return;
             }
 
@@ -94,7 +93,7 @@ export default {
                 .then(() => {
                     Event.$emit('addedTagsToStory');
                 }).catch(error => {
-                    this.error = error;
+                    this.error = error || 'Failed to add tags to the story';
                 })
         },
         noTagsSelected() {
@@ -124,19 +123,15 @@ export default {
             this.newTags[tagTypeId] = newTags;
         });
 
-        Event.$on('tagsError', ({error, errorMessage}) => {
-            if(error) {
-                this.error = error;
-            } else if(errorMessage) {
-                this.errorMessage = errorMessage
-            }
+        Event.$on('tagsError', ({error}) => {
+            this.error = error
         });
 
         tag.search(tag.languageTagTypeId())
             .then(response => {
                 this.languageOptions = response.data;
             }).catch(error => {
-                this.error = error;
+                this.error = error || 'Failed to get language list'
             })
     }
 }

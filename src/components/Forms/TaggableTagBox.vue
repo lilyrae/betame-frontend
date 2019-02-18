@@ -69,7 +69,7 @@ export default {
                     let error = this.checkForErrors(tagText)
 
                     if (error) {
-                        Event.$emit('tagsError', {errorMessage: error})
+                        Event.$emit('tagsError', {error})
                         this.selected.splice( this.selected.indexOf(element), 1 )
                     } else {
                         newTags.push(tagText);

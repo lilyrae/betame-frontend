@@ -55,7 +55,8 @@ export default {
                     // TO DO show success
                     this.closeCookieModal()
                     this.$emit('refresh')
-                }).catch((error) => {
+                }).catch((errorResponse) => {
+                    let error = errorResponse || 'Failed to gift a cookie'
                     this.$emit('commentsError', error)
                 })
         },

@@ -78,7 +78,7 @@ export default {
                     this.stories = response.data;
                     this.allStories = response.data;
                 }).catch(error => {
-                    this.error = error;
+                    this.error = error || 'Failed to retrieve stories.'
                 }).finally(() => {
                     this.isLoadingPage = false;
                 });

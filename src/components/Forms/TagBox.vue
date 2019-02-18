@@ -35,7 +35,8 @@ export default {
             tag.search(this.tagTypeId)
                 .then(response => {
                     this.options = response.data;
-                }).catch(error => {
+                }).catch(errorResponse => {
+                    let error = errorResponse || 'Failed to get tags'
                     Event.$emit('tagsError', {error});
                 })
         }

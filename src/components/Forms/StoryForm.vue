@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ErrorAlert :error="error" :errorMessage="errorMessage"/>
+        <ErrorAlert :error="error"/>
         <form v-on:submit.prevent="createStory">
             <div class="form-group row">
                 <label for="title" class="col-sm-2 col-form-label">Title</label>
@@ -78,15 +78,14 @@ export default {
             url: '',
             word_count: '',
             isCreating: false,
-            error: null,
-            errorMessage: '',
+            error: '',
             invalidGoogleLink: false,
             invalidGoogleDoc: false
         };
     },
     methods: {
         createStory() {
-            this.error = null;
+            this.error = '';
             this.isCreating = true;
 
             story.create(this.title, this.notes, this.url, this.word_count)
@@ -94,7 +93,7 @@ export default {
                     Event.$emit('createdStory', response.data);
                 })
                 .catch(error => {
-                    this.error = error;
+                    this.error = error || 'Failed to create a new story';
                 })
                 .finally(() => {
                     this.isCreating = false;
