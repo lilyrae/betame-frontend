@@ -19,6 +19,23 @@ export default {
         
         api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
+        // global response handler
+        api.interceptors.response.use((response) => {
+            return response
+        }, (error) => {
+            // get error message
+            let message = ''
+
+            if(error.response !== undefined
+                && error.response.data !== undefined
+                && error.response.data.error!== undefined
+            ) {
+                message = error.response.data.error;
+            }
+
+            return Promise.reject(message)
+        })
+
         return api;
     },
     get(url, parameters) {
