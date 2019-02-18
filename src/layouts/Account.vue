@@ -2,7 +2,7 @@
     <Wide>
         <div class="row top-row h-100">
             <div class="col-md-3 panel">
-                <div class="user-panel text-left">
+                <div class="user-panel text-left hide-overflow">
                     <h3 class="beta-title account-title">
                         <font-awesome-icon icon="user-astronaut" />&nbsp;{{ username }}
                     </h3>
