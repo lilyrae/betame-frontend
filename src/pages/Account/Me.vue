@@ -9,10 +9,10 @@
             </div>
             <div v-else-if="stories.length > 0">
                 <TitleNavBar title="My Stories" />
-                <StoryItem v-for="(story, index) in stories" v-bind:key="story.story_id" v-bind:story="story">
+                <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story">
                     <p class="float-right">
                     <!-- <button class="btn btn-outline-info small-margin">Edit</button> -->
-                    <button class="btn btn-dark btn-sm" @click="deleteStory(story.story_id, index)">Delete</button>
+                    <button class="btn btn-dark btn-sm" @click="showDeleteModal(story)">Delete</button>
                     </p>
                 </StoryItem>
             </div>
@@ -20,6 +20,7 @@
                 Why don't you create a new story?
             </div>
         </ul>
+        <DeleteStoryModal @refresh="getStories"/>
     </Account>
 </template>
 
@@ -30,7 +31,9 @@ import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
 import StoryItem from '../../components/Lists/StoryItem.vue'
+import DeleteStoryModal from '../../components/Modals/DeleteStoryModal.vue'
 import story from '../../services/story.js'
+import { EventBus } from '../../event-bus.js'
 
 export default {
     name: 'Me',
@@ -40,7 +43,8 @@ export default {
         TitleNavBar,
         LoadingRipple,
         ErrorAlert,
-        StoryItem
+        StoryItem,
+        DeleteStoryModal
     },
     data() {
         return {
@@ -52,31 +56,24 @@ export default {
     },
     created() {
         this.user_id = localStorage.getItem('bm_user_id')
-        this.getStories();
+        this.getStories()
     },
     methods: {
         getStories() {
-            this.error = null;
-            this.isLoadingPage = true;
+            this.error = null
+            this.isLoadingPage = true
 
            story.withUserID(this.user_id)
                 .then(response => {
-                    this.stories = response.data;
+                    this.stories = response.data
                 }).catch(error => {
-                    this.error = error;
+                    this.error = error || 'Failed to retrieve your stories'
                 }).finally(() => {
                     this.isLoadingPage = false;
                 });
         },
-        deleteStory(id, index) {
-            this.error = null;
-
-            story.delete(id)
-                .then(() => {
-                    this.stories.splice(index, 1);
-                }).catch(error => {
-                    this.error = error;
-                });
+        showDeleteModal(story) {
+            EventBus.$emit('showDeleteStoryModal', {story})
         }
     }
 }

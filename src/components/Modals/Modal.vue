@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content bg-light">
                 <div class="modal-header">
-                    <h5 class="modal-title beta-title"><slot name="header"></slot></h5>
+                    <h5 class="modal-title beta-title hide-overflow"><slot name="header"></slot></h5>
                     <button type="button" class="close" @click="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
