@@ -27,7 +27,7 @@
 
     </div>
     <div v-else>
-        No one has give any cookies yet!
+        No one has given any cookies yet!
     </div>
   </Default>
 </template>
