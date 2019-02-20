@@ -40,6 +40,7 @@
                 :key="replyCommentThread.comment.comment_id"
                 :commentThread="replyCommentThread"
                 :karmaUsers="karmaUsers"
+                :myStory="myStory"
                 />
         </div>
     </div>
