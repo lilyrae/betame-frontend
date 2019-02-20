@@ -90,6 +90,10 @@ export default {
                     this.$emit('commentsError', error)
                 })
         }
+    },
+    beforeDestroy() {
+        EventBus.$off('newComment')
+        EventBus.$off('editComment')
     }
 }
 </script>
