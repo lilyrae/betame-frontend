@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p v-for="line in text.split('\n')" :key="line">{{line}}</p>
+        <p v-for="(line, index) in text.split('\n')" :key="index">{{line}}</p>
     </div>
 </template>
 
