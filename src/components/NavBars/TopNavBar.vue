@@ -22,12 +22,12 @@
             <!-- Logout Button -->
             <div class="my-2 my-lg-0" >
                 <div v-if="loggedIn">
-                    <router-link class="btn betame-button" to="/me">My Account</router-link>
+                    <router-link class="btn betame-button beta-link" to="/me">My Account</router-link>
                     <button class="btn btn-secondary" @click="logout">Logout</button>
                 </div>
                 <div v-else>
-                    <router-link class="btn betame-button" to="/login">Login</router-link>
-                    <router-link class="btn betame-dark-button" to="/register">Sign up</router-link>
+                    <router-link class="btn betame-button beta-link" to="/login">Login</router-link>
+                    <router-link class="btn betame-dark-button beta-link" to="/register">Sign up</router-link>
                 </div>
             </div>
         </div>

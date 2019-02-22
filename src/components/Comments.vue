@@ -21,7 +21,7 @@
 import CommentThread from './CommentThread'
 import commentApi from '../services/comment.js'
 import auth from '../services/auth.js'
-import { EventBus } from '../event-bus.js';
+import { EventBus } from '../event-bus.js'
 
 export default {
     name: 'Comments',

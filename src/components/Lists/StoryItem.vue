@@ -15,7 +15,7 @@
             <div class="font18">
                 <p class="hide-overflow">{{ story.notes }}</p>
                 <p class="small-bottom-margin">
-                    <TagList :tags="story.tags"/>
+                    <TagList @clickedTag="searchTag" :tags="story.tags"/>
                 </p>
                 <p class="small-bottom-margin row stats">
                     <span class="col"></span>
@@ -31,6 +31,7 @@
 
 <script>
 import TagList from './TagList.vue'
+import { EventBus } from '../../event-bus.js'
 
 export default {
     name: 'StoryItem',
@@ -43,6 +44,11 @@ export default {
     computed: {
         storyUrl() {
             return "/story/" + this.story.story_id;
+        }
+    },
+    methods: {
+        searchTag({tag}) {
+            EventBus.$emit('searchTag', {tag})
         }
     }
 }

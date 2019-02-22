@@ -51,21 +51,25 @@ export default {
         this.getStories();
 
         Event.$on('searching', search => {
-            if(search.query == '') {
-                this.stories = this.allStories;
-                Event.$emit('finishedSearch');
-                return;
+            if(search.query == '' && search.tags.length <= 0) {
+                this.stories = this.allStories
+                Event.$emit('finishedSearch')
+                return
             }
-            let i = 0;
-            this.stories = [];
+
+            let i = 0
+            this.stories = []
+            let tagIds = search.tags.map(tag => {
+                return tag.tag_id
+            })
 
             for (i = 0; i < this.allStories.length; i++) { 
-                if(this.allStories[i].title.toLowerCase().includes(search.query.toLowerCase())) {
-                    this.stories.push(this.allStories[i]);
+                if(this.storyMatchesSearch(this.allStories[i], search.query, tagIds)) {
+                    this.stories.push(this.allStories[i])
                 }
             }
 
-            Event.$emit('finishedSearch');
+            Event.$emit('finishedSearch')
         });
     },
     methods: {
@@ -82,6 +86,26 @@ export default {
                 }).finally(() => {
                     this.isLoadingPage = false;
                 });
+        },
+        storyMatchesSearch(story, title, tagIds) {
+            if (story.tags) {
+                let storyTagIds = story.tags.map(tag => {
+                    return tag.tag_id
+                })
+
+                for (let tagId of tagIds) {
+                    if (!storyTagIds.includes(tagId)) {
+                        // story does not have search tag
+                        return false
+                    }
+                }
+            } else if (tagIds.length > 0) {
+                // story is not tagged
+                return false
+            }
+
+            // check if story title matches
+            return story.title.toLowerCase().includes(title.toLowerCase())
         }
     }
 }
