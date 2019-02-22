@@ -11,6 +11,7 @@
     </div>
     <div v-else-if="stories.length > 0">
         <!-- list of stories -->
+        <p v-if="filteredResults" class="text-left help-text text-muted">Search results..</p>
         <ul class="list-group list-group-flush">
         <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
         </ul>
@@ -44,7 +45,8 @@ export default {
             stories: [],
             allStories: [],
             error: null,
-            isLoadingPage: false
+            isLoadingPage: false,
+            filteredResults: false
         }
     },
     mounted() {
@@ -53,10 +55,12 @@ export default {
         Event.$on('searching', search => {
             if(search.query == '' && search.tags.length <= 0) {
                 this.stories = this.allStories
+                this.filteredResults = false
                 Event.$emit('finishedSearch')
                 return
             }
 
+            this.filteredResults = true
             let i = 0
             this.stories = []
             let tagIds = search.tags.map(tag => {
@@ -110,3 +114,15 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.help-text {
+    padding: 20px 0px 5px 50px;
+}
+
+@media (max-width: 768px) {
+    .help-text {
+        padding: 20px 0px 5px 25px;
+    }
+}
+</style>
