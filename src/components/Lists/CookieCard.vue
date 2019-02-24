@@ -9,7 +9,7 @@
             </div>
             <div class="col-9">
                 <LineBreakText v-if="cookie.message" :text="cookie.message" />
-                <router-link :to="storyLink" class="beta-title text-right beta-link">
+                <router-link v-if="storyLink" :to="storyLink" class="beta-title text-right beta-link">
                     Revisit their story...
                 </router-link>
             </div>
@@ -30,7 +30,10 @@ export default {
     },
     computed: {
         storyLink() {
-            return '/story/' + this.cookie.story_id
+            if (this.cookie.story_id) {
+                return `/story/${this.cookie.story_id}`
+            }
+            return null
         }
     }
 }
