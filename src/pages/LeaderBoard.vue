@@ -16,11 +16,16 @@
             <div class="lds-ripple"><div></div><div></div></div>
         </center>
     </div>
-    <div v-else-if="firstUser || leaderboard.length > 0">
+    <div v-else-if="leaderboard.length > 0">
         <div class="card text-left leaderboard-card">
             <ul class="list-group list-group-flush leaderboard-list-group">
-                <UserRow :user="firstUser" tag="winning" icon="crown" :index="1" />
-                <UserRow v-for="(user, index) in leaderboard" :user="user" :index="index + 2" :key="index" />
+                <UserRow 
+                    v-for="(user, index) in leaderboard"
+                    :user="user"
+                    :tag="user.tag"
+                    :icon="user.icon"
+                    :index="index + 1"
+                    :key="index" />
             </ul>
         </div>
     </div>
@@ -48,7 +53,6 @@ export default {
     data() {
         return {
             leaderboard: [],
-            firstUser: null,
             error: null,
             isLoadingPage: false
         }
@@ -65,7 +69,8 @@ export default {
                 .then(response => {
                     this.leaderboard = response.data
                     if (this.leaderboard.length > 0) {
-                        this.firstUser = this.leaderboard.shift()
+                        this.leaderboard[0].tag = 'badge-warning'
+                        this.leaderboard[0].icon = 'crown'
                     }
                 }).catch(error => {
                     this.error = error;
