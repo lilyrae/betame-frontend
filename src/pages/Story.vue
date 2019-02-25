@@ -1,6 +1,5 @@
 <template>
   <Jumbotron class="text-left">
-    <ErrorAlert :error="error" />
     <div slot="title">
         <span v-if="isLoadingPage">
             <center>..Loading..</center>
@@ -29,6 +28,7 @@
         </div>
     </div>
     <br>
+    <ErrorAlert :error="error" />
     <Comments
         :story="story"
         @refresh="getStory"
