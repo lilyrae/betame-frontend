@@ -74,6 +74,12 @@ body {
     background-color: #bfdde2!important;
 }
 
+@media (min-width: 768px) {
+    .panel {
+        min-height: 93.5vh;
+    }
+}
+
 .user-panel {
     margin: 20px;
     margin-top: 40px;
