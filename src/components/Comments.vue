@@ -10,7 +10,7 @@
             </div>
         </div>
         <hr>
-        <div v-for="commentThread in story.comments" :key="commentThread.id">
+        <div v-for="commentThread in story.comments" :key="commentThread.comment.comment_id">
             <CommentThread :commentThread="commentThread" :myStory="myStory" :karmaUsers="karmaUsers"/>
             <br />
         </div>
@@ -38,7 +38,7 @@ export default {
     },
     computed: {
         username() {
-            return localStorage.getItem('bm_username');
+            return auth.username();
         },
         loggedIn() {
             return auth.isLoggedIn()
@@ -53,7 +53,7 @@ export default {
             })
         },
         myStory() {
-            return this.story.user.user_id == localStorage.getItem('bm_user_id')
+            return this.story.user.user_id == auth.userId()
         }
     },
     created() {
