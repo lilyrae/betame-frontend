@@ -33,6 +33,7 @@ import LoadingRipple from '../../components/LoadingRipple.vue'
 import StoryItem from '../../components/Lists/StoryItem.vue'
 import DeleteStoryModal from '../../components/Modals/DeleteStoryModal.vue'
 import story from '../../services/story.js'
+import auth from '../../services/auth.js'
 import { EventBus } from '../../event-bus.js'
 
 export default {
@@ -55,7 +56,7 @@ export default {
         }
     },
     created() {
-        this.user_id = localStorage.getItem('bm_user_id')
+        this.user_id = auth.userId()
         this.getStories()
     },
     methods: {
