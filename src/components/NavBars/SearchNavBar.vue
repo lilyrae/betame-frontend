@@ -22,7 +22,7 @@
         </nav>
         <div class="bg-light">
                 <p class="text-left font18 search-tags">
-                    <TagList @clickedTag="removeTag" :tags="searchTags"/>
+                    <TagList @clickedTag="removeTag" :tags="searchTags" :deletable="true" />
                 </p>
         </div>
     </div>
