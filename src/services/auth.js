@@ -49,5 +49,11 @@ export default {
             auth: {username, password: oldPassword},
             data: qs.stringify({newPassword})
         });
+    },
+    userId() {
+        return localStorage.getItem('bm_user_id');
+    },
+    username() {
+        return localStorage.getItem('bm_username');
     }
 }

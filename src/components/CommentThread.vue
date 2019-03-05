@@ -119,7 +119,7 @@ export default {
             }
         },
         myComment() {
-            return this.commentThread.user.user_id == localStorage.getItem('bm_user_id')
+            return this.commentThread.user.user_id == auth.userId()
         },
         hasCookie() {
             return this.karmaUsers && this.karmaUsers.includes(this.commentThread.user.user_id)

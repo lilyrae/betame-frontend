@@ -28,6 +28,7 @@
 
 <script>
 import Wide from '../layouts/Wide.vue'
+import auth from '../services/auth.js'
 import user from '../services/user.js'
 
 export default {
@@ -44,7 +45,7 @@ export default {
         }
     },
     created() {
-        this.userId = localStorage.getItem('bm_user_id')
+        this.userId = auth.userId()
 
         user.get(this.userId)
             .then(response => {
