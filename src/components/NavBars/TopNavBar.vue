@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top background-black">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top background-black betame-topnavbar">
         <router-link class="navbar-brand beta-title" to="/">Beta me.</router-link>
 
         <button class="navbar-toggler" type="button" @click="toggleNavDropdown">
@@ -70,3 +70,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.betame-topnavbar {
+    min-height: 6.5vh;
+}
+</style>
