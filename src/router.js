@@ -14,6 +14,8 @@ import Me from './pages/Account/Me.vue'
 import ChangePassword from './pages/Account/ChangePassword.vue'
 import MyCookies from './pages/Account/MyCookies.vue'
 
+import AdminUsers from './pages/Admin/Users.vue'
+
 const routes = [
     { 
         path: '/',
@@ -94,6 +96,14 @@ const routes = [
         }
     },
     {
+        path: '/admin/users',
+        component: AdminUsers,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true
+        }
+    },
+    {
         path: '/404',
         component: NotFound,
         meta: {
@@ -121,12 +131,19 @@ router.beforeEach((to, from, next) => {
                 path: '/login',
                 query: { redirect: to.fullPath }
             })
-        } else {
-            next()
         }
-    } else {
-        next()
     }
+
+    if (to.matched.some(record => record.meta.requiresAdmin)) {
+        if (auth.userId() != 1) {
+            next({
+                path: '/404',
+                query: { redirect: to.fullPath }
+            })
+        }
+    }
+
+    next()
   
 })
 
