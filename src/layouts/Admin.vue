@@ -41,7 +41,7 @@ body {
 }
 
 .panel {
-    background-color: #bfdde2!important;
+    background-color: #7fd282!important;
 }
 
 @media (min-width: 768px) {

@@ -25,7 +25,7 @@ import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
 import UserRow from '../../components/Lists/AdminUserRow.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
-import user from '../../services/user.js'
+import admin from '../../services/admin.js'
 
 export default {
     name: 'Users',
@@ -51,7 +51,7 @@ export default {
             this.error = null;
             this.isLoadingPage = true;
 
-            user.all()
+            admin.users()
                 .then(response => {
                     this.users = response.data
                 }).catch(error => {
