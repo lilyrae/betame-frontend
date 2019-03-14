@@ -2,6 +2,7 @@
     <Default>
         <JumbotronComponent>
             <span slot="title"><slot name="title"></slot></span>
+            <span slot="subtitle"><slot name="subtitle"></slot></span>
             <slot></slot>
         </JumbotronComponent>
     </Default>
