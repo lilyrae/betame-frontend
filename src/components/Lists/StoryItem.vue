@@ -2,7 +2,7 @@
     <li class="list-group-item beta-text">
         <div class="row">
         <div class="bullet-point-col">
-            <font-awesome-icon icon="pen-nib" class="betame-red font14"/>
+            <font-awesome-icon @click="minimise = !minimise" icon="pen-nib" class="betame-red font14 clickable"/>
         </div>
         <div class="content-col">
             <h4 class="hide-overflow row story-title">
@@ -10,9 +10,9 @@
                     <router-link class="beta-title beta-link" :to="storyUrl">{{ story.title }}</router-link>
                     &nbsp;<span class="font18 grey">by {{ story.user.username }}</span>
                 </span>
-                <span class="beta-title font14 col-md-3">{{ story.created_at | formatDate }}</span>
+                <span v-show="!minimise" class="beta-title font14 col-md-3">{{ story.created_at | formatDate }}</span>
             </h4>
-            <div class="font18">
+            <div class="font18" v-show="!minimise">
                 <p class="hide-overflow">{{ story.notes }}</p>
                 <p class="small-bottom-margin">
                     <TagList @clickedTag="searchTag" :tags="story.tags"/>
@@ -37,6 +37,11 @@ export default {
     name: 'StoryItem',
     components: {
         TagList
+    },
+    data() {
+        return {
+            minimise: false
+        }
     },
     props: {
         story: {}
@@ -85,5 +90,9 @@ export default {
 
 .stats {
     font-size: 18px;
+}
+
+.clickable {
+    cursor: pointer;
 }
 </style>
