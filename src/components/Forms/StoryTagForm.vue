@@ -36,10 +36,7 @@
                 </div>
             </div>
             <br>
-            <center>
-                <button type="submit" class="btn btn-lg betame-dark-button">Add</button>&nbsp;
-                <button type="button" @click="skipAddingTags" class="btn btn-lg betame-dark-button">Skip</button>
-            </center>
+            <slot></slot>
         </form>
     </div>
 </template>
@@ -102,9 +99,6 @@ export default {
                 && this.language == null
                 && this.newTags[this.topicId].length == 0
                 && this.newTags[this.topicId].length == 0
-        },
-        skipAddingTags () {
-            Event.$emit('addedTagsToStory');
         }
     },
     created() {

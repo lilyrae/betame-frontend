@@ -21,7 +21,12 @@
         </div>
         <div v-else-if="createdStory">
             <br>
-            <StoryTagForm :storyId="storyId"></StoryTagForm>
+            <StoryTagForm :storyId="storyId" ref="storyTagForm">
+                <center>
+                    <button type="button" @click="addTags" class="btn btn-lg betame-dark-button">Add</button>&nbsp;
+                    <button type="button" @click="finishedAddingTags" class="btn btn-lg betame-dark-button">Skip</button>
+                </center>
+            </StoryTagForm>
         </div>
         <div v-else>
             <br>
@@ -60,16 +65,17 @@ export default {
             this.story = story;
         })
         Event.$on('addedTagsToStory', () => {
-            this.createdEverything = true;
+            this.finishedAddingTags();
         })
+    },
+    methods: {
+        finishedAddingTags() {
+            this.createdEverything = true;
+        },
+        addTags() {
+            this.$refs.storyTagForm.addTags();
+        }
     }
 }
 </script>
 
-<style scoped>
-@media screen and (max-device-width : 480px){
-    .celebration-image {
-        width: 200px;
-    }
-}
-</style>
