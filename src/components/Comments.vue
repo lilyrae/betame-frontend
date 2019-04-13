@@ -9,7 +9,7 @@
                 </form>
             </div>
         </div>
-        <hr>
+        <br>
         <div v-for="commentThread in story.comments" :key="commentThread.comment.comment_id">
             <CommentThread :commentThread="commentThread" :myStory="myStory" :karmaUsers="karmaUsers"/>
             <br />

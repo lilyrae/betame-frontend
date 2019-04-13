@@ -7,7 +7,7 @@
             <div class="content-col">
                 <h4 class="hide-overflow row story-title">
                     <span class="col">
-                        <router-link class="beta-title beta-link" :to="storyUrl">{{ story.title }}</router-link>
+                        <a class="beta-title beta-link" @click="selectStory">{{ story.title }}</a>
                         &nbsp;<span class="font18 grey">by {{ story.user.username }}</span>
                     </span>
                     <span v-show="!minimise" class="beta-title font14 col-md-3">{{ story.created_at | formatDate }}</span>
@@ -46,14 +46,13 @@ export default {
     props: {
         story: {}
     },
-    computed: {
-        storyUrl() {
-            return "/story/" + this.story.story_id;
-        }
-    },
     methods: {
         searchTag({tag}) {
             EventBus.$emit('searchTag', {tag})
+        },
+        selectStory() {
+            this.$store.commit('story', this.story)
+            this.$router.push(`/story/${this.story.story_id}`)
         }
     }
 }

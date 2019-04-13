@@ -27,8 +27,9 @@
             <p><i>{{ story.word_count }} words</i></p>
         </div>
     </div>
-    <br>
-    <ErrorAlert :error="error" />
+    <hr>
+    <ErrorAlert :error="errorMessage" />
+    <LoadingRipple v-if="isLoadingComments" />
     <Comments
         :story="story"
         @refresh="getStory"
@@ -48,8 +49,9 @@ import Jumbotron from '../layouts/Jumbotron.vue'
 import TagList from '../components/Lists/TagList.vue'
 import Comments from '../components/Comments.vue'
 import CookieModal from '../components/Modals/CookieModal.vue'
+import LoadingRipple from '../components/LoadingRipple.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
-import story from '../services/story.js'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Story',
@@ -58,6 +60,7 @@ export default {
         TagList,
         Comments,
         CookieModal,
+        LoadingRipple,
         ErrorAlert
     },
     props: {
@@ -65,12 +68,9 @@ export default {
     },
     data() {
         return {
-            story: {
-                user: {},
-                comments: []
-            },
             isLoadingPage: false,
-            error: null
+            isLoadingComments: false,
+            errorMessage: null
         };
     },
     created() {
@@ -81,23 +81,35 @@ export default {
             this.$matomo.trackPageView(this.story.url)
         },
         getStory() {
-            this.isLoadingPage = true;
-            story.byId(this.id)
-                .then((response) => {
-                    this.story = response.data;
-                    document.title = this.story.title + ' - Beta me.';
-                }).catch(() => {
-                    this.$router.push('/404')
-                }).finally(() => {
-                    this.isLoadingPage = false;
-                })
+            this.$store.dispatch('fetchStory', this.id)
         },
         startLoading() {
-            this.isLoadingPage = true
+            this.isLoadingComments = true
         },
         setCommentsError({error}) {
-            this.isLoadingPage = false
-            this.error = error
+            this.isLoadingComments = false
+            this.errorMessage = error
+        }
+    },
+    computed: {
+        ...mapGetters([
+            'error',
+            'isLoading',
+            'story'
+        ])
+    },
+    watch: {
+        isLoading(val) {
+            if (this.story.story_id == this.id) {
+                this.isLoadingPage = false
+                this.isLoadingComments = val
+            } else {
+                this.isLoadingPage = val
+                this.isLoadingComments = false
+            }
+        },
+        error(val) {
+            this.errorMessage = val
         }
     }
 }

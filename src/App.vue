@@ -234,7 +234,10 @@ export default {
     color: #fff;
 }
 
-.beta-link { color: inherit; }
+.beta-link { 
+  color: inherit;
+  cursor: pointer;
+}
 
 .beta-link:hover {
   color: #3e828e;

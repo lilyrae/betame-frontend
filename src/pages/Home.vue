@@ -1,17 +1,17 @@
 <template>
   <Default>
+    <div class="banner jumbotron">
+        <h1>BetaMe is a place for sharing your writing & giving and receiving feedback.</h1>
+        <h3>The community welcomes all writers, from fan fiction to blog writing!</h3>
+    </div>
     <SearchNavBar/>
     <ErrorAlert :error="error"/>
-    <div v-if="isLoadingPage">
-        <center class="loading-screen">
-            <div class="lds-ripple"><div></div><div></div></div>
-            <div class="lds-ripple"><div></div><div></div></div>
-            <div class="lds-ripple"><div></div><div></div></div>
-        </center>
+    <div v-if="isLoading">
+        <LoadingRipple />
     </div>
     <div v-else-if="stories.length > 0">
         <!-- list of stories -->
-        <p v-if="filteredResults" class="text-left help-text text-muted">Search results..</p>
+        <p v-if="isFiltered" class="text-left help-text text-muted">Search results..</p>
         <ul class="list-group list-group-flush">
         <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
         </ul>
@@ -29,7 +29,8 @@ import SearchNavBar from '../components/NavBars/SearchNavBar.vue'
 import BottomNavBar from '../components/NavBars/BottomNavBar.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 import StoryItem from '../components/Lists/StoryItem.vue'
-import story from '../services/story.js'
+import LoadingRipple from '../components/LoadingRipple.vue'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Home',
@@ -37,30 +38,31 @@ export default {
         Default,
         SearchNavBar,
         BottomNavBar,
+        LoadingRipple,
         ErrorAlert,
         StoryItem
     },
     data() {
         return {
             stories: [],
-            allStories: [],
-            error: null,
-            isLoadingPage: false,
-            filteredResults: false
+            isFiltered: false
         }
     },
     mounted() {
-        this.getStories();
+        this.stories = this.allStories
+        this.$store.cache.dispatch('fetchStories')
 
         Event.$on('searching', search => {
             if(search.query == '' && search.tags.length <= 0) {
                 this.stories = this.allStories
-                this.filteredResults = false
+                this.isFiltered = false
                 Event.$emit('finishedSearch')
                 return
             }
 
-            this.filteredResults = true
+            this.stories = this.allStories
+
+            this.isFiltered = true
             let i = 0
             this.stories = []
             let tagIds = search.tags.map(tag => {
@@ -77,20 +79,6 @@ export default {
         });
     },
     methods: {
-        getStories() {
-            this.error = null;
-            this.isLoadingPage = true;
-            
-            story.all()
-                .then(response => {
-                    this.stories = response.data;
-                    this.allStories = response.data;
-                }).catch(error => {
-                    this.error = error || 'Failed to retrieve stories.'
-                }).finally(() => {
-                    this.isLoadingPage = false;
-                });
-        },
         storyMatchesSearch(story, title, tagIds) {
             if (story.tags) {
                 let storyTagIds = story.tags.map(tag => {
@@ -111,6 +99,18 @@ export default {
             // check if story title matches
             return story.title.toLowerCase().includes(title.toLowerCase())
         }
+    },
+    computed: {
+        ...mapGetters([
+            'error',
+            'isLoading',
+            'allStories'
+        ])
+    },
+    watch: {
+        allStories(val) {
+            this.stories = val // update story list once loaded
+        }
     }
 }
 </script>
@@ -125,4 +125,19 @@ export default {
         padding: 20px 0px 5px 25px;
     }
 }
+
+.banner {
+    background-color: #bfdde2;
+    font-family: 'Just Another Hand', cursive;
+    padding: 2rem 1rem;
+    letter-spacing: 1px;
+}
+
+@media (min-width: 768px) {
+    .banner {
+        padding: 2rem 2rem;
+    }
+}
+
+
 </style>
