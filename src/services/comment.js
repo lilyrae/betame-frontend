@@ -7,6 +7,9 @@ export default {
         return api.post(commentUrl, {story_id, parent_id, text});
     },
     edit(id, text) {
-        return api.post(commentUrl + "/edit/" + id, {text});
+        return api.post(`${commentUrl}/edit/${id}`, {text});
+    },
+    delete(id) {
+        return api.get(`${commentUrl}/delete/${id}`);
     }
 }

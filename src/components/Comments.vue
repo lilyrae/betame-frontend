@@ -64,6 +64,10 @@ export default {
         EventBus.$on('editComment', ({commentId, text}) => {
             this.editComment(commentId, text)
         })
+
+        EventBus.$on('deleteComment', ({commentId}) => {
+            this.deleteComment(commentId)
+        })
     },
     methods: {
         createComment(text, parentId) {
@@ -87,6 +91,16 @@ export default {
                     this.$emit('refresh')
                 }).catch((errorResponse) => {
                     let error = errorResponse || 'Failed to edit comment'
+                    this.$emit('commentsError', {error})
+                })
+        },
+        deleteComment(commentId) {
+            this.$emit('startLoading')
+            commentApi.delete(commentId)
+                .then(() => {
+                    this.$emit('refresh')
+                }).catch((errorResponse) => {
+                    let error = errorResponse || 'Failed to delete comment'
                     this.$emit('commentsError', {error})
                 })
         }
