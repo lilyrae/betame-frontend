@@ -39,8 +39,9 @@ const routes = [
         }
     },
     {
-        path: '/abc123',
+        path: '/invite/:token',
         component: Signup,
+        props: true,
         meta: {
             requiresAuth: false
         }

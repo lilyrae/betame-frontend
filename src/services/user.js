@@ -8,5 +8,8 @@ export default {
     },
     get(userId) {
         return api.get(`${userUrl}/${userId}`)
-    }
+    },
+    isValidInvite(code) {
+        return api.get(`${process.env.VUE_APP_API}/invite/valid/${code}`)
+    },
 }

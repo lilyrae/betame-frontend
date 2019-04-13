@@ -2,13 +2,14 @@
     <li class="list-group-item">
         <div class="row">
             <div class="col-8">
-                <h5>{{ user.username }}</h5>
+                <h5>{{ user.username || user.token }}</h5>
+                <h6>{{ user.email }}</h6>
             </div>
             <div class="col-4">
                 {{ user.created_at | formatDate }}
             </div>
         </div>
-        <div class="row">
+        <div class="row" v-if="user.username">
             <div class="col-sm-8 col-5">
                 <span><font-awesome-icon class="purple" icon="comments" />&nbsp;{{ user.comment_count }}&nbsp;</span>
                 <span><font-awesome-icon class="golden" icon="cookie" />&nbsp;{{ user.karma_count }}</span>

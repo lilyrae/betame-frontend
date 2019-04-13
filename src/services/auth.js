@@ -2,14 +2,14 @@ import axios from 'axios';
 var qs = require('qs');
 
 export default {
-    signup(username, email, password) {
+    signup(username, email, password, token) {
         return axios({
             method: 'post',
             url: process.env.VUE_APP_API + "/register",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            data: qs.stringify({username, email, password})
+            data: qs.stringify({username, email, password, token})
         });
     },
     login(username, password) {

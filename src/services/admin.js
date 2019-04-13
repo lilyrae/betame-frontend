@@ -12,5 +12,8 @@ export default {
     },
     unbanUser(userId) {
         return api.get(`${adminUrl}${userUrl}/unban/${userId}`)
+    },
+    generateToken() {
+        return api.get(`${adminUrl}${userUrl}/token`)
     }
 }
