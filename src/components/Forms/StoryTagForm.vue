@@ -3,8 +3,8 @@
         <ErrorAlert :error="error" />
         <form class="text-left" v-on:submit.prevent="addTags">
             <div class="form-group row">
-                <label for="language" class="col-sm-2 col-form-label">Language</label>
-                <div class="col-sm-9">
+                <label for="language" class="col-md-2 col-form-label">Language</label>
+                <div class="col-md-9">
                 <v-select 
                     id="language-select"
                     v-model="language"
@@ -18,20 +18,20 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="topics" class="col-sm-2 col-form-label">Fandom / Topic</label>
-                <div class="col-sm-9">
+                <label for="topics" class="col-md-2 col-form-label">Fandom / Topic</label>
+                <div class="col-md-9">
                 <TagBox id="topic-select" :tagTypeId="topicId"></TagBox>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="tags" class="col-sm-2 col-form-label">Help Tags</label>
-                <div class="col-sm-9">
+                <label for="tags" class="col-md-2 col-form-label">Help Tags</label>
+                <div class="col-md-9">
                 <TagBox id="tag-select" :tagTypeId="helpId"></TagBox>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="tags" class="col-sm-2 col-form-label">Tags</label>
-                <div class="col-sm-9">
+                <label for="tags" class="col-md-2 col-form-label">Tags</label>
+                <div class="col-md-9">
                 <TaggableTagBox id="tag-select" :tagTypeId="customId"></TaggableTagBox>
                 </div>
             </div>

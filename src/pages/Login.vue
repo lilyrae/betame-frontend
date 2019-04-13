@@ -4,14 +4,14 @@
     <div class="offset-sm-2 col-sm-8">
         <form class="beta-text" v-on:submit.prevent="login">
             <div class="form-group row">
-                <label for="email" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-9">
+                <label for="email" class="col-md-2 col-form-label">Email</label>
+                <div class="col-md-9">
                 <input type="email" v-model="email" class="form-control" required>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="password" class="col-sm-2 col-form-label">Password</label>
-                <div class="col-sm-9">
+                <label for="password" class="col-md-2 col-form-label">Password</label>
+                <div class="col-md-9">
                 <input type="password" v-model="password" class="form-control" required/>
                 </div>
             </div>

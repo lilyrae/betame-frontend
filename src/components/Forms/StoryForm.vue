@@ -3,23 +3,23 @@
         <ErrorAlert :error="error"/>
         <form v-on:submit.prevent="createStory">
             <div class="form-group row">
-                <label for="title" class="col-sm-2 col-form-label">Title</label>
-                <div class="col-sm-8">
+                <label for="title" class="col-md-2 col-form-label">Title</label>
+                <div class="col-md-8">
                 <input v-model="title" type="text" class="form-control" placeholder="Title" required maxlength="100">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="intent" class="col-sm-2 col-form-label">Notes</label>
-                <div class="col-sm-8">
+                <label for="intent" class="col-md-2 col-form-label">Notes</label>
+                <div class="col-md-8">
                 <textarea v-model="notes" type="text" class="form-control beta-textarea" placeholder="I want to improve my ..." required maxlength="1000"></textarea>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="intent" class="col-sm-2 col-form-label">Word Count</label>
-                <div class="col-sm-8">
+                <label for="intent" class="col-md-2 col-form-label">Word Count</label>
+                <div class="col-md-8">
                     <input v-model="word_count" type="number" class="form-control" placeholder="2000" min="1" max="50000" required maxlength="5">
                 </div>
-                <div class="col-sm-1">
+                <div class="col-md-1">
                     <div class="betame-tooltip"><font-awesome-icon icon="info-circle" class="font18" />
                         <span class="betame-tooltiptext">
                             Inside your Google Doc, click <strong class="text-info">Tools</strong>, then click <strong class="text-info">Word Count</strong>.
@@ -28,8 +28,8 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="url" class="col-sm-2 col-form-label">Google Doc Link</label>
-                <div class="col-sm-8">
+                <label for="url" class="col-md-2 col-form-label">Google Doc Link</label>
+                <div class="col-md-8">
                     <input v-model="url" type="url" @keyup="checkGoogleLink" class="form-control" :class="{'is-invalid' : invalidGoogleLink}" aria-describedby="urlHelpBlock" placeholder="https://docs.google.com/document/d/1dtISZ-L0GSyAtqce_fraDIg2ER0EuRxVIoFXfxPXDx8/edit?usp=sharing" required>
                     <div v-show="invalidGoogleLink" class="invalid-feedback text-left">
                         <span v-if="invalidGoogleDoc">
@@ -40,7 +40,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-sm-1">
+                <div class="col-md-1">
                     <div class="betame-tooltip"><font-awesome-icon icon="info-circle" class="font18" />
                         <span class="betame-tooltiptext">
                             Inside your Google doc, click <strong class="text-info">SHARE</strong> in the top right corner, then click <strong class="text-info">Get shareable link</strong>. Select the permission <strong class="text-info">Anyone with the link can comment</strong> and copy the link here.
