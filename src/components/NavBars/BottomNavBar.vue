@@ -1,16 +1,19 @@
 <template>
-    <div>
-        <nav class="navbar navbar-light bg-light big-margin beta-innerbar">
-            <button class="btn btn-outline-info" type="button" disabled>Previous</button>
-            <span class="navbar-text">
-                <button class="btn btn-outline-info" type="button" disabled>Next</button>
-            </span>
-        </nav>
-    </div>
+    <BaseNavBar class="big-margin">
+        <button class="btn btn-outline-info" type="button" disabled>Previous</button>
+        <span class="navbar-text">
+            <button class="btn btn-outline-info" type="button" disabled>Next</button>
+        </span>
+    </BaseNavBar>
 </template>
 
 <script>
+import BaseNavBar from './BaseNavBar'
+
 export default {
-    name: 'BottomNavBar'
+    name: 'BottomNavBar',
+    components: {
+        BaseNavBar
+    }
 }
 </script>
