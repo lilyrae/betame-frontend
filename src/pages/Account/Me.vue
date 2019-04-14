@@ -1,5 +1,6 @@
 <template>
     <Account>
+        <br>
         <SearchNavBar/>
         <ErrorAlert :error="error"/>
         <!-- list of my stories -->

@@ -1,9 +1,5 @@
 <template>
   <Default>
-    <div class="banner jumbotron">
-        <h1>BetaMe is a place for sharing your writing & giving and receiving feedback.</h1>
-        <h3>The community welcomes all writers, from fan fiction to blog writing!</h3>
-    </div>
     <SearchNavBar/>
     <ErrorAlert :error="error"/>
     <div v-if="isLoading">
@@ -138,6 +134,5 @@ export default {
         padding: 2rem 2rem;
     }
 }
-
 
 </style>

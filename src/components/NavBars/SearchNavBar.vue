@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-light bg-light big-margin search-navbar beta-innerbar">
+        <nav class="navbar navbar-light bg-light search-navbar beta-innerbar">
             <!-- Temporary Frontend Search  -->
             <form class="form-inline col-lg-8 col-md-12" v-on:submit.prevent="search">
                 <div class="col-md-10 no-sm-padding">
