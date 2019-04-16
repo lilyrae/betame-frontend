@@ -4,16 +4,16 @@
             <div class="col-md-3 panel">
                 <div class="user-panel text-left hide-overflow">
                     <h3 class="beta-title account-title">
-                        <font-awesome-icon icon="user-astronaut" />&nbsp;{{ username }}
+                        <font-awesome-icon icon="user-astronaut" />&nbsp;{{ user.username }}
                     </h3>
                     <hr class="title-hr">
                     <h5 class="beta-title">
                         <router-link to="/me" class="beta-link link number-link">
-                            <font-awesome-icon class="font14" icon="book-open" />&nbsp;{{ storyCount }}
+                            <font-awesome-icon class="font14" icon="book-open" />&nbsp;{{ user.story_count }}
                         </router-link>
                         <router-link to="/me/cookies" class="beta-link link number-link">
-                            <font-awesome-icon class="golden font14" icon="cookie" />&nbsp;{{ cookieCount }}
-                        </router-link>
+                             <font-awesome-icon class="golden font14" icon="cookie" />&nbsp;{{ user.karma_count }}
+                        </router-link> 
                     </h5>
                     <hr class="title-hr">
                     <router-link class="btn betame-light-button beta-link link" to="/me/password">Change Password</router-link>
@@ -28,33 +28,18 @@
 
 <script>
 import Wide from '../layouts/Wide.vue'
-import auth from '../services/auth.js'
-import user from '../services/user.js'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Account',
     components: {
         Wide
     },
-    data() {
-        return {
-            username: '',
-            userId: null,
-            cookieCount: null,
-            storyCount: null
-        }
-    },
     created() {
-        this.userId = auth.userId()
-
-        user.get(this.userId)
-            .then(response => {
-                if (response.data) {
-                    this.username = response.data.username
-                    this.cookieCount = response.data.karma_count
-                    this.storyCount = response.data.story_count
-                }
-            })
+        this.$store.cache.dispatch('fetchUser')
+    },
+    computed: {
+        ...mapGetters(['user'])
     }
 }
 </script>
