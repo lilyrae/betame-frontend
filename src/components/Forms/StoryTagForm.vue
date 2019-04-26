@@ -3,36 +3,27 @@
         <ErrorAlert :error="error" />
         <form class="text-left" v-on:submit.prevent="addTags">
             <div class="form-group row">
-                <label for="language" class="col-md-2 col-form-label">Language</label>
-                <div class="col-md-9">
-                <v-select 
-                    id="language-select"
-                    v-model="language"
-                    :options="languageOptions"
-                    label="text"
-                    >
-                    <template slot="no-options">
-                        Loading languages..
-                    </template>
-                </v-select>
+                <label for="languages" class="col-md-2 col-form-label">Language</label>
+                <div :class="colSize">
+                <TagBox id="language-select" :storyId="storyId" :tags="languageTags" :options="languageOptions" :tagTypeId="languageId"></TagBox>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="topics" class="col-md-2 col-form-label">Fandom / Topic</label>
-                <div class="col-md-9">
-                <TagBox id="topic-select" :tagTypeId="topicId"></TagBox>
+                <div :class="colSize">
+                <TagBox id="topic-select" :storyId="storyId" :tags="topicTags" :options="topicOptions" :tagTypeId="topicId"></TagBox>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="tags" class="col-md-2 col-form-label">Help Tags</label>
-                <div class="col-md-9">
-                <TagBox id="tag-select" :tagTypeId="helpId"></TagBox>
+                <div :class="colSize">
+                <TagBox id="tag-select" :storyId="storyId" :tags="helpTags" :options="helpOptions" :tagTypeId="helpId"></TagBox>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="tags" class="col-md-2 col-form-label">Tags</label>
-                <div class="col-md-9">
-                <TaggableTagBox id="tag-select" :tagTypeId="customId"></TaggableTagBox>
+                <div :class="colSize">
+                <TaggableTagBox id="tag-select" :storyId="storyId" :tags="customTags" :tagTypeId="customId"></TaggableTagBox>
                 </div>
             </div>
             <br>
@@ -46,6 +37,7 @@ import ErrorAlert from '../ErrorAlert.vue'
 import TagBox from './TagBox.vue'
 import TaggableTagBox from './TaggableTagBox.vue'
 import tag from '../../services/tag.js'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'StoryTagForm',
@@ -56,77 +48,41 @@ export default {
     },
     data() {
         return {
-            customId: null,
-            topicId: null,
-            helpId: null,
-            language: null,
-            languageOptions: [],
-            tags: [],
-            newTags: [],
+            topicId: tag.topicTagTypeId(),
+            customId: tag.customTagTypeId(),
+            helpId: tag.helpTagTypeId(),
+            languageId: tag.languageTagTypeId(),
+            watchOnce: true,
             error: ''
         }
     },
     props: {
-        storyId: null
+        storyId: String,
+        colSize: {
+            default: 'col-md-9'
+        }
     },
     methods: {
         addTags() {
-            if(this.noTagsSelected()) {
-                this.error = 'No tags have been selected.';
-                return;
-            }
-
-            let tags = [];
-
-            if(this.language != null) {
-                tags.push(this.language.tag_id)
-            }
-
-            tags = tags.concat(this.tags[this.topicId])
-            tags = tags.concat(this.tags[this.helpId]);
-            tags = tags.concat(this.tags[this.customId]);
-
-            tag.addToStory(this.storyId, tags, this.newTags[this.customId])
-                .then(() => {
-                    Event.$emit('addedTagsToStory');
-                }).catch(error => {
-                    this.error = error || 'Failed to add tags to the story';
-                })
-        },
-        noTagsSelected() {
-            return this.tags[this.topicId].length == 0
-                && this.tags[this.customId].length == 0
-                && this.language == null
-                && this.newTags[this.topicId].length == 0
-                && this.newTags[this.topicId].length == 0
+            // TODO: disable button until isLoading is done
+            Event.$emit('addedTagsToStory');
         }
     },
     created() {
-        this.topicId = tag.topicTagTypeId();
-        this.customId = tag.customTagTypeId();
-        this.helpId = tag.helpTagTypeId();
-
-        // initialise new tags to empty array
-        this.newTags[this.customId] = []
-        this.tags[this.topicId] = []
-        this.tags[this.customId] = []
-        this.tags[this.helpId] = []
-
-        Event.$on('updatedTags', ({tags, newTags, tagTypeId}) => {
-            this.tags[tagTypeId] = tags;
-            this.newTags[tagTypeId] = newTags;
-        });
-
-        Event.$on('tagsError', ({error}) => {
-            this.error = error
-        });
-
-        tag.search(tag.languageTagTypeId())
-            .then(response => {
-                this.languageOptions = response.data;
-            }).catch(error => {
-                this.error = error || 'Failed to get language list'
-            })
+        this.$store.cache.dispatch('fetchTagOptions', {tagTypeId: this.languageId})
+        this.$store.cache.dispatch('fetchTagOptions', {tagTypeId: this.topicId})
+        this.$store.cache.dispatch('fetchTagOptions', {tagTypeId: this.helpId})
+    },
+    computed: {
+        ...mapGetters([
+            'languageTags',
+            'topicTags',
+            'helpTags',
+            'customTags',
+            'languageOptions',
+            'topicOptions',
+            'helpOptions'
+        ]),
     }
 }
 </script>

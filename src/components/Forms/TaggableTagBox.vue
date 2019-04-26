@@ -21,27 +21,19 @@ import debounce from 'debounce'
 export default {
     name: 'TaggableTagBox',
     props: {
-        tagTypeId: null,
-        id: null
+        storyId: String,
+        tagTypeId: Number,
+        id: String,
+        tags: Array
     },
     data() {
         return {
             selected: null,
-            options: []
+            options: [],
+            watchOnce: true
         }
     },
     methods: {
-        checkForErrors(tagText) {
-            if (tagText.includes(",")) {  
-                return 'Tags cannot contain commas.';
-            } else if (!tagText) {
-                return 'Tags must contain text.';
-            } else if (tagText.length > 50) {
-                return 'Tags must be less than 50 characters';
-            }
-
-            return false;
-        },
         onSearch(query, loading) {
             loading(true);
             this.search(loading, query, this);
@@ -55,33 +47,17 @@ export default {
         }, 350)
     },
     watch: {
-        selected() {
-            let selected = this.selected;
-
-            let tags = [];
-            let newTags = [];
-
-            for (let index = 0; index < selected.length; index++) {
-                const element = selected[index];
-                
-                if(typeof element === 'string' || element instanceof String) {
-                    let tagText = element.trim();
-                    let error = this.checkForErrors(tagText)
-
-                    if (error) {
-                        Event.$emit('tagsError', {error})
-                        this.selected.splice( this.selected.indexOf(element), 1 )
-                    } else {
-                        newTags.push(tagText);
-                    }  
-                } else {
-                    tags.push(element.tag_id);
-                }
+        tags() {
+            if (this.watchOnce) {
+                this.selected = this.tags.slice(0)
+                this.watchOnce = false
             }
-
-            Event.$emit('updatedTags', {
-                tags,
-                newTags,
+        },
+        selected() {
+            this.$store.dispatch('processSelectedStoryTags', {
+                selectedTags: this.selected,
+                oldTags: this.tags,
+                storyId: this.storyId,
                 tagTypeId: this.tagTypeId
             })
         }

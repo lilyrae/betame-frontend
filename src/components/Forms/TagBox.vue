@@ -7,54 +7,39 @@
         multiple
         >
         <template slot="no-options">
-            Search for Tags..
+            Loading..
         </template>
     </v-select>
 </template>
 
 <script>
-import tag from '../../services/tag.js'
-
 export default {
     name: 'TagBox',
     props: {
-        tagTypeId: null,
-        id: null
+        storyId: String,
+        tagTypeId: Number,
+        id: String,
+        tags: Array,
+        options: Array
     },
     data() {
         return {
             selected: null,
-            options: []
-        }
-    },
-    mounted() {
-        this.getTagList();
-    },
-    methods: {
-        getTagList() {
-            tag.search(this.tagTypeId)
-                .then(response => {
-                    this.options = response.data;
-                }).catch(errorResponse => {
-                    let error = errorResponse || 'Failed to get tags'
-                    Event.$emit('tagsError', {error});
-                })
+            watchOnce: true
         }
     },
     watch: {
-        selected() {
-            let selected = this.selected;
-
-            let tags = [];
-
-            for (let index = 0; index < selected.length; index++) {
-                const element = selected[index];
-                tags.push(element.tag_id);
+        tags() {
+            if (this.watchOnce) {
+                this.selected = this.tags.slice(0)
+                this.watchOnce = false
             }
-
-            Event.$emit('updatedTags', {
-                tags,
-                newTags: [],
+        },
+        selected() {
+            this.$store.dispatch('processSelectedStoryTags', {
+                selectedTags: this.selected,
+                oldTags: this.tags,
+                storyId: this.storyId,
                 tagTypeId: this.tagTypeId
             })
         }

@@ -9,16 +9,14 @@ export default {
     searchWithText(text, tag_type_id) {
         return api.get(tagUrl, {tag_type_id, text});
     },
-    addToStory(story_id, tagIds, customTexts) {
-        // make arrays into strings
-        let tags = tagIds.join(",");
-        let new_tags = customTexts.join(",");
-
-        return api.post("/story" + tagUrl, {
-            story_id,
-            tags, 
-            new_tags 
-        });
+    save(story_id, tag_id) {
+        return api.post(`/story${tagUrl}`, {story_id, tag_id});
+    },
+    create(tag_type_id, text) {
+        return api.post(tagUrl, {text, tag_type_id});
+    },
+    delete(story_id, tag_id) {
+        return api.post(`/story${tagUrl}/delete`, {story_id, tag_id});
     },
     languageTagTypeId() {
         return 1;

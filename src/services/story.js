@@ -7,7 +7,7 @@ export default {
         return api.get(storyUrl);
     },
     byId(id) {
-        return api.get(storyUrl + "/" + id);
+        return api.get(`${storyUrl}/${id}`);
     },
     withUserID(user_id) {
         return api.get(storyUrl, {user_id});
@@ -15,7 +15,10 @@ export default {
     create(title, notes, url, word_count) {
         return api.post(storyUrl, {title, notes, url, word_count});
     },
+    edit(id, notes, word_count) {
+        return api.put(`${storyUrl}/edit/${id}`, {notes, word_count});
+    },
     delete(id) {
-        return api.delete(storyUrl + "/delete/" + id);
+        return api.delete(`${storyUrl}/delete/${id}`);
     }
 }

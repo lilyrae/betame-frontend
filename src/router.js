@@ -1,19 +1,28 @@
 import VueRouter from 'vue-router'
 import auth from './services/auth.js'
+
+// open pages
 import Home from './pages/Home.vue'
-import Login from './pages/Login.vue'
-import Signup from './pages/Signup.vue'
-import BetaSignup from './pages/BetaSignup.vue'
 import About from './pages/About.vue'
-import CreateStory from './pages/CreateStory.vue'
-import Story from './pages/Story.vue'
 import LeaderBoard from './pages/LeaderBoard.vue'
 import NotFound from './pages/NotFound.vue'
 
+// auth pages
+import Login from './pages/Login.vue'
+import Signup from './pages/Signup.vue'
+import BetaSignup from './pages/BetaSignup.vue'
+
+// story pages
+import CreateStory from './pages/CreateStory.vue'
+import Story from './pages/Story.vue'
+
+// account pages
 import Me from './pages/Account/Me.vue'
 import ChangePassword from './pages/Account/ChangePassword.vue'
 import MyCookies from './pages/Account/MyCookies.vue'
+import EditStory from './pages/Account/EditStory.vue'
 
+// admin pages
 import AdminUsers from './pages/Admin/Users.vue'
 
 const routes = [
@@ -79,6 +88,14 @@ const routes = [
         component: CreateStory,
         meta: {
             requiresAuth: true
+        }
+    },
+    {
+        path: '/story/edit/:id',
+        component: EditStory,
+        props: true,
+        meta: {
+            requiresAuth: false
         }
     },
     {

@@ -8,7 +8,7 @@ import { faPenNib, faUserAstronaut, faBookOpen, faInfoCircle, faWindowMinimize, 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueMatomo from 'vue-matomo'
 import router from './router.js'
-import store from './store.js'
+import store from './store/store.js'
 // eslint-disable-next-line
 import filters from './filters.js'
 

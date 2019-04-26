@@ -12,7 +12,7 @@
                 <TitleNavBar title="My Stories" />
                 <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story">
                     <p class="float-right">
-                    <!-- <button class="btn btn-outline-info small-margin">Edit</button> -->
+                    <button class="btn btn-outline-info small-margin btn-sm" @click="redirectToEditPage(story)">Edit</button>
                     <button class="btn btn-dark btn-sm" @click="showDeleteModal(story)">Delete</button>
                     </p>
                 </StoryItem>
@@ -76,6 +76,10 @@ export default {
         },
         showDeleteModal(story) {
             EventBus.$emit('showDeleteStoryModal', {story})
+        },
+        redirectToEditPage(story) {
+            this.$store.commit('story', story)
+            this.$router.push(`/story/edit/${story.story_id}`)
         }
     }
 }
