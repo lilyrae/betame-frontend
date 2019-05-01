@@ -1,6 +1,7 @@
 import story from '../../services/story'
 import auth from '../../services/auth'
 import user from '../../services/user'
+import router from '../../router'
 
 const state = {
     user: {},
@@ -78,11 +79,13 @@ const actions = {
         
         try {
             await story.edit(storyId, notes, wordCount)
+            commit('api/isLoading', false, { root: true })
+            commit('api/success', 'Updated story!', { root: true })
+            router.push('/me')
         } catch (err) {
             commit('api/error', err || 'Failed to update story.', { root: true })
+            commit('api/isLoading', false, { root: true })
         }
-
-        commit('api/isLoading', false, { root: true })
     }
 }
 

@@ -16,7 +16,7 @@ export default {
         return api.post(storyUrl, {title, notes, url, word_count});
     },
     edit(id, notes, word_count) {
-        return api.put(`${storyUrl}/edit/${id}`, {notes, word_count});
+        return api.post(`${storyUrl}/edit/${id}`, {notes, word_count});
     },
     delete(id) {
         return api.delete(`${storyUrl}/delete/${id}`);

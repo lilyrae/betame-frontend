@@ -1,5 +1,6 @@
 const state = {
     error: '',
+    success: '',
     isLoading: false,
     isLoadingCount: 0
 }
@@ -11,6 +12,9 @@ const mutations = {
     },
     error (state, error) {
         state.error = error
+    },
+    success (state, success) {
+        state.success = success
     }
 }
 
@@ -20,6 +24,9 @@ const getters = {
     },
     error: state => {
         return state.error
+    },
+    success: state => {
+        return state.success
     }
 }
 

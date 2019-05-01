@@ -61,7 +61,7 @@ export default {
 
         Event.$on('createdStory', story => {
             this.createdStory = true;
-            this.storyId = story.story_id;
+            this.storyId = story.story_id.toString();
             this.story = story;
         })
         Event.$on('addedTagsToStory', () => {
