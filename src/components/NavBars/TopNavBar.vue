@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top background-black betame-topnavbar">
-        <router-link class="navbar-brand beta-title" to="/">Beta me.</router-link>
+        <router-link class="navbar-brand beta-title" to="/" v-on:click.native="refresh">Beta me.</router-link>
 
         <button class="navbar-toggler" type="button" @click="toggleNavDropdown">
             <span class="navbar-toggler-icon"></span>
@@ -53,6 +53,10 @@ export default {
             auth.logout();
             this.$store.cache.delete('story/fetchUser')
             this.$router.push('/');
+        },
+        refresh() {
+            this.$store.cache.delete('story/fetchStories')
+            this.$store.cache.dispatch('story/fetchStories')
         }
     },
     computed: {

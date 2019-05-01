@@ -5,11 +5,16 @@
     <div v-if="isLoading">
         <LoadingRipple />
     </div>
-    <div v-else-if="stories.length > 0">
-        <!-- list of stories -->
-        <p v-if="isFiltered" class="text-left help-text text-muted">Search results..</p>
+    <div v-else-if="filteredStories.length > 0">
+        <p class="text-left help-text text-muted">Search results..</p>
         <ul class="list-group list-group-flush">
-        <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
+        <StoryItem v-for="story in filteredStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
+        </ul>
+    </div>
+    <div v-else-if="allStories.length > 0">
+        <!-- list of stories -->
+        <ul class="list-group list-group-flush">
+        <StoryItem v-for="story in allStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
         </ul>
     </div>
     <div v-else>
@@ -40,34 +45,28 @@ export default {
     },
     data() {
         return {
-            stories: [],
-            isFiltered: false
+            filteredStories: []
         }
     },
     mounted() {
-        this.stories = this.allStories
         this.$store.cache.dispatch('story/fetchStories')
 
         Event.$on('searching', search => {
             if(search.query == '' && search.tags.length <= 0) {
-                this.stories = this.allStories
-                this.isFiltered = false
+                this.filteredStories = []
                 Event.$emit('finishedSearch')
                 return
             }
 
-            this.stories = this.allStories
-
-            this.isFiltered = true
             let i = 0
-            this.stories = []
+            this.filteredStories = []
             let tagIds = search.tags.map(tag => {
                 return tag.tag_id
             })
 
             for (i = 0; i < this.allStories.length; i++) { 
                 if(this.storyMatchesSearch(this.allStories[i], search.query, tagIds)) {
-                    this.stories.push(this.allStories[i])
+                    this.filteredStories.push(this.allStories[i])
                 }
             }
 
@@ -99,11 +98,6 @@ export default {
     computed: {
         ...mapGetters('api', ['error', 'isLoading']),
         ...mapGetters('story', ['allStories'])
-    },
-    watch: {
-        allStories(val) {
-            this.stories = val // update story list once loaded
-        }
     }
 }
 </script>
