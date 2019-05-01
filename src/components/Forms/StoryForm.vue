@@ -48,6 +48,14 @@
                     </div>
                 </div>
             </div>
+            <div class="row" v-if="showGoogleDocMessage">
+                <div class="col-md-8 offset-md-2 alert alert-info">
+                    <span class="betame-tooltiptext">
+                        <font-awesome-icon icon="info-circle" class="font18" />
+                        Inside your Google doc, click <strong>SHARE</strong> in the top right corner, then click <strong>Get shareable link</strong>. Select the permission <strong>Anyone with the link can comment</strong> and copy the link here.
+                    </span>
+                </div>
+            </div>
             <br>
             <button type="submit" class="btn btn-lg betame-dark-button ld-ext-right"
                 :class="{'running': isCreating }"
@@ -65,6 +73,7 @@ import debounce from 'debounce'
 import google from '../../services/google.js'
 import story from '../../services/story.js'
 import ErrorAlert from '../ErrorAlert.vue'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'StoryForm',
@@ -123,6 +132,15 @@ export default {
     },
     created() {
         this.checkGoogleLink = debounce(this.checkGoogleLink, 300)
+    },
+    computed: {
+        ...mapGetters('story', ['user']),
+        showGoogleDocMessage () {
+            if (this.user && this.user.story_count && this.user.story_count > 1) {
+                return false
+            }
+            return true
+        }
     }
 }
 </script>
