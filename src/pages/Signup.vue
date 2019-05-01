@@ -3,7 +3,7 @@
     <span slot="title">Create an Account</span>
     <div class="offset-sm-2 col-sm-8">
         <ErrorAlert v-if="error" :error="error"/>
-        <div v-else>
+        <div>
             <form class="beta-text" v-on:submit.prevent="signup">
                 <div class="form-group row">
                     <label for="username" class="col-md-2 col-form-label">Username</label>
