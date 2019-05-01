@@ -1,24 +1,14 @@
-import axios from 'axios';
-var qs = require('qs');
+import api from './betame.api'
 
 export default {
     signup(username, email, password, token) {
-        return axios({
-            method: 'post',
-            url: process.env.VUE_APP_API + "/register",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            data: qs.stringify({username, email, password, token})
-        });
+        return api.post('/register', {username, email, password, token})
     },
-    login(username, password) {
-        return axios({
-            method: 'get',
-            url: process.env.VUE_APP_API + "/login",
-            withCredentials: true,
-            auth: {username, password}
-        });
+    login(email, password) {
+        localStorage.setItem('bm_email', email);
+        localStorage.setItem('bm_password', password);
+
+        return api.get('/login')
     },
     logout() {
         localStorage.setItem('bm_user_id', '');
@@ -40,15 +30,8 @@ export default {
     setPassword(password) {
         localStorage.setItem('bm_password', password);
     },
-    changePassword(oldPassword, newPassword) {
-        const username = localStorage.getItem('bm_email')
-        return axios({
-            method: 'post',
-            url: process.env.VUE_APP_API + "/account/password",
-            withCredentials: true,
-            auth: {username, password: oldPassword},
-            data: qs.stringify({newPassword})
-        });
+    changePassword(newPassword) {
+        return api.post("/account/password", {newPassword})
     },
     userId() {
         return localStorage.getItem('bm_user_id');

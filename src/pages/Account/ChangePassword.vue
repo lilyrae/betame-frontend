@@ -67,7 +67,7 @@ export default {
 
             this.isLoading = true;
 
-            auth.changePassword(this.oldPassword, this.newPassword)
+            auth.changePassword(this.newPassword)
                 .then(() => {
                     this.successMessage = "You have changed your password."
                     auth.setPassword(this.newPassword)
