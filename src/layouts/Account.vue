@@ -36,10 +36,10 @@ export default {
         Wide
     },
     created() {
-        this.$store.cache.dispatch('fetchUser')
+        this.$store.cache.dispatch('story/fetchUser')
     },
     computed: {
-        ...mapGetters(['user'])
+        ...mapGetters('story', ['user'])
     }
 }
 </script>

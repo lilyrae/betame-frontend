@@ -51,6 +51,7 @@ export default {
         },
         logout() {
             auth.logout();
+            this.$store.cache.delete('story/fetchUser')
             this.$router.push('/');
         }
     },

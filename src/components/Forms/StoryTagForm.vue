@@ -1,6 +1,5 @@
 <template>
     <div>
-        <ErrorAlert :error="error" />
         <form class="text-left" v-on:submit.prevent="addTags">
             <div class="form-group row">
                 <label for="languages" class="col-md-2 col-form-label">Language</label>
@@ -33,7 +32,6 @@
 </template>
 
 <script>
-import ErrorAlert from '../ErrorAlert.vue'
 import TagBox from './TagBox.vue'
 import TaggableTagBox from './TaggableTagBox.vue'
 import tag from '../../services/tag.js'
@@ -43,8 +41,7 @@ export default {
     name: 'StoryTagForm',
     components: {
         TagBox,
-        TaggableTagBox,
-        ErrorAlert
+        TaggableTagBox
     },
     data() {
         return {
@@ -52,8 +49,7 @@ export default {
             customId: tag.customTagTypeId(),
             helpId: tag.helpTagTypeId(),
             languageId: tag.languageTagTypeId(),
-            watchOnce: true,
-            error: ''
+            watchOnce: true
         }
     },
     props: {
@@ -69,12 +65,12 @@ export default {
         }
     },
     created() {
-        this.$store.cache.dispatch('fetchTagOptions', {tagTypeId: this.languageId})
-        this.$store.cache.dispatch('fetchTagOptions', {tagTypeId: this.topicId})
-        this.$store.cache.dispatch('fetchTagOptions', {tagTypeId: this.helpId})
+        this.$store.cache.dispatch('storytags/fetchTagOptions', {tagTypeId: this.languageId})
+        this.$store.cache.dispatch('storytags/fetchTagOptions', {tagTypeId: this.topicId})
+        this.$store.cache.dispatch('storytags/fetchTagOptions', {tagTypeId: this.helpId})
     },
     computed: {
-        ...mapGetters([
+        ...mapGetters('storytags', [
             'languageTags',
             'topicTags',
             'helpTags',

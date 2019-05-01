@@ -34,59 +34,60 @@ const getters = {
 
 const actions = {
     fetchUser: async ({ commit }) => {
-        commit('error', null)
-        commit('isLoading', true)
+        commit('api/error', null, { root: true })
+        commit('api/isLoading', true, { root: true })
         
         try {
             const response = await user.get(auth.userId())
             commit('user', response.data)
         } catch (err) {
-            commit('error', err || 'Failed to get account information.')
+            commit('api/error', err || 'Failed to get account information.', { root: true })
         }
 
-        commit('isLoading', false)
+        commit('api/isLoading', false, { root: true })
     },
     fetchStories: async ({ commit }) => {
-        commit('error', null)
-        commit('isLoading', true)
+        commit('api/error', null, { root: true })
+        commit('api/isLoading', true, { root: true })
         
         try {
             const response = await story.all()
             commit('stories', response.data)
         } catch (err) {
-            commit('error', err || 'Failed to retrieve stories.')
+            commit('api/error', err || 'Failed to retrieve stories.', { root: true })
         }
 
-        commit('isLoading', false)
+        commit('api/isLoading', false, { root: true })
     },
     fetchStory: async ({ commit }, id) => {
-        commit('error', null)
-        commit('isLoading', true)
+        commit('api/error', null, { root: true })
+        commit('api/isLoading', true, { root: true })
         
         try {
             const response = await story.byId(id)
             commit('story', response.data)
         } catch (err) {
-            commit('error', err || 'Failed to retrieve stories.')
+            commit('api/error', err || 'Failed to retrieve stories.', { root: true })
         }
 
-        commit('isLoading', false)
+        commit('api/isLoading', false, { root: true })
     },
     editStory: async ({ commit }, {storyId, notes, wordCount}) => {
-        commit('error', null)
-        commit('isLoading', true)
+        commit('api/error', null, { root: true })
+        commit('api/isLoading', true, { root: true })
         
         try {
             await story.edit(storyId, notes, wordCount)
         } catch (err) {
-            commit('error', err || 'Failed to update story.')
+            commit('api/error', err || 'Failed to update story.', { root: true })
         }
 
-        commit('isLoading', false)
+        commit('api/isLoading', false, { root: true })
     }
 }
 
 export default {
+    namespaced: true,
     state,
     mutations,
     getters,

@@ -78,7 +78,7 @@ export default {
             EventBus.$emit('showDeleteStoryModal', {story})
         },
         redirectToEditPage(story) {
-            this.$store.commit('story', story)
+            this.$store.commit('story/story', story)
             this.$router.push(`/story/edit/${story.story_id}`)
         }
     }

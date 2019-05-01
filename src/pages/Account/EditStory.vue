@@ -4,6 +4,7 @@
             <h4 class="title beta-title hide-overflow">{{ story.title }}</h4>
             <h5 name="subtitle">Edit Your Story</h5>
             <br>
+            <ErrorAlert :error="error" />
             <div class="text-left">
                 <div class="form-group row">
                     <label for="intent" class="col-md-2 col-form-label">Notes</label>
@@ -42,13 +43,15 @@
 <script>
 import Account from '../../layouts/Account.vue'
 import StoryTagForm from '../../components/Forms/StoryTagForm.vue'
+import ErrorAlert from '../../components/ErrorAlert.vue'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'EditStory',
     components: {
         Account,
-        StoryTagForm
+        StoryTagForm,
+        ErrorAlert
     },
     props: {
         id: null
@@ -60,25 +63,27 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('fetchStory', this.id)
+        this.$store.dispatch('story/fetchStory', this.id)
     },
     methods: {
         saveEdit() {
-            this.$store.dispatch('editStory', {notes: this.notes, wordCount: this.wordCount})
+            this.$store.dispatch('story/editStory', {
+                storyId: this.id,
+                notes: this.notes,
+                wordCount: this.wordCount
+            })
         }
     },
     computed: {
-        ...mapGetters(['story', 'isLoading'])
+        ...mapGetters('story', ['story']),
+        ...mapGetters('api', ['isLoading', 'error'])
     },
     watch: {
         story(val) {
             // update story once loaded
             this.notes = val.notes
             this.wordCount = val.word_count
-            this.$store.dispatch('setTags', val.tags)
-        },
-        isLoading(val) {
-            console.log(`isLoading: ${val}`)
+            this.$store.dispatch('storytags/setTags', val.tags)
         }
     }
 }

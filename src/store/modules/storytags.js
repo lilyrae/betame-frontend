@@ -111,29 +111,29 @@ const actions = {
         }
     },
     fetchTagOptions: async ({ commit }, {tagTypeId}) => {
-        commit('isLoading', true)
+        commit('api/isLoading', true, { root: true })
         
         try {
             let response = await tagService.search(tagTypeId)
             commit('tagOptions', {options: response.data, tagTypeId})
         } catch (err) {
-            commit('error', err || 'Failed to find tag list.')
+            commit('api/error', err || 'Failed to find tag list.', { root: true })
         }
 
-        commit('isLoading', false)
+        commit('api/isLoading', false, { root: true })
     },
     createStoryTag: async ({ commit }, { tagTypeId, tagText, storyId }) => {
-        commit('error', null)
+        commit('api/error', null, { root: true })
 
         if (!tagText) {
-            commit('error', 'Tags must be text.')
+            commit('api/error', 'Tags must be text.', { root: true })
             return
         } else if (tagText.length > 50) {
-            commit('error', `Tag '${tagText}' must be less than 50 characters.`)
+            commit('api/error', `Tag '${tagText}' must be less than 50 characters.`, { root: true })
             return
         }
 
-        commit('isLoading', true)
+        commit('api/isLoading', true, { root: true })
         
         try {
             commit('newCustomTag', tagText)
@@ -141,36 +141,36 @@ const actions = {
             const response = await tagService.save(storyId, tag.data.tag_id)
             commit('tag', response.data)
         } catch (err) {
-            commit('error', err || 'Failed to create tag.')
+            commit('api/error', err || 'Failed to create tag.', { root: true })
         }
 
-        commit('isLoading', false)
+        commit('api/isLoading', false, { root: true })
     },
     saveStoryTag: async ({ commit }, {storyId, tag}) => {
-        commit('error', null)
-        commit('isLoading', true)
+        commit('api/error', null, { root: true })
+        commit('api/isLoading', true, { root: true })
         
         try {
             await tagService.save(storyId, tag.tag_id)
             commit('tag', tag)
         } catch (err) {
-            commit('error', err || 'Failed to save tag.')
+            commit('api/error', err || 'Failed to save tag.', { root: true })
         }
 
-        commit('isLoading', false)
+        commit('api/isLoading', false, { root: true })
     },
     deleteStoryTag: async ({ commit }, {storyId, tagId, tagTypeId}) => {
-        commit('error', null)
-        commit('isLoading', true)
+        commit('api/error', null, { root: true })
+        commit('api/isLoading', true, { root: true })
         
         try {
             await tagService.delete(storyId, tagId)
             commit('deleteTag', {tagId, tagTypeId})
         } catch (err) {
-            commit('error', err || 'Failed to delete tag.')
+            commit('api/error', err || 'Failed to delete tag.', { root: true })
         }
 
-        commit('isLoading', false)
+        commit('api/isLoading', false, { root: true })
     },
     processSelectedStoryTags: async ({ state, dispatch }, {selectedTags, oldTags, storyId, tagTypeId}) => {    
         let newTags = selectedTags.filter(tag => {
@@ -229,6 +229,7 @@ const actions = {
 }
 
 export default {
+    namespaced: true,
     state,
     mutations,
     getters,

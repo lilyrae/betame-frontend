@@ -46,7 +46,7 @@ export default {
     },
     mounted() {
         this.stories = this.allStories
-        this.$store.cache.dispatch('fetchStories')
+        this.$store.cache.dispatch('story/fetchStories')
 
         Event.$on('searching', search => {
             if(search.query == '' && search.tags.length <= 0) {
@@ -97,11 +97,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([
-            'error',
-            'isLoading',
-            'allStories'
-        ])
+        ...mapGetters('api', ['error', 'isLoading']),
+        ...mapGetters('story', ['allStories'])
     },
     watch: {
         allStories(val) {

@@ -51,7 +51,7 @@ export default {
             EventBus.$emit('searchTag', {tag})
         },
         selectStory() {
-            this.$store.commit('story', this.story)
+            this.$store.commit('story/story', this.story)
             this.$router.push(`/story/${this.story.story_id}`)
         }
     }

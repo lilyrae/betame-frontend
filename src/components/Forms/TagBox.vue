@@ -36,7 +36,7 @@ export default {
             }
         },
         selected() {
-            this.$store.dispatch('processSelectedStoryTags', {
+            this.$store.dispatch('storytags/processSelectedStoryTags', {
                 selectedTags: this.selected,
                 oldTags: this.tags,
                 storyId: this.storyId,

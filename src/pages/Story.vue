@@ -81,7 +81,7 @@ export default {
             this.$matomo.trackPageView(this.story.url)
         },
         getStory() {
-            this.$store.dispatch('fetchStory', this.id)
+            this.$store.dispatch('story/fetchStory', this.id)
         },
         startLoading() {
             this.isLoadingComments = true
@@ -92,11 +92,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([
-            'error',
-            'isLoading',
-            'story'
-        ])
+        ...mapGetters('api', ['error', 'isLoading']),
+        ...mapGetters('story', ['story'])
     },
     watch: {
         isLoading(val) {
