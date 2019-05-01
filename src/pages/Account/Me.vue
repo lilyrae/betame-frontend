@@ -3,6 +3,7 @@
         <br>
         <SearchNavBar/>
         <ErrorAlert :error="error"/>
+        <Alert :message="success"/>
         <!-- list of my stories -->
         <ul class="list-group list-group-flush">
             <div v-if="isLoadingPage">
@@ -30,12 +31,14 @@ import Account from '../../layouts/Account.vue'
 import SearchNavBar from '../../components/NavBars/SearchNavBar.vue'
 import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
+import Alert from '../../components/Alert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
 import StoryItem from '../../components/Lists/StoryItem.vue'
 import DeleteStoryModal from '../../components/Modals/DeleteStoryModal.vue'
 import story from '../../services/story.js'
 import auth from '../../services/auth.js'
 import { EventBus } from '../../event-bus.js'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Me',
@@ -45,6 +48,7 @@ export default {
         TitleNavBar,
         LoadingRipple,
         ErrorAlert,
+        Alert,
         StoryItem,
         DeleteStoryModal
     },
@@ -75,12 +79,17 @@ export default {
                 });
         },
         showDeleteModal(story) {
+            this.$store.commit('api/success', null)
             EventBus.$emit('showDeleteStoryModal', {story})
         },
         redirectToEditPage(story) {
+            this.$store.commit('api/success', null)
             this.$store.commit('story/story', story)
             this.$router.push(`/story/edit/${story.story_id}`)
         }
+    },
+    computed: {
+        ...mapGetters('api', ['success'])
     }
 }
 </script>

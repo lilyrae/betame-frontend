@@ -12,7 +12,7 @@ export default {
     },
     computed: {
         show() {
-            return this.message !== '' && this.message !== undefined;
+            return this.message !== null && this.message !== '' && this.message !== undefined;
         }
     }
 }

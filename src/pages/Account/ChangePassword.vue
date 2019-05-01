@@ -40,6 +40,7 @@
 import Account from '../../layouts/Account.vue'
 import Jumbotron from '../../components/Jumbotron.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
+import Alert from '../../components/Alert.vue'
 import auth from '../../services/auth.js'
 
 export default {
@@ -47,7 +48,8 @@ export default {
     components: {
         Account,
         Jumbotron,
-        ErrorAlert
+        ErrorAlert,
+        Alert
     },
     data() {
         return {
