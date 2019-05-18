@@ -1,14 +1,13 @@
 const state = {
     error: '',
     success: '',
-    isLoading: false,
     isLoadingCount: 0
 }
 
 const mutations = {
     isLoading (state, isLoading) {
-        state.isLoadingCount = isLoading ? state.isLoadingCount++ : state.isLoadingCount--
-        state.isLoading = (state.isLoadingCount > 0)
+        let change = isLoading ? 1 : -1
+        state.isLoadingCount = state.isLoadingCount + change
     },
     error (state, error) {
         state.error = error
@@ -20,7 +19,7 @@ const mutations = {
 
 const getters = {
     isLoading: state => {
-        return state.isLoading
+        return (state.isLoadingCount > 0)
     },
     error: state => {
         return state.error
