@@ -150,6 +150,7 @@ export default {
 
     .banner h2 {
         padding-left: 0px;
+        font-size: 3rem;
     }
 }
 
