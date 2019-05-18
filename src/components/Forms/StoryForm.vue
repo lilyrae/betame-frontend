@@ -11,7 +11,7 @@
             <div class="form-group row">
                 <label for="intent" class="col-md-2 col-form-label">Notes</label>
                 <div class="col-md-8">
-                <textarea v-model="notes" type="text" class="form-control beta-textarea" placeholder="I want to improve my ..." required maxlength="1000"></textarea>
+                <textarea v-model="notes" type="text" class="form-control beta-textarea" placeholder="What are you working on? What do you want help with?" required maxlength="1000"></textarea>
                 </div>
             </div>
             <div class="form-group row">
@@ -40,15 +40,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-md-1">
-                    <div class="betame-tooltip"><font-awesome-icon icon="info-circle" class="font18" />
-                        <span class="betame-tooltiptext">
-                            Inside your Google doc, click <strong class="text-info">SHARE</strong> in the top right corner, then click <strong class="text-info">Get shareable link</strong>. Select the permission <strong class="text-info">Anyone with the link can comment</strong> and copy the link here.
-                        </span>
-                    </div>
-                </div>
             </div>
-            <div class="row" v-if="showGoogleDocMessage">
+            <div class="row">
                 <div class="col-md-8 offset-md-2 alert alert-info">
                     <span class="betame-tooltiptext">
                         <font-awesome-icon icon="info-circle" class="font18" />
@@ -73,7 +66,6 @@ import debounce from 'debounce'
 import google from '../../services/google.js'
 import story from '../../services/story.js'
 import ErrorAlert from '../ErrorAlert.vue'
-import { mapGetters } from 'vuex'
 
 export default {
     name: 'StoryForm',
@@ -132,15 +124,6 @@ export default {
     },
     created() {
         this.checkGoogleLink = debounce(this.checkGoogleLink, 300)
-    },
-    computed: {
-        ...mapGetters('story', ['user']),
-        showGoogleDocMessage () {
-            if (this.user && this.user.story_count && this.user.story_count > 1) {
-                return false
-            }
-            return true
-        }
     }
 }
 </script>
