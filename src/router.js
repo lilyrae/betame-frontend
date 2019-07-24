@@ -21,6 +21,7 @@ import Me from './pages/Account/Me.vue'
 import ChangePassword from './pages/Account/ChangePassword.vue'
 import MyCookies from './pages/Account/MyCookies.vue'
 import EditStory from './pages/Account/EditStory.vue'
+import Notifications from './pages/Account/Notifications.vue'
 
 // admin pages
 import AdminUsers from './pages/Admin/Users.vue'
@@ -72,6 +73,13 @@ const routes = [
     {
         path: '/me/cookies',
         component: MyCookies,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/me/notifications',
+        component: Notifications,
         meta: {
             requiresAuth: true
         }
