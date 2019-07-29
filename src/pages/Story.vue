@@ -64,8 +64,7 @@ export default {
         ErrorAlert
     },
     props: {
-        id: null,
-        comment_id: null
+        id: null
     },
     data() {
         return {
@@ -100,8 +99,6 @@ export default {
         '$route' () {
             // force retrieve story when route changes from one story page to another
             this.getStory()
-            console.log(this.comment_id)
-            console.log(this.$route.query)
         },
         isLoading(val) {
             if (this.story.story_id == this.id) {

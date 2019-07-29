@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import auth from './services/auth.js'
+import store from './store/store'
 
 // open pages
 import Home from './pages/Home.vue'
@@ -150,6 +151,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = 'Beta me.'
+  store.commit('api/error', '', { root: true }) // clear error
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!auth.isLoggedIn()) {

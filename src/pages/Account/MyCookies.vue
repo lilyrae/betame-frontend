@@ -61,6 +61,11 @@ export default {
                     this.isLoadingPage = false;
                 });
         }
+    },
+    watch: {
+        '$route' () {
+            this.highlightRouteComment()
+        }
     }
 }
 </script>

@@ -1,14 +1,14 @@
 <template>
     <div class="beta-notifications">
         <button class="btn btn-info" @click="showNotifications">
-            <font-awesome-icon icon="bell" />
+            <font-awesome-icon :icon="bellIcon" />
             <span v-if="notifications.length > 0" class="badge badge-light">{{ Object.keys(notifications).length }}</span>            
         </button>
-        <ul class="menu list-group" v-show="showDropdown">
+        <ul class="menu list-group" v-show="showDropdown && notifications.length > 0">
             <Notification v-for="notifications in notifications" :key="notifications.notification_id" :notification="notifications" />
             <li class="list-group-item bg-light beta-link">
-                <button class="btn btn-secondary">Clear</button>
-                <button class="btn betame-button">History</button>
+                <button @click="clearNotifications" class="btn btn-secondary">Clear</button>
+                <router-link to="/me/notifications" class="btn betame-button">History</router-link>
             </li>
         </ul>
     </div>
@@ -35,36 +35,24 @@ export default {
         showNotifications() {
             this.showDropdown = !this.showDropdown
         },
-        link (notification) {
-            if (this.isForKarma(notification)) {
-                return `/me/cookies`
-            }
-            return `/story/${notification.story.story_id}`
-        },
-        isForStoryComment(notification) {
-            return notification.notification_type === 'story_comment'
-        },
-        isForReplyComment(notification) {
-            return notification.notification_type === 'reply_comment'
-        },
-        isForKarma(notification) {
-            return notification.notification_type === 'karma'
-        },
-        clear() {
-            this.$store.dispatch('notification/clearNotifications')
-        },
-        history() {
-            this.$router.push('/me/notifications')
+        clearNotifications() {
+            let notificationIds = this.notifications.map((notification) => {
+                return notification.notification_id
+            })
+            this.$store.dispatch('notification/clearNotifications', notificationIds)
         }
     },
     computed: {
         ...mapGetters('notification', ['notifications']),
-        bellIcon () {
-            return this.showDropdown ?  ['far', 'bell'] : 'bell'
-        },
         screenWidth() {
             let body = document.getElementsByTagName('body')[0]
             return window.innerWidth || document.documentElement.clientWidth || body.clientWidth
+        },
+        bellIcon() {
+            if(this.notifications.length <= 0 || this.showDropdown) {
+                return ['far', 'bell']
+            }
+            return 'bell'
         }
     }
 }

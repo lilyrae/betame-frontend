@@ -1,19 +1,31 @@
 import notificationService from '../../services/notification'
 
 const state = {
-    notifications: []
+    notifications: [],
+    notificationHistory: []
 }
 
 const mutations = {
     notifications (state, notifications) {
-        state.notifications = notifications
+        if (Array.isArray(notifications)) {
+            state.notifications = notifications
+        } 
+    },
+    clearNotifications (state, deletedNotificationIds) {
+        state.notifications = state.notifications.filter((notification) => {
+            return !deletedNotificationIds.includes(notification.notification_id)
+        })
+    },
+    notificationHistory (state, notificationHistory) {
+        if (Array.isArray(notificationHistory)) {
+            state.notificationHistory = notificationHistory
+        }
     }
 }
 
 const getters = {
-    notifications: state => {
-        return state.notifications
-    }
+    notifications: () =>  state.notifications,
+    notificationHistory: () =>  state.notificationHistory,
 }
 
 const actions = {
@@ -24,6 +36,25 @@ const actions = {
         } catch (err) {
             commit('api/error', err || 'Failed to get notifications.', { root: true })
         }
+    },
+    fetchHistory: async ({ commit }) => {
+        try {
+            const response = await notificationService.history()
+            commit('notificationHistory', response.data)
+        } catch (err) {
+            commit('api/error', err || 'Failed to get notifications.', { root: true })
+        }
+    },
+    clearNotifications: async ({ commit }, notifications) => {
+        try {
+            commit('api/isLoading', true, { root: true })
+            let notificationIds = notifications.join(',')
+            await notificationService.clear(notificationIds)
+            commit('clearNotifications', notifications)
+        } catch (err) {
+            commit('api/error', err || 'Failed to clear notifications.', { root: true })
+        }
+        commit('api/isLoading', false, { root: true })
     }
 }
 

@@ -1,7 +1,5 @@
 <template>
-    <router-link
-        class="list-group-item bg-light beta-link"
-        :to="link">
+    <li class="list-group-item bg-light beta-link" @click="redirect">
         <span v-if="isForStoryComment">
             <font-awesome-icon icon="book-open" />
             {{ username | capitalise }} commented on your story, {{ storyTitle | fullStop }}
@@ -14,14 +12,34 @@
             <font-awesome-icon class="golden cookie" icon="cookie" />
             {{ username | capitalise }} gifted you a cookie to say thank you for your help on {{ storyTitle | fullStop }}
         </span>
-    </router-link>
+        <span v-if="showDate" class="float-right grey">
+            {{ notification.created_at | formatDate }}
+        </span>
+    </li>
 </template>
 
 <script>
 export default {
     name: 'Notification',
     props: {
-        notification: Object
+        notification: Object,
+        showDate: {
+            type: Boolean,
+            default:false
+        }
+    },
+    methods: {
+        redirect () {
+            let route = ''
+
+            if (this.isForKarma) {
+                route = `/me/cookies?karma_id=${this.notification.karma_id}`
+            } else {
+                route = `/story/${this.notification.story.story_id}?comment_id=${this.notification.comment_id}`
+            }
+            this.$store.dispatch('notification/clearNotifications', [this.notification.notification_id])
+            this.$router.push(route)
+        }
     },
     computed: {
         username () {
@@ -29,12 +47,6 @@ export default {
         },
         storyTitle () {
             return this.notification.story.title
-        },
-        link () {
-            if (this.isForKarma) {
-                return `/me/cookies`
-            }
-            return `/story/${this.notification.story.story_id}?comment_id=${this.notification.comment_id}`
         },
         isForStoryComment() {
             return this.notification.notification_type === 'story_comment'

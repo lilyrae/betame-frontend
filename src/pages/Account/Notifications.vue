@@ -1,13 +1,21 @@
 <template>
     <Account>
         <TitleNavBar class="big-margin" title="Notifications" />
-        <ErrorAlert />
-        <div v-if="notifications.length > 0" class="card">
+        <ErrorAlert :error="error"/>
+        <div v-if="isLoading">
+            <LoadingRipple />
+        </div>
+        <div v-if="notifications.length > 0" class="card notification-list">
             <ul class="list-group list-group-flush text-left">
-                <Notification v-for="notifications in notifications" :key="notifications.notification_id" :notification="notifications" />
+                <Notification v-for="notification in notifications" :key="notification.notification_id" :notification="notification" :showDate="true"/>
             </ul>
         </div>
-        <div v-else>
+        <div v-if="notificationHistory.length > 0" class="card notification-list">
+            <ul class="list-group list-group-flush text-left">
+                <Notification v-for="notification in notificationHistory" :key="notification.notification_id" :notification="notification" :showDate="true"/>
+            </ul>
+        </div>
+        <div v-if="notifications.length <= 0 && notificationHistory.length <= 0">
             You have no notifications yet!
         </div>
     </Account>
@@ -18,6 +26,7 @@ import Account from '../../layouts/Account.vue'
 import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
 import Notification from '../../components/Notification.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
+import LoadingRipple from '../../components/LoadingRipple.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -26,18 +35,22 @@ export default {
         Account,
         TitleNavBar,
         Notification,
-        ErrorAlert
+        ErrorAlert,
+        LoadingRipple
     },
     created () {
-        this.$store.dispatch('notification/fetchNotifications')
+        this.$store.dispatch('notification/fetchHistory')
     },
     computed: {
-        ...mapGetters('notification', ['notifications'])
+        ...mapGetters('api', ['error', 'isLoading']),
+        ...mapGetters('notification', ['notifications', 'notificationHistory'])
     }
 }
 </script>
 
 <style scoped>
-
+.notification-list {
+    margin: 40px;
+}
 </style>
 

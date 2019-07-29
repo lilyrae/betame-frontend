@@ -2,7 +2,7 @@
     <div class="media mt-3">
         <button class="minimise" @click="minimiseThread"><font-awesome-icon :icon="minimiseIcon" /></button>
         <div class="media-body" v-show="isVisible">
-            <div class="comment">
+            <div class="comment" :class="{ 'colour-flash': flashColour, 'colour-flash-back': flashBack }" :id="divId">
                 <h6 class="mt-0 beta-title row comment-title">
                     <span v-if="commentThread.user && commentThread.user.username" class="col">{{ commentThread.user.username }}&nbsp;<font-awesome-icon v-if="hasCookie" class="golden cookie" icon="cookie" /></span>
                     <span v-else class="col font-italic">Deleted</span>
@@ -69,8 +69,13 @@ export default {
             isEditing: false,
             isVisible: true,
             newComment: '',
-            commentEdit: ''
+            commentEdit: '',
+            flashColour: false,
+            flashBack: false
         }
+    },
+    created() {
+        this.highlightRouteComment()
     },
     methods: {
         createComment() {
@@ -112,9 +117,27 @@ export default {
             EventBus.$emit('showCookieModal', {
                 user: this.commentThread.user
             })
+        },
+        highlightRouteComment() {
+            setTimeout(() => {
+                this.flashColour = this.commentThread.comment.comment_id == this.$route.query.comment_id
+                if (this.flashColour) {
+                    this.$scrollTo(`#${this.divId}`, 800, {easing: 'ease'})
+                }
+            }, 200)
+
+            setTimeout(() => {
+                if (this.flashColour) {
+                    this.flashBack = true
+                }
+                this.flashColour = false
+            }, 1200)  
         }
     },
     computed: {
+        divId() {
+            return `comment_${this.commentThread.comment.comment_id}`
+        },
         loggedIn() {
             return auth.isLoggedIn()
         },
@@ -133,6 +156,11 @@ export default {
         },
         deleted() {
             return this.commentThread.user == null
+        }
+    },
+    watch: {
+        '$route' () {
+            this.highlightRouteComment()
         }
     }
 }
@@ -163,4 +191,17 @@ export default {
     box-shadow: inset 0px 0px 20px 10px #e7f9f6;
 }
 
+.colour-flash {
+    background-color: #fbefcc;
+    -webkit-transition: background-color 500ms ease;
+    -ms-transition: background-color 500ms ease;
+    transition: background-color 500ms ease;
+}
+
+.colour-flash-back {
+    background-color: #ffffff7d;
+    -webkit-transition: background-color 500ms ease;
+    -ms-transition: background-color 500ms ease;
+    transition: background-color 500ms ease;
+}
 </style>

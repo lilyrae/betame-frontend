@@ -14,6 +14,9 @@
                         <router-link to="/me/cookies" class="beta-link link number-link">
                              <font-awesome-icon class="golden font14" icon="cookie" />&nbsp;{{ user.karma_count }}
                         </router-link> 
+                        <router-link to="/me/notifications" class="beta-link link number-link">
+                            <font-awesome-icon class="font14" icon="bell" />&nbsp;{{ notifications.length }}
+                        </router-link> 
                     </h5>
                     <hr class="title-hr">
                     <router-link class="btn betame-light-button beta-link link" to="/me/password">Change Password</router-link>
@@ -39,7 +42,8 @@ export default {
         this.$store.cache.dispatch('story/fetchUser')
     },
     computed: {
-        ...mapGetters('story', ['user'])
+        ...mapGetters('story', ['user']),
+        ...mapGetters('notification', ['notifications'])
     }
 }
 </script>
