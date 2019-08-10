@@ -3,7 +3,12 @@
         <br>
         <TitleNavBar title="Users" />
         <ErrorAlert :error="error"/>
-        <Alert :message="alertMessage" />
+        <div class="alert alert-success" v-if="newToken">
+            <strong>Success!</strong>&nbsp;
+            Here is your invite https://beta-me.io/#/invite/{{ newToken }} :D<br>
+            Let me know if you have any problems or suggestions! I'm always working on improving the site :)<br>
+            <router-link :to="inviteLink">Check Link</router-link>
+        </div>
         <BaseNavBar>
             <button class="btn btn-info" @click="generateInvite">Generate Invite</button>
         </BaseNavBar>
@@ -48,7 +53,7 @@ export default {
         return {
             users: [],
             error: null,
-            alertMessage: '',
+            newToken: '',
             isLoadingPage: false
         }
     },
@@ -75,12 +80,20 @@ export default {
 
             admin.generateToken()
                 .then((response) => {
-                    this.alertMessage = `New token: ${response.data.token}`
+                    this.newToken = response.data.token
                 }).catch(error => {
                     this.error = error;
                 }).finally(() => {
                     this.isLoadingPage = false;
                 });
+        }
+    },
+    computed: {
+        inviteLink() {
+            if (this.newToken) {
+                return `/invite/${this.newToken}`
+            }
+            return null
         }
     }
 }
