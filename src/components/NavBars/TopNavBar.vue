@@ -54,7 +54,7 @@ export default {
     },
     created () {
         this.checkMobileScreen()
-        window.onresize = (event) => {
+        window.onresize = () => {
             this.checkMobileScreen()
         }
     },

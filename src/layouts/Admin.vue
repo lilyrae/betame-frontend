@@ -8,6 +8,7 @@
                     </h3>
                     <hr class="title-hr">
                     <router-link class="btn betame-light-button beta-link link" to="/admin/users">Users</router-link>
+                    <router-link class="btn betame-light-button beta-link link" to="/admin/tags">Topic Tags</router-link>
                 </div>
             </div>
             <div class="col-md-8">

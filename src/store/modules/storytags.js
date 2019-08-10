@@ -122,6 +122,18 @@ const actions = {
 
         commit('api/isLoading', false, { root: true })
     },
+    createNewTag: async ({ commit }, { tagTypeId, tagText }) => {
+        commit('api/error', null, { root: true })
+        commit('api/isLoading', true, { root: true })
+    
+        try {
+            await tagService.create(tagTypeId, tagText)
+        } catch (err) {
+            commit('api/error', err || 'Failed to create tag.', { root: true })
+        }
+
+        commit('api/isLoading', false, { root: true })
+    },
     createStoryTag: async ({ commit }, { tagTypeId, tagText, storyId }) => {
         commit('api/error', null, { root: true })
 
