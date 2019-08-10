@@ -65,7 +65,7 @@ export default {
             await this.$store.dispatch('storytags/fetchTagOptions', {tagTypeId: tagService.topicTagTypeId()})
 
             if (!this.error) {
-                this.alertMessage = `Successfully created tag: ${this.newTopicTag}`
+                this.alertMessage = `Created new tag: ${this.newTopicTag}`
                 this.newTopicTag = ''
             }
         }
