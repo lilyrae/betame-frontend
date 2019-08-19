@@ -72,6 +72,7 @@ export default {
                 notes: this.notes,
                 wordCount: this.wordCount
             })
+            this.$store.cache.delete('account/fetchStories')
         }
     },
     computed: {

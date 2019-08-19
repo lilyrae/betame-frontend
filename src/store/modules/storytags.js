@@ -75,27 +75,13 @@ const mutations = {
 }
 
 const getters = {
-    languageTags: state => {
-        return state.languageTags
-    },
-    topicTags: state => {
-        return state.topicTags
-    },
-    helpTags: state => {
-        return state.helpTags
-    },
-    customTags: state => {
-        return state.customTags
-    },
-    languageOptions: state => {
-        return state.languageOptions
-    },
-    topicOptions: state => {
-        return state.topicOptions
-    },
-    helpOptions: state => {
-        return state.helpOptions
-    }
+    languageTags: () => state.languageTags,
+    topicTags: () => state.topicTags,
+    helpTags: () => state.helpTags,
+    customTags: () => state.customTags,
+    languageOptions: () => state.languageOptions,
+    topicOptions: () => state.topicOptions,
+    helpOptions: () => state.helpOptions
 }
 
 const actions = {

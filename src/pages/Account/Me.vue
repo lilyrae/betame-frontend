@@ -6,7 +6,7 @@
         <Alert :message="success"/>
         <!-- list of my stories -->
         <ul class="list-group list-group-flush">
-            <div v-if="isLoadingPage">
+            <div v-if="isLoading">
                 <LoadingRipple />
             </div>
             <div v-else-if="stories.length > 0">
@@ -35,8 +35,6 @@ import Alert from '../../components/Alert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
 import StoryItem from '../../components/Lists/StoryItem.vue'
 import DeleteStoryModal from '../../components/Modals/DeleteStoryModal.vue'
-import story from '../../services/story.js'
-import auth from '../../services/auth.js'
 import { EventBus } from '../../event-bus.js'
 import { mapGetters } from 'vuex'
 
@@ -52,31 +50,12 @@ export default {
         StoryItem,
         DeleteStoryModal
     },
-    data() {
-        return {
-            stories: [],
-            user_id: '',
-            error: null,
-            isLoadingPage: false
-        }
-    },
     created() {
-        this.user_id = auth.userId()
         this.getStories()
     },
     methods: {
         getStories() {
-            this.error = null
-            this.isLoadingPage = true
-
-           story.withUserID(this.user_id)
-                .then(response => {
-                    this.stories = response.data
-                }).catch(error => {
-                    this.error = error || 'Failed to retrieve your stories'
-                }).finally(() => {
-                    this.isLoadingPage = false;
-                });
+            this.$store.cache.dispatch('account/fetchStories')
         },
         showDeleteModal(story) {
             this.$store.commit('api/success', null)
@@ -89,7 +68,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('api', ['success'])
+        ...mapGetters('api', ['success', 'error', 'isLoading']),
+        ...mapGetters('account', ['stories']),
     }
 }
 </script>

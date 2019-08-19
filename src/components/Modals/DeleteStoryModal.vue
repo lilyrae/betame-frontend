@@ -54,6 +54,7 @@ export default {
             story.delete(this.story.story_id)
                 .then(() => {
                     // TODO success alert
+                    this.$store.cache.delete('account/fetchStories')
                     this.$emit('refresh')
                     this.isLoading = false
                     this.closeModal()

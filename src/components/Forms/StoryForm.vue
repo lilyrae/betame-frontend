@@ -92,7 +92,8 @@ export default {
             story.create(this.title, this.notes, this.url, this.word_count)
                 .then(response => {
                     Event.$emit('createdStory', response.data);
-                    this.$store.cache.delete('story/fetchStories')
+                    this.$store.cache.delete('story/fetchStories') // clear all stories
+                    this.$store.cache.delete('account/fetchStories') // clear user's stories
                 })
                 .catch(error => {
                     this.error = error || 'Failed to create a new story';

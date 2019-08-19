@@ -3,7 +3,7 @@
         <TitleNavBar class="big-margin" title="My Cookies" />
         <ErrorAlert :error="error"/>
         <!-- list of my stories -->        
-        <div v-if="isLoadingPage">
+        <div v-if="isLoading">
             <LoadingRipple />
         </div>
         <div v-else-if="cookies.length > 0" class="justify-content-center">
@@ -26,7 +26,7 @@ import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
 import CookieCard from '../../components/Lists/CookieCard.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
-import karma from '../../services/karma.js'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Me',
@@ -37,30 +37,12 @@ export default {
         LoadingRipple,
         ErrorAlert
     },
-    data() {
-        return {
-            cookies: [],
-            error: null,
-            isLoadingPage: false
-        }
-    },
     created() {
-        this.getCookies()
+        this.$store.cache.dispatch('account/fetchCookies')
     },
-    methods: {
-        getCookies() {
-            this.error = null;
-            this.isLoadingPage = true;
-
-           karma.getForCurrentUser()
-                .then(response => {
-                    this.cookies = response.data;
-                }).catch(error => {
-                    this.error = error;
-                }).finally(() => {
-                    this.isLoadingPage = false;
-                });
-        }
+    computed: {
+        ...mapGetters('account', ['cookies']),
+        ...mapGetters('api', ['error', 'isLoading'])
     },
     watch: {
         '$route' () {

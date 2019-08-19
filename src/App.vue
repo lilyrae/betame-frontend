@@ -73,8 +73,12 @@ export default {
   font-size: 20px;
 }
 
-.font14 {
+.font16 {
   font-size: 16px;
+}
+
+.font14 {
+  font-size: 14px;
 }
 
 .small-margin {

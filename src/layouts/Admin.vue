@@ -42,7 +42,7 @@ body {
 }
 
 .panel {
-    background-color: #7fd282!important;
+    background-color: #fff06a!important;
 }
 
 @media (min-width: 768px) {

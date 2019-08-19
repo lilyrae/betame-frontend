@@ -69,7 +69,7 @@ export default {
                         password
                     )
                     Event.$emit('loggedIn');
-                    this.$store.cache.dispatch('story/fetchUser')
+                    this.$store.cache.dispatch('account/fetchUser')
                     this.$router.push('/');
                 }).catch(() => {
                     // TODO distinguish between errors

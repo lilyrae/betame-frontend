@@ -9,13 +9,13 @@
                     <hr class="title-hr">
                     <h5 class="beta-title">
                         <router-link to="/me" class="beta-link link number-link">
-                            <font-awesome-icon class="font14" icon="book-open" />&nbsp;{{ user.story_count }}
+                            <font-awesome-icon class="font16" icon="book-open" />&nbsp;{{ user.story_count }}
                         </router-link>
                         <router-link to="/me/cookies" class="beta-link link number-link">
-                             <font-awesome-icon class="golden font14" icon="cookie" />&nbsp;{{ user.karma_count }}
+                             <font-awesome-icon class="golden font16" icon="cookie" />&nbsp;{{ user.karma_count }}
                         </router-link> 
                         <router-link to="/me/notifications" class="beta-link link number-link">
-                            <font-awesome-icon class="font14" icon="bell" />&nbsp;{{ notifications.length }}
+                            <font-awesome-icon class="font16" icon="bell" />&nbsp;{{ notifications.length }}
                         </router-link> 
                     </h5>
                     <hr class="title-hr">
@@ -39,10 +39,10 @@ export default {
         Wide
     },
     created() {
-        this.$store.cache.dispatch('story/fetchUser')
+        this.$store.cache.dispatch('account/fetchUser')
     },
     computed: {
-        ...mapGetters('story', ['user']),
+        ...mapGetters('account', ['user']),
         ...mapGetters('notification', ['notifications'])
     }
 }

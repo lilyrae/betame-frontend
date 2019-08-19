@@ -6,7 +6,7 @@
         </span>
         <span v-else class="row">
             <p class="hide-overflow col">{{ story.title }}&nbsp;<span class="font18 beta-text"> by {{ story.user.username }}</span></p>
-            <span class="font14 float-right col-md-3">{{ story.created_at | formatDate }}</span>
+            <span class="font16 float-right col-md-3">{{ story.created_at | formatDate }}</span>
         </span>
     </div>
     <div slot="subtitle">

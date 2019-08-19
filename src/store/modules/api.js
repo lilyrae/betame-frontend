@@ -18,15 +18,9 @@ const mutations = {
 }
 
 const getters = {
-    isLoading: state => {
-        return (state.isLoadingCount > 0)
-    },
-    error: state => {
-        return state.error
-    },
-    success: state => {
-        return state.success
-    }
+    isLoading: () => (state.isLoadingCount > 0),
+    error: () => state.error,
+    success: () => state.success
 }
 
 const actions = {}

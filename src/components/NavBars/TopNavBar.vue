@@ -64,7 +64,9 @@ export default {
         },
         logout() {
             auth.logout();
-            this.$store.cache.delete('story/fetchUser')
+            this.$store.cache.delete('account/fetchUser')
+            this.$store.cache.delete('account/fetchStories')
+            this.$store.cache.delete('account/fetchCookies')
             this.$router.push('/');
         },
         refresh() {
