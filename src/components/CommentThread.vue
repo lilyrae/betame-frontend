@@ -6,7 +6,7 @@
                 <h6 class="mt-0 beta-title row comment-title">
                     <span v-if="commentThread.user && commentThread.user.username" class="col">{{ commentThread.user.username }}&nbsp;<font-awesome-icon v-if="hasCookie" class="golden cookie" icon="cookie" /></span>
                     <span v-else class="col font-italic">Deleted</span>
-                    <span class="font14 col-md-3">{{ commentThread.comment.created_at | formatDate }}</span>
+                    <span class="font16 col-md-3">{{ commentThread.comment.created_at | formatDate }}</span>
                 </h6>
                 <form v-if="isEditing && myComment" v-on:submit.prevent="saveEdit">
                     <textarea  v-model="commentEdit" required maxlength="10000"></textarea>
@@ -122,7 +122,7 @@ export default {
             setTimeout(() => {
                 this.flashColour = this.commentThread.comment.comment_id == this.$route.query.comment_id
                 if (this.flashColour) {
-                    this.$scrollTo(`#${this.divId}`, 800, {easing: 'ease'})
+                    this.$scrollTo(`#${this.divId}`, 800, {easing: 'ease', offset: -200})
                 }
             }, 200)
 
