@@ -1,13 +1,17 @@
 <template>
     <div class="beta-notifications">
-        <button class="btn btn-info" @click="showNotifications">
+        <button class="btn btn-info ld-ext-right" :class="{'running': isLoadingNotifications}" @click="showNotifications">
             <font-awesome-icon :icon="bellIcon" />
-            <span v-if="notifications.length > 0" class="badge badge-light">{{ Object.keys(notifications).length }}</span>            
+            <span v-if="notifications.length > 0" class="badge badge-light">{{ Object.keys(notifications).length }}</span>
+            <div class="ld ld-ring ld-spin"></div>
         </button>
-        <ul class="menu list-group" v-show="showDropdown && notifications.length > 0">
+        <ul class="menu list-group" v-show="showDropdown">
             <Notification v-for="notifications in notifications" :key="notifications.notification_id" :notification="notifications" />
-            <li class="list-group-item bg-light beta-link">
-                <button @click="clearNotifications" class="btn btn-secondary">Clear</button>
+            <li class="list-group-item bg-light text-center" v-if="notifications.length <= 0">
+                No new notifications!
+            </li>
+            <li class="list-group-item bg-light beta-link text-center">
+                <button  v-if="notifications.length > 0" @click="clearNotifications" class="btn btn-secondary">Clear</button>
                 <router-link to="/me/notifications" class="btn betame-button">History</router-link>
             </li>
         </ul>
@@ -25,15 +29,25 @@ export default {
     },
     data() {
         return {
-            showDropdown: false
+            showDropdown: false,
+            isLoadingNotifications: false
         }
     },
     created () {
-        this.$store.dispatch('notification/fetchNotifications')
+        this.fetchNotifications()
     },
     methods: {
+        async fetchNotifications() {
+            this.isLoadingNotifications = true
+            await this.$store.dispatch('notification/fetchNotifications')
+            this.isLoadingNotifications = false
+        },
         showNotifications() {
             this.showDropdown = !this.showDropdown
+
+            if (this.showDropdown) {
+                this.fetchNotifications()
+            }
         },
         clearNotifications() {
             let notificationIds = this.notifications.map((notification) => {
