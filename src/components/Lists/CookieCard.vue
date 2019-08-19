@@ -2,16 +2,17 @@
     <div class="card" :class="{ 'colour-flash': flashColour, 'colour-flash-back': flashBack }" :id="divId">
         <div class="card-body row text-left">
             <div class="col-3">
-                <h5 class="beta-title">
+                <p class="beta-title">
                     <font-awesome-icon class="golden" icon="cookie" />
                     {{ cookie.from_user.username }}
-                </h5>
+                </p>
             </div>
             <div class="col-9">
                 <LineBreakText v-if="cookie.message" :text="cookie.message" />
                 <router-link v-if="storyLink" :to="storyLink" class="beta-title text-right beta-link">
-                    Revisit their story...
+                    <span class="font14">Revisit their story, {{ cookie.story_title | fullStop }}</span>
                 </router-link>
+                <p v-else class="font14 grey">They have hidden their story.</p>
             </div>
         </div>
     </div>
@@ -42,7 +43,7 @@ export default {
             setTimeout(() => {
                 this.flashColour = this.cookie.karma_id == this.$route.query.karma_id
                 if (this.flashColour) {
-                    this.$scrollTo(`#${this.divId}`, 800, {easing: 'ease'})
+                    this.$scrollTo(`#${this.divId}`, 800, {easing: 'ease', offset: -200})
                 }
             }, 200)
 
