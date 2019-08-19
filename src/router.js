@@ -16,6 +16,7 @@ import BetaSignup from './pages/BetaSignup.vue'
 // story pages
 import CreateStory from './pages/CreateStory.vue'
 import Story from './pages/Story.vue'
+import User from './pages/User.vue'
 
 // account pages
 import Me from './pages/Account/Me.vue'
@@ -26,6 +27,7 @@ import Notifications from './pages/Account/Notifications.vue'
 
 // admin pages
 import AdminUsers from './pages/Admin/Users.vue'
+import AdminTags from './pages/Admin/Tags.vue'
 
 const routes = [
     { 
@@ -123,8 +125,32 @@ const routes = [
         }
     },
     {
+        path: '/user/:id',
+        component: User,
+        props: true,
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/admin',
+        component: AdminUsers,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true
+        }
+    },
+    {
         path: '/admin/users',
         component: AdminUsers,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true
+        }
+    },
+    {
+        path: '/admin/tags',
+        component: AdminTags,
         meta: {
             requiresAuth: true,
             requiresAdmin: true

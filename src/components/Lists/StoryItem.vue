@@ -2,15 +2,15 @@
     <li class="list-group-item beta-text" :class="{'pt-0' : minimise, 'pb-0' : minimise}">
         <div class="row">
             <div class="bullet-point-col">
-                <font-awesome-icon @click="minimise = !minimise" icon="pen-nib" class="betame-red font14 clickable"/>
+                <font-awesome-icon @click="minimise = !minimise" icon="pen-nib" class="betame-red font16 clickable"/>
             </div>
             <div class="content-col">
                 <h4 class="hide-overflow row story-title">
                     <span class="col">
-                        <a class="beta-title beta-link" @click="selectStory">{{ story.title }}</a>
-                        &nbsp;<span class="font18 grey">by {{ story.user.username }}</span>
+                        <router-link :to="storyLink" class="beta-title beta-link" @click.native="selectStory">{{ story.title }}</router-link>
+                        &nbsp;<router-link :to="userLink" class="font18 grey beta-link">by {{ story.user.username }}</router-link>
                     </span>
-                    <span v-show="!minimise" class="beta-title font14 col-md-3">{{ story.created_at | formatDate }}</span>
+                    <span v-show="!minimise" class="beta-title font16 col-md-3">{{ story.created_at | formatDate }}</span>
                 </h4>
                 <div class="font18" v-show="!minimise">
                     <p class="hide-overflow">{{ story.notes }}</p>
@@ -52,7 +52,14 @@ export default {
         },
         selectStory() {
             this.$store.commit('story/story', this.story)
-            this.$router.push(`/story/${this.story.story_id}`)
+        }
+    },
+    computed: {
+        storyLink() {
+            return `/story/${this.story.story_id}`
+        },
+        userLink() {
+            return `/user/${this.story.user.username}.${this.story.user.user_id}`
         }
     }
 }
