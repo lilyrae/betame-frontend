@@ -4,6 +4,7 @@ import createCache from 'vuex-cache'
 import api from './modules/api'
 import account from './modules/account'
 import story from './modules/story'
+import comments from './modules/comments'
 import storytags from './modules/storytags'
 import notification from './modules/notification'
 
@@ -15,6 +16,7 @@ const store = new Vuex.Store({
         api,
         account,
         story,
+        comments,
         storytags,
         notification
     }

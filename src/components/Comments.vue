@@ -3,10 +3,7 @@
         <div class="comment" v-if="loggedIn">
             <div class="new-comment">
                 <h6 class="mt-0 beta-title">Comment as <strong>{{ username }}</strong></h6>
-                <form v-on:submit.prevent="createComment(newComment, '')">
-                    <textarea v-model="newComment" required maxlength="10000"></textarea>
-                    <button class="btn btn-light float-right">Post</button>
-                </form>
+                <CreateComment :storyId="story.story_id" />
             </div>
         </div>
         <br>
@@ -18,14 +15,15 @@
 </template>
 
 <script>
+import CreateComment from './CreateComment'
 import CommentThread from './CommentThread'
-import commentApi from '../services/comment.js'
 import auth from '../services/auth.js'
 import { EventBus } from '../event-bus.js'
 
 export default {
     name: 'Comments',
     components: {
+        CreateComment,
         CommentThread
     },
     props: {
@@ -55,59 +53,6 @@ export default {
         myStory() {
             return this.story.user.user_id == auth.userId()
         }
-    },
-    created() {
-        EventBus.$on('newComment', ({text, parentId}) => {
-            this.createComment(text, parentId)
-        })
-
-        EventBus.$on('editComment', ({commentId, text}) => {
-            this.editComment(commentId, text)
-        })
-
-        EventBus.$on('deleteComment', ({commentId}) => {
-            this.deleteComment(commentId)
-        })
-    },
-    methods: {
-        createComment(text, parentId) {
-            this.$emit('startLoading')
-
-            commentApi.create(this.story.story_id, parentId, text)
-                .then(() => {
-                    this.newComment = ''
-                    this.$emit('refresh')
-                    // TODO -> display success
-                }).catch((errorResponse) => {
-                    let error = errorResponse || 'Failed to create comment'
-                    this.$emit('commentsError', {error})
-                })
-        },
-        editComment(commentId, text) {
-            this.$emit('startLoading')
-
-            commentApi.edit(commentId, text)
-                .then(() => {
-                    this.$emit('refresh')
-                }).catch((errorResponse) => {
-                    let error = errorResponse || 'Failed to edit comment'
-                    this.$emit('commentsError', {error})
-                })
-        },
-        deleteComment(commentId) {
-            this.$emit('startLoading')
-            commentApi.delete(commentId)
-                .then(() => {
-                    this.$emit('refresh')
-                }).catch((errorResponse) => {
-                    let error = errorResponse || 'Failed to delete comment'
-                    this.$emit('commentsError', {error})
-                })
-        }
-    },
-    beforeDestroy() {
-        EventBus.$off('newComment')
-        EventBus.$off('editComment')
     }
 }
 </script>

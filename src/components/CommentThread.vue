@@ -8,13 +8,13 @@
                     <span v-else class="col font-italic">Deleted</span>
                     <span class="font16 col-md-3">{{ commentThread.comment.created_at | formatDate }}</span>
                 </h6>
-                <form v-if="isEditing && myComment" v-on:submit.prevent="saveEdit">
-                    <textarea  v-model="commentEdit" required maxlength="10000"></textarea>
-                    <button class="btn btn-light btn-sm" @click="stopEditing">Stop Editing</button>
-                    <button class="btn btn-light btn-sm">Save</button>
-                </form>
+                <CreateComment v-if="isEditing && myComment"
+                    class="edit-comment"
+                    :editComment="commentThread.comment"
+                    @editedComment="stopEditing"
+                    />
                 <div v-else-if="!deleted">
-                    <LineBreakText :text="commentThread.comment.text"/>
+                    <vue-markdown>{{ commentThread.comment.text }}</vue-markdown>
                     <div v-if="loggedIn">
                         <div v-if="myComment">
                             <button class="btn btn-light btn-sm" @click="editComment">Edit</button>
@@ -31,10 +31,11 @@
                 </div>
                 <div class="new-comment" v-if="loggedIn" v-show="showReplyBox">
                     <hr>
-                    <form v-on:submit.prevent="createComment">
-                        <textarea v-model="newComment" required></textarea>
-                        <button class="btn btn-light float-right btn-sm">Post</button>
-                    </form>
+                    <CreateComment
+                        :storyId="commentThread.comment.story_id"
+                        :parentId="commentThread.comment.comment_id"
+                        @createdComment="toggleReplyBox"
+                        />
                 </div>
             </div>
             <CommentThread 
@@ -49,14 +50,17 @@
 </template>
 
 <script>
-import LineBreakText from './LineBreakText.vue'
+import CreateComment from './CreateComment.vue'
+import VueMarkdown from 'vue-markdown'
 import auth from '../services/auth.js'
-import { EventBus } from '../event-bus.js';
+import { EventBus } from '../event-bus.js'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'CommentThread',
     components: {
-        LineBreakText
+        CreateComment,
+        VueMarkdown
     },
     props: {
         myStory: Boolean,
@@ -68,8 +72,6 @@ export default {
             showReplyBox: false,
             isEditing: false,
             isVisible: true,
-            newComment: '',
-            commentEdit: '',
             flashColour: false,
             flashBack: false
         }
@@ -77,19 +79,13 @@ export default {
     created() {
         this.highlightRouteComment()
     },
-    methods: {
-        createComment() {
-            EventBus.$emit('newComment', {
-                text: this.newComment,
-                parentId: this.commentThread.comment.comment_id
-            })
-            this.newComment = ''
-            this.showReplyBox = false
-        },
-        deleteComment() {
-            EventBus.$emit('deleteComment', {
-                commentId: this.commentThread.comment.comment_id
-            })
+    methods: { 
+        async deleteComment() {
+            await this.$store.dispatch('comments/deleteComment', this.commentThread.comment.comment_id)
+            if (this.isError) {
+                return
+            }
+            this.$store.dispatch('story/fetchStory', this.commentThread.comment.story_id)
         },
         toggleReplyBox() {
             this.showReplyBox = !this.showReplyBox
@@ -98,19 +94,9 @@ export default {
             this.isVisible = !this.isVisible;
         },
         editComment() {
-            this.commentEdit = this.commentThread.comment.text
             this.isEditing = true
         },
         stopEditing() {
-            this.isEditing = false
-        },
-        saveEdit() {
-            if (this.commentEdit != this.commentThread.comment.text) {
-                EventBus.$emit('editComment', {
-                    commentId: this.commentThread.comment.comment_id,
-                    text: this.commentEdit
-                })
-            }
             this.isEditing = false
         },
         showCookieModal() {
@@ -135,6 +121,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters('comments', ['isError']),
         divId() {
             return `comment_${this.commentThread.comment.comment_id}`
         },
@@ -203,5 +190,9 @@ export default {
     -webkit-transition: background-color 500ms ease;
     -ms-transition: background-color 500ms ease;
     transition: background-color 500ms ease;
+}
+
+.edit-comment {
+    padding-bottom: 40px;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <Jumbotron class="text-left">
+    <CommentAlert />
     <div slot="title">
         <span v-if="isLoadingPage">
             <center>..Loading..</center>
@@ -30,11 +31,7 @@
     <hr>
     <ErrorAlert :error="errorMessage" />
     <LoadingRipple v-if="isLoadingComments" />
-    <Comments
-        :story="story"
-        @refresh="getStory"
-        @startLoading="startLoading"
-        @commentsError="setCommentsError"/>
+    <Comments v-else :story="story" />
     <CookieModal
         :storyId="id"
         @refresh="getStory"
@@ -48,6 +45,7 @@
 import Jumbotron from '../layouts/Jumbotron.vue'
 import TagList from '../components/Lists/TagList.vue'
 import Comments from '../components/Comments.vue'
+import CommentAlert from '../components/CommentAlert.vue'
 import CookieModal from '../components/Modals/CookieModal.vue'
 import LoadingRipple from '../components/LoadingRipple.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
@@ -59,6 +57,7 @@ export default {
         Jumbotron,
         TagList,
         Comments,
+        CommentAlert,
         CookieModal,
         LoadingRipple,
         ErrorAlert

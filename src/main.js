@@ -9,6 +9,7 @@ import { faBell as farBell } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueMatomo from 'vue-matomo'
 import VueScrollTo from 'vue-scrollto'
+import VueMarkdown from 'vue-markdown'
 import router from './router.js'
 import store from './store/store.js'
 // eslint-disable-next-line
@@ -20,8 +21,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('v-select', vSelect)
 
 Vue.use(VueRouter)
-
 Vue.use(VueScrollTo)
+Vue.use(VueMarkdown)
 
 Vue.use(VueMatomo, {
   host: 'https://kulplex.com/logger',

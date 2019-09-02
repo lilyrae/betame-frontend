@@ -1,0 +1,119 @@
+<template>
+    <div>
+        <div class="comment-preview" v-if="showPreview" @click="showPreview = false">
+            <vue-markdown >{{ newComment }}</vue-markdown>
+        </div>
+        <textarea v-else v-model="newComment" required maxlength="10000"></textarea>
+        <button
+            :disabled="isLoadingComments"
+            v-if="isEditing"
+            @click="cancel"
+            class="btn btn-light float-right btn-sm"
+            >Cancel
+        </button>
+        <button
+            :disabled="isLoadingComments"
+            @click="saveComment"
+            class="btn btn-light float-right btn-sm ld-ext-right"
+            :class="{'running': isLoading }"
+            >Save
+            <div class="ld ld-square ld-blur"></div>
+        </button>
+        <button
+            :disabled="isLoadingComments"
+            v-if="newComment.length > 0"
+            @click="showPreview = !showPreview"
+            class="btn btn-light float-right btn-sm"
+            >
+            <span v-if="showPreview">Hide Preview</span>
+            <span v-else>Show Preview</span>
+        </button>
+    </div>
+</template>
+
+<script>
+import VueMarkdown from 'vue-markdown'
+import { mapGetters } from 'vuex'
+
+export default {
+    name: 'CreateComment',
+    components: {
+        VueMarkdown
+    },
+    props: {
+        parentId: null,
+        storyId: null,
+        editComment: null
+    },
+    data() {
+        return {
+            showPreview: false,
+            newComment: ''
+        }
+    },
+    created () {
+        this.setupEditing()
+    },
+    methods: {
+        async saveComment() {
+            if (this.isEditing) {
+                if (this.editComment.text != this.newComment) {
+                    await this.$store.dispatch('comments/editComment', {
+                        commentId: this.editComment.comment_id,
+                        text: this.newComment
+                    })
+                    if (this.isError) {
+                        return
+                    }
+                    this.$store.dispatch('story/fetchStory', this.editComment.story_id)
+                }
+                this.$emit('editedComment')
+                return
+            }
+
+            // otherwise create comment
+            await this.$store.dispatch('comments/createComment', {
+                text: this.newComment,
+                parentId: this.parentId,
+                storyId: this.storyId
+            })
+            if (this.isError) {
+                return
+            }
+            this.$store.dispatch('story/fetchStory', this.storyId)
+            this.$emit('createdComment')
+        },
+        cancel () {
+            this.$emit('editedComment')
+        },
+        setupEditing () {
+            if (this.isEditing) {
+                this.newComment = this.editComment.text
+            }
+        }
+    },
+    computed: {
+        ...mapGetters('comments', ['isError', 'isLoadingComments']),
+        isEditing() {
+            return this.editComment != null
+        }
+    },
+    watch: {
+        editComment() {
+            this.setupEditing()
+        },
+        isLoadingComments () {
+            this.showPreview = this.isLoadingComments
+        }
+    }
+}
+</script>
+
+<style>
+.comment-preview {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    background-color: hsl(0, 0%, 100%, 0.7);
+}
+</style>
