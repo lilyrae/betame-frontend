@@ -9,7 +9,7 @@
                 'badge-info': tag.tag_type_id == customId,
                 'beta-dark-blue-badge': tag.tag_type_id == helpId
             }"
-            class="btn badge beta-badge small-margin hide-overflow"
+            class="badge beta-badge small-margin hide-overflow"
             @click="clickedTag(tag)">
                 {{ tag.text }}
                 <span v-if="deletable" class="font-weight-light">&nbsp;x</span>
