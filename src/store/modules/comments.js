@@ -45,12 +45,18 @@ const actions = {
         commit('isLoadingComments', true)
         
         try {
-            await commentApi.create(storyId, parentId, text)
+            const response = await commentApi.create(storyId, parentId, text)
             commit('success', 'Created new comment')
+            commit('isLoadingComments', false)
+            if (!response.data.comment_id) {
+             throw new Error('Failed to create new comment.')   
+            }
+            return response.data.comment_id
         } catch (err) {
             commit('error', err || 'Failed to create new comment.')
+            commit('isLoadingComments', false)
+            return null
         }
-        commit('isLoadingComments', false)
     },
     editComment: async ({ commit }, {commentId, text}) => {
         commit('clearMessage')

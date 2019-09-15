@@ -15,7 +15,7 @@
             :disabled="isLoadingComments"
             @click="saveComment"
             class="btn btn-light float-right btn-sm ld-ext-right"
-            :class="{'running': isLoading }"
+            :class="{'running': isLoadingComments }"
             >Save
             <div class="ld ld-square ld-blur"></div>
         </button>
@@ -65,22 +65,23 @@ export default {
                     if (this.isError) {
                         return
                     }
-                    this.$store.dispatch('story/fetchStory', this.editComment.story_id)
+                    this.$router.push(`/story/${this.editComment.story_id}?comment_id=${this.editComment.comment_id}`)
                 }
                 this.$emit('editedComment')
                 return
             }
 
             // otherwise create comment
-            await this.$store.dispatch('comments/createComment', {
+            const commentId = await this.$store.dispatch('comments/createComment', {
                 text: this.newComment,
                 parentId: this.parentId,
                 storyId: this.storyId
             })
-            if (this.isError) {
+            if (this.isError || !commentId) {
                 return
             }
-            this.$store.dispatch('story/fetchStory', this.storyId)
+
+            await this.$router.push(`/story/${this.storyId}?comment_id=${commentId}`)
             this.$emit('createdComment')
         },
         cancel () {

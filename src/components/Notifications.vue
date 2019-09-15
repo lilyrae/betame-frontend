@@ -82,7 +82,7 @@ export default {
     margin-top: 4px;
     display: block;
     position: absolute;
-    z-index: 1;
+    z-index: 1051;
     min-width: 215px;
 }
 
