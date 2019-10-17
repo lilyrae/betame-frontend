@@ -18,9 +18,7 @@
                         <TagList @clickedTag="searchTag" :tags="story.tags"/>
                     </p>
                     <p class="small-bottom-margin row stats">
-                        <span class="col"></span>
-                        <span class="col-md-3">{{ story.word_count }} words,&nbsp;{{ story.comment_count }} {{ 'comment' | pluralise(story.comment_count) }}</span>
-                        <span class="col"></span>
+                        <span class="col-md-12">{{ story.word_count }} words,&nbsp;{{ story.comment_count }} {{ 'comment' | pluralise(story.comment_count) }}</span>
                     </p>
                 </div>
                 <slot></slot>
@@ -80,6 +78,10 @@ export default {
     margin: 3px;
 }
 
+.stats {
+    text-align: center;
+}
+
 @media only screen and (max-width: 1000px) {
     .bullet-point-col {
         width: 10%;
@@ -87,6 +89,10 @@ export default {
 
     .content-col {
         width: 90%;
+    }
+
+    .stats {
+        text-align: left;
     }
 }
 

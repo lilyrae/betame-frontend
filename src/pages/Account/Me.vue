@@ -11,12 +11,7 @@
             </div>
             <div v-else-if="stories.length > 0">
                 <TitleNavBar title="My Stories" />
-                <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story">
-                    <p class="float-right">
-                    <button class="btn btn-outline-info small-margin btn-sm" @click="redirectToEditPage(story)">Edit</button>
-                    <button class="btn btn-dark btn-sm" @click="showDeleteModal(story)">Delete</button>
-                    </p>
-                </StoryItem>
+                <MyStoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story" />
             </div>
             <div v-else>
                 Why don't you create a new story?
@@ -33,9 +28,8 @@ import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
 import Alert from '../../components/Alert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
-import StoryItem from '../../components/Lists/StoryItem.vue'
+import MyStoryItem from '../../components/Lists/MyStoryItem.vue'
 import DeleteStoryModal from '../../components/Modals/DeleteStoryModal.vue'
-import { EventBus } from '../../event-bus.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -47,7 +41,7 @@ export default {
         LoadingRipple,
         ErrorAlert,
         Alert,
-        StoryItem,
+        MyStoryItem,
         DeleteStoryModal
     },
     created() {
@@ -56,15 +50,6 @@ export default {
     methods: {
         getStories() {
             this.$store.cache.dispatch('account/fetchStories')
-        },
-        showDeleteModal(story) {
-            this.$store.commit('api/success', null)
-            EventBus.$emit('showDeleteStoryModal', {story})
-        },
-        redirectToEditPage(story) {
-            this.$store.commit('api/success', null)
-            this.$store.commit('story/story', story)
-            this.$router.push(`/story/edit/${story.story_id}`)
         }
     },
     computed: {

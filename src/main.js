@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueMatomo from 'vue-matomo'
 import VueScrollTo from 'vue-scrollto'
 import VueMarkdown from 'vue-markdown'
+import ToggleButton from 'vue-js-toggle-button'
 import router from './router.js'
 import store from './store/store.js'
 // eslint-disable-next-line
@@ -23,6 +24,7 @@ Vue.component('v-select', vSelect)
 Vue.use(VueRouter)
 Vue.use(VueScrollTo)
 Vue.use(VueMarkdown)
+Vue.use(ToggleButton)
 
 Vue.use(VueMatomo, {
   host: 'https://kulplex.com/logger',
