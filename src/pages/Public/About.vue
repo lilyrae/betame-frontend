@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Jumbotron from '../layouts/Jumbotron.vue'
+import Jumbotron from '../../layouts/Jumbotron.vue'
 
 export default {
   name: 'About',

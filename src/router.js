@@ -4,9 +4,11 @@ import store from './store/store'
 
 // open pages
 import Home from './pages/Home.vue'
-import About from './pages/About.vue'
+import About from './pages/Public/About.vue'
 import LeaderBoard from './pages/LeaderBoard.vue'
 import NotFound from './pages/NotFound.vue'
+import TermsOfService from './pages/Public/TermsOfService.vue'
+import PrivacyPolicy from './pages/Public/PrivacyPolicy.vue'
 
 // auth pages
 import Login from './pages/Login.vue'
@@ -90,6 +92,20 @@ const routes = [
     {
         path: '/about',
         component: About,
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/terms',
+        component: TermsOfService,
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/privacy',
+        component: PrivacyPolicy,
         meta: {
             requiresAuth: false
         }

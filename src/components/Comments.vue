@@ -18,7 +18,6 @@
 import CreateComment from './CreateComment'
 import CommentThread from './CommentThread'
 import auth from '../services/auth.js'
-import { EventBus } from '../event-bus.js'
 
 export default {
     name: 'Comments',

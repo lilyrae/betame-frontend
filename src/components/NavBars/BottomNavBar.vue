@@ -1,10 +1,11 @@
 <template>
-    <BaseNavBar class="big-margin">
-        <button class="btn btn-outline-info" type="button" disabled>Previous</button>
-        <span class="navbar-text">
-            <button class="btn btn-outline-info" type="button" disabled>Next</button>
-        </span>
-    </BaseNavBar>
+    <nav class="navbar fixed-bottom navbar-light bg-light text-right">
+        <div>
+            <router-link to="/about" class="navbar-text betame-navbar-text">About Us</router-link>
+            <router-link to="/terms" class="navbar-text betame-navbar-text">Terms of Service</router-link>
+            <router-link to="/privacy" class="navbar-text betame-navbar-text">Privacy Policy</router-link>
+        </div>
+    </nav>
 </template>
 
 <script>
@@ -17,3 +18,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.betame-navbar-text {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+</style>
