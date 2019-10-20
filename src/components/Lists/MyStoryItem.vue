@@ -3,9 +3,10 @@
         <div class="float-right">
             <span v-show="isPrivate" style="color: #c35400;">Private</span>
             <span v-show="!isPrivate" class="text-info">Public</span>
-            <toggle-button :value="story.is_private"
+            <toggle-button :value="isPrivate"
                 color="#ffc107"
                 class="toggle"
+                :sync="true"
                 @change="updateIsPrivate"
                 :labels="{checked: '🔒', unchecked: '🔓'}"/>
             <button class="btn btn-outline-info small-margin btn-sm" @click="redirectToEditPage">Edit</button>
@@ -33,12 +34,16 @@ export default {
     },
     created() {
         this.isPrivate = this.story.is_private
-        console.log(this.isPrivate)
+        EventBus.$on('revertPrivacy', (story) => {
+            if (story.story_id === this.story.story_id) {
+                this.isPrivate = !this.isPrivate
+            }
+        })
     },
     methods: {
-        updateIsPrivate ({value, _event}) {
-            console.log(value)
+        updateIsPrivate ({value}) {
             this.isPrivate = value
+            EventBus.$emit('showStoryPrivacyModal', {story: this.story})
         },
         showDeleteModal() {
             this.$store.commit('api/success', null)
@@ -50,10 +55,8 @@ export default {
             this.$router.push(`/story/edit/${this.story.story_id}`)
         }
     },
-    watch: {
-        isPrivate(val) {
-            console.log('changing private')
-        }
+    beforeDestroy() {
+        EventBus.$off('revertPrivacy')
     }
 }
 </script>
@@ -69,6 +72,10 @@ export default {
 }
 
 .private-bg {
-    background-color: #cfd2d6 !important;
+    background-color: #eaebec !important;
+}
+
+.v-switch-button {
+    z-index: 1 !important;
 }
 </style>

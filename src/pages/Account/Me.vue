@@ -17,6 +17,7 @@
                 Why don't you create a new story?
             </div>
         </ul>
+        <StoryPrivacyModal />
         <DeleteStoryModal @refresh="getStories"/>
     </Account>
 </template>
@@ -29,6 +30,7 @@ import ErrorAlert from '../../components/ErrorAlert.vue'
 import Alert from '../../components/Alert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
 import MyStoryItem from '../../components/Lists/MyStoryItem.vue'
+import StoryPrivacyModal from '../../components/Modals/StoryPrivacyModal.vue'
 import DeleteStoryModal from '../../components/Modals/DeleteStoryModal.vue'
 import { mapGetters } from 'vuex'
 
@@ -42,6 +44,7 @@ export default {
         ErrorAlert,
         Alert,
         MyStoryItem,
+        StoryPrivacyModal,
         DeleteStoryModal
     },
     created() {

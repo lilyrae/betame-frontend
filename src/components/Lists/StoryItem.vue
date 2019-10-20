@@ -2,7 +2,7 @@
     <li class="list-group-item beta-text" :class="{'pt-0' : minimise, 'pb-0' : minimise}">
         <div class="row">
             <div class="bullet-point-col">
-                <font-awesome-icon @click="minimise = !minimise" icon="pen-nib" class="betame-red font16 clickable"/>
+                <font-awesome-icon @click="minimise = !minimise" :icon="icon" class="betame-red font16 clickable"/>
             </div>
             <div class="content-col">
                 <h4 class="hide-overflow row story-title">
@@ -58,6 +58,9 @@ export default {
         },
         userLink() {
             return `/user/${this.story.user.username}.${this.story.user.user_id}`
+        },
+        icon() {
+            return this.story.is_private ? 'lock' : 'pen-nib'
         }
     }
 }

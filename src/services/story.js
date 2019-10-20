@@ -20,5 +20,8 @@ export default {
     },
     delete(id) {
         return api.delete(`${storyUrl}/delete/${id}`);
-    }
+    },
+    togglePrivacy(id, is_private) {
+        return api.post(`${storyUrl}/privacy/${id}`, {is_private});
+    },
 }

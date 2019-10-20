@@ -1,7 +1,8 @@
-import story from '../../services/story'
+import storyService from '../../services/story'
 import auth from '../../services/auth'
 import user from '../../services/user'
 import karma from '../../services/karma'
+import { EventBus } from '../../event-bus'
 
 
 const state = {
@@ -47,7 +48,7 @@ const actions = {
         commit('api/isLoading', true, { root: true })
         
         try {
-            const response = await story.withUserID(auth.userId())
+            const response = await storyService.withUserID(auth.userId())
             commit('stories', response.data)
         } catch (err) {
             commit('api/error', err || 'Failed to retrieve your stories.', { root: true })
@@ -67,6 +68,22 @@ const actions = {
         }
 
         commit('api/isLoading', false, { root: true })
+    },
+    togglePrivacy: async ({ commit }, story) => {
+        commit('api/error', null, { root: true })
+        commit('api/isLoading', true, { root: true })
+
+        try {
+            await storyService.togglePrivacy(story.story_id, !story.is_private)
+            story.is_private = !story.is_private
+            commit('api/isLoading', false, { root: true })
+            let message = `Your story is now ${story.is_private ? 'private' : 'public'}!`
+            commit('api/success', message, { root: true })
+        } catch (err) {
+            EventBus.$emit('revertPrivacy', story)
+            commit('api/error', err || 'Failed to update story privacy.', { root: true })
+            commit('api/isLoading', false, { root: true })
+        }
     }
 }
 

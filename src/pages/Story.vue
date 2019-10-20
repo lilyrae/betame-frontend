@@ -51,6 +51,8 @@ import LoadingRipple from '../components/LoadingRipple.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 import { mapGetters } from 'vuex'
 
+const ERROR_STORY_NOT_FOUND = "Story not found."
+
 export default {
     name: 'Story',
     components: {
@@ -79,8 +81,11 @@ export default {
         recordClick() {
             this.$matomo.trackPageView(this.story.url)
         },
-        getStory() {
-            this.$store.dispatch('story/fetchStory', this.id)
+        async getStory() {
+            await this.$store.dispatch('story/fetchStory', this.id)
+            if (this.error && this.error === ERROR_STORY_NOT_FOUND) {
+                this.$router.push('/404')
+            }
         },
         startLoading() {
             this.isLoadingComments = true
