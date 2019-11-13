@@ -3,8 +3,12 @@
         <template slot="header">Give a Cookie to {{ cookieUser.username }}</template>
         <p class="font18">To say thank you for reviewing your story, give your beta a cookie! You can also add a message to make it an extra special treat.</p>
         <textarea class="form-control beta-textarea" v-show="addMessage" v-model="cookieMessage"></textarea>
+        <div class="form-check" v-show="addMessage">
+            <input type="checkbox" class="form-check-input betame-checkbox" v-model="isPublic">
+            <label class="form-check-label font16">Show message publicly as a comment</label>
+        </div>
         <template slot="footer">
-            <button v-if="!addMessage" @click="addMessage = true" class="btn">Add Message <font-awesome-icon class="betame-red" icon="heart" /></button>
+            <button v-if="!addMessage" @click="addMessageToCookie" class="btn">Add Message <font-awesome-icon class="betame-red" icon="heart" /></button>
             <button class="btn" @click="sendCookie">
                 <span v-if="!addMessage">Give Cookie</span>
                 <span v-else>Send&nbsp;<font-awesome-icon class="betame-red" icon="heart" /></span>
@@ -33,12 +37,15 @@ export default {
             addMessage: false,
             cookieMessage: '',
             cookieUser: null,
-            isAnonymousCookie: false
+            isAnonymousCookie: false,
+            isPublic: false,
+            commentId: null
         }
     },
     created() {
-        EventBus.$on('showCookieModal', ({user}) => {
+        EventBus.$on('showCookieModal', ({user, commentId}) => {
             this.cookieUser = user
+            this.commentId = commentId
             this.showCookieModal = true
         })
 
@@ -47,10 +54,14 @@ export default {
         })
     },
     methods: {
+        addMessageToCookie () {
+            this.addMessage = true
+            this.isPublic = true
+        },
         sendCookie() {
             this.$emit('startLoading')
-
-            karma.create(this.storyId, this.cookieUser.user_id, this.cookieMessage, this.isAnonymousCookie)
+            let responseTo = this.isPublic && this.cookieMessage != '' ? this.commentId : '' 
+            karma.create(this.storyId, this.cookieUser.user_id, this.cookieMessage, this.isAnonymousCookie, responseTo)
                 .then(() => {
                     // TO DO show success
                     this.closeCookieModal()
@@ -68,3 +79,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.betame-checkbox {
+    margin-top: 10px;
+}
+</style>

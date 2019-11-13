@@ -101,7 +101,8 @@ export default {
         },
         showCookieModal() {
             EventBus.$emit('showCookieModal', {
-                user: this.commentThread.user
+                user: this.commentThread.user,
+                commentId: this.commentThread.comment.comment_id
             })
         },
         highlightRouteComment() {
