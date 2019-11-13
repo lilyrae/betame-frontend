@@ -11,19 +11,22 @@
             <CommentThread :commentThread="commentThread" :myStory="myStory" :karmaUsers="karmaUsers"/>
             <br />
         </div>
+        <DeleteCommentModal />
     </div>
 </template>
 
 <script>
 import CreateComment from './CreateComment'
 import CommentThread from './CommentThread'
+import DeleteCommentModal from './Modals/DeleteCommentModal'
 import auth from '../services/auth.js'
 
 export default {
     name: 'Comments',
     components: {
         CreateComment,
-        CommentThread
+        CommentThread,
+        DeleteCommentModal
     },
     props: {
         story: Object

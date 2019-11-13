@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import { EventBus } from '../../event-bus.js';
-
 export default {
     name: 'Modal',
     props: {
@@ -29,7 +27,7 @@ export default {
     },
     methods: {
         close() {
-            EventBus.$emit('closeModal')
+            this.$emit('closeModal')
         },
         handleModalClick(event) {
             if (event.target.className === "modal") {

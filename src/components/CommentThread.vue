@@ -80,12 +80,8 @@ export default {
         this.highlightRouteComment()
     },
     methods: { 
-        async deleteComment() {
-            await this.$store.dispatch('comments/deleteComment', this.commentThread.comment.comment_id)
-            if (this.isError) {
-                return
-            }
-            this.$store.dispatch('story/fetchStory', this.commentThread.comment.story_id)
+        deleteComment() {
+            EventBus.$emit('showDeleteCommentModal', {comment: this.commentThread.comment});
         },
         toggleReplyBox() {
             this.showReplyBox = !this.showReplyBox

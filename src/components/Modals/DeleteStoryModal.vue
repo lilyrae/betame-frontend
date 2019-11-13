@@ -1,5 +1,5 @@
 <template>
-    <Modal :isVisible="showModal">
+    <Modal @closeModal="closeModal" :isVisible="showModal">
         <template slot="header">Delete {{ story.title }}</template>
         <p class="font18">
             Are you sure you want to delete your story?<br><strong><u>This cannot be undone.</u></strong>
@@ -41,10 +41,6 @@ export default {
             this.story = story
             this.showModal = true
         })
-
-        EventBus.$on('closeModal', () => {
-            this.closeModal()
-        })
     },
     methods: {
         deleteStory() { 
@@ -66,6 +62,9 @@ export default {
         closeModal() {
             this.showModal = false
         }
+    },
+    beforeDestroy() {
+        EventBus.$off('showDeleteStoryModal')
     }
 }
 </script>

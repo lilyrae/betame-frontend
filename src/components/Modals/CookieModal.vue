@@ -1,5 +1,5 @@
 <template>
-    <Modal :isVisible="showCookieModal" v-if="cookieUser">
+    <Modal @closeModal="closeCookieModal" :isVisible="showCookieModal" v-if="cookieUser">
         <template slot="header">Give a Cookie to {{ cookieUser.username }}</template>
         <p class="font18">To say thank you for reviewing your story, give your beta a cookie! You can also add a message to make it an extra special treat.</p>
         <textarea class="form-control beta-textarea" v-show="addMessage" v-model="cookieMessage"></textarea>
@@ -48,10 +48,6 @@ export default {
             this.commentId = commentId
             this.showCookieModal = true
         })
-
-        EventBus.$on('closeModal', () => {
-            this.closeCookieModal()
-        })
     },
     methods: {
         addMessageToCookie () {
@@ -76,6 +72,9 @@ export default {
             this.addMessage = false
             this.cookieMessage = ''
         }
+    },
+    beforeDestroy() {
+        EventBus.$off('showCookieModal')
     }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <Modal :isVisible="showModal">
+    <Modal @closeModal="cancel" :isVisible="showModal">
         <template slot="header">
             <font-awesome-icon v-if="story.is_private" icon="lock-open" />
             <font-awesome-icon v-else icon="lock" />
@@ -44,10 +44,6 @@ export default {
             this.story = story
             this.showModal = true
         })
-
-        EventBus.$on('closeModal', () => {
-            this.cancel()
-        })
     },
     methods: {
         async togglePrivacy() {
@@ -60,6 +56,9 @@ export default {
             EventBus.$emit('revertPrivacy', this.story)
             this.showModal = false
         }
+    },
+    beforeDestroy() {
+        EventBus.$off('showStoryPrivacyModal')
     }
 }
 </script>
