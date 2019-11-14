@@ -1,5 +1,5 @@
 <template>
-    <Blog>
+    <Blog class="terms">
         <Banner title="Terms of Service" firstMessage="Welcome to BetaMe!"  secondMessage="Please read through our terms of service before joining our community." />
         <br>
         <div class="row">
