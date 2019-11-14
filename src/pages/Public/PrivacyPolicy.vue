@@ -24,6 +24,7 @@
                     <li>We store personal information for only as long as we have a reason to keep it.</li>
                     <li>We aim to make it as simple as possible for you to control what information on your website is shared publicly (or kept private) and permanently deleted.</li>
                     <li>We aim for full transparency on how we gather, use, and share your personal information.</li>
+                    <li>We will never sell your data to third parties.</li>
                     <li>Below is our Privacy Policy, which incorporates and clarifies these principles.</li>
                 </ul>
 
@@ -33,7 +34,7 @@
                 <p>Below I explain how the site collects, uses, and shares information about you, along with the choices that you have with respect to that information.</p>
 
                 <h3 class="beta-title" id="informationCollected">Information BetaMe Collects</h3>
-                <p>BetaMe only collects information about you if there is a reason to do so – for example, to provide the service, to communicate with you, or to make our Services better.</p>
+                <p>BetaMe only collects information about you if there is a reason to do so – for example, to provide the service, to communicate with you, or to make our services better.</p>
                 <p>There are threes ways it is possible to collect information about you: information you give to the website, automatically through being on the website, and from outside sources. Let’s go over the information that gets collected.</p>
 
                 <h5 class="beta-title">Information You Provide to BetaMe</h5>
@@ -47,16 +48,16 @@
                 <p>There is also some informations that gets automatically collected:</p>
                 <ul>
                     <li><span class="text-bold">Log Information:</span> Like most online service providers, BetaMe collects information that web browsers, mobile devices, and servers typically make available, such as the browser type, IP address, unique device identifiers, language preference, referring site, the date and time of access, operating system, and mobile network information.</li>
-                    <li><span class="text-bold">Usage Information:</span> BetaMe collects information about your usage of our services. For example, we collect information on the actions that BetaMe users perform – in other words, who did what, when and to what thing on a site (e.g., [BetaMe.io username] deleted “[title of post]” at [time/date]). We also collect information about what happens when you use our Services (e.g., page views, searches) along with information about your device (e.g., screen size, name of cellular network, and mobile device manufacturer). We use this information to, for example, provide our Services to you, as well as get insights on how people use our Services, so we can make our Services better.</li>
-                    <li><span class="text-bold">Location Information:</span> We may determine the approximate location of your device from your IP address. We collect and use this information to, for example, calculate how many people visit our Services from certain geographic regions.</li>
+                    <li><span class="text-bold">Usage Information:</span> BetaMe collects information about your usage of our services. For example, we collect information on the actions that BetaMe users perform – in other words, who did what, when and to what thing on a site (e.g., [BetaMe.io username] deleted “[title of post]” at [time/date]). We also collect information about what happens when you use our services (e.g., page views, searches) along with information about your device (e.g., screen size, name of cellular network, and mobile device manufacturer). We use this information to, for example, provide our services to you, as well as get insights on how people use our services, so we can make our services better.</li>
+                    <li><span class="text-bold">Location Information:</span> We may determine the approximate location of your device from your IP address. We collect and use this information to, for example, calculate how many people visit our services from certain geographic regions.</li>
                 </ul>
 
                 <h3 class="beta-title" id="informationUse">How and Why We Use Information</h3>
                 <h5 class="beta-title">Purposes for Using Information</h5>
                 <p>We use information about you as mentioned above for the purposes listed below:</p>
                 <ul>
-                    <li>To provide our Services – for example, to set up and maintain your account;</li>
-                    <li>To further develop and improve our Services – for example, by adding new features that we think our users will enjoy or will help with their writing and beta-reading;</li>
+                    <li>To provide our services – for example, to set up and maintain your account;</li>
+                    <li>To further develop and improve our services – for example, by adding new features that we think our users will enjoy or will help with their writing and beta-reading;</li>
                     <li>To monitor and analyze trends and better understand how users interact with our services, which helps us improve our services and make them easier to use;</li>
                     <li>To measure, gauge, and improve the effectiveness of our advertising, and better understand user retention and attrition;</li>
                     <li>To monitor and prevent any problems with our services, protect the security of our services, detect and prevent fraudulent transactions and other illegal activities, fight spam, and protect the rights and property of BetaMe and others, which may result in us declining a transaction or the use of our services;</li>
@@ -78,7 +79,7 @@
                 <p>We do not sell our users’ private personal information.</p>
                 <p>We share information about you in the limited circumstances spelled out below and with appropriate safeguards on your privacy:</p>
                 <ul>
-                    <li><span class="text-bold">Subsidiaries, Employees, and Independent Contractors:</span> We may disclose information about you to our subsidiaries, our employees, and individuals who are our independent contractors that need to know the information in order to help us provide our Services or to process the information on our behalf. We require our subsidiaries, employees, and independent contractors to follow this Privacy Policy for personal information that we share with them.</li>
+                    <li><span class="text-bold">Subsidiaries, Employees, and Independent Contractors:</span> We may disclose information about you to our subsidiaries, our employees, and individuals who are our independent contractors that need to know the information in order to help us provide our services or to process the information on our behalf. We require our subsidiaries, employees, and independent contractors to follow this Privacy Policy for personal information that we share with them.</li>
                     <li><span class="text-bold">Third Party Vendors:</span> We currently do not use any third party vendors but in the future we may use one if we believe it improves our services. In this case, it may be necessary to share the information with the vendor. We will require vendors to agree to privacy commitments in order to share information with them.</li>
                     <li><span class="text-bold">Legal and Regulatory Requirements:</span> We may disclose information about you in response to a subpoena, court order, or other governmental request.</li>
                     <li><span class="text-bold">To Protect Rights, Property, and Others:</span> We may disclose information about you when we believe in good faith that disclosure is reasonably necessary to protect the property or rights of BetaMe, third parties, or the public at large. For example, if we have a good faith belief that there is an imminent danger of death or serious physical injury, we may disclose information related to the emergency without delay.</li>
@@ -123,7 +124,7 @@
                 <p>If you have a question about this Privacy Policy, or you would like to contact us about any of the rights mentioned in the Your Rights section above, please contact us via email at lily@beta-me.io.</p>
 
                 <h3 class="beta-title" id="changes">Privacy Policy Changes</h3>
-                <p>Although most changes are likely to be minor, BetaMe may change its Privacy Policy from time to time. BetaMe encourages visitors to frequently check this page for any changes to its Privacy Policy. If we make changes, we will notify you by revising a change log, and, in some cases, we may provide additional notice (such as adding a statement to our homepage, or sending you a notification through email). Your further use of the Services after a change to our Privacy Policy will be subject to the updated policy.</p>
+                <p>Although most changes are likely to be minor, BetaMe may change its Privacy Policy from time to time. BetaMe encourages visitors to frequently check this page for any changes to its Privacy Policy. If we make changes, we will notify you by revising a change log, and, in some cases, we may provide additional notice (such as adding a statement to our homepage, or sending you a notification through email). Your further use of the services after a change to our Privacy Policy will be subject to the updated policy.</p>
             </div>
         </div>
     </Blog>
