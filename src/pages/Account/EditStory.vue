@@ -13,6 +13,14 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="intent" class="col-md-2 col-form-label">Rating</label>
+                    <div class="col-md-8">
+                    <select v-model="selectedRating" class="form-control beta-select" required maxlength="1000">
+                        <option v-for="rating in ratingOptions" :value="rating.value" :key="rating.value">{{ rating.label }}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="intent" class="col-md-2 col-form-label">Word Count</label>
                     <div class="col-md-8">
                         <input v-model="wordCount" type="number" class="form-control" placeholder="2000" min="1" max="50000" required maxlength="5">
@@ -44,6 +52,7 @@
 import Account from '../../layouts/Account.vue'
 import StoryTagForm from '../../components/Forms/StoryTagForm.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
+import ratingService from '../../services/rating.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -59,6 +68,7 @@ export default {
     data() {
         return {
             notes: null,
+            selectedRating: 1,
             wordCount: null
         }
     },
@@ -70,6 +80,7 @@ export default {
             this.$store.dispatch('story/editStory', {
                 storyId: this.id,
                 notes: this.notes,
+                rating: this.selectedRating,
                 wordCount: this.wordCount
             })
             this.$store.cache.delete('account/fetchStories')
@@ -77,12 +88,16 @@ export default {
     },
     computed: {
         ...mapGetters('story', ['story']),
-        ...mapGetters('api', ['isLoading', 'error'])
+        ...mapGetters('api', ['isLoading', 'error']),
+        ratingOptions() {
+            return ratingService.all();
+        }
     },
     watch: {
         story(val) {
             // update story once loaded
             this.notes = val.notes
+            this.selectedRating = val.rating
             this.wordCount = val.word_count
             this.$store.dispatch('storytags/setTags', val.tags)
         }

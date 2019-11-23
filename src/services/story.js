@@ -12,11 +12,11 @@ export default {
     withUserID(user_id) {
         return api.get(storyUrl, {user_id});
     },
-    create(title, notes, url, word_count) {
-        return api.post(storyUrl, {title, notes, url, word_count});
+    create(title, notes, rating, url, word_count) {
+        return api.post(storyUrl, {title, notes, rating, url, word_count});
     },
-    edit(id, notes, word_count) {
-        return api.post(`${storyUrl}/edit/${id}`, {notes, word_count});
+    edit(id, notes, rating, word_count) {
+        return api.post(`${storyUrl}/edit/${id}`, {notes, rating, word_count});
     },
     delete(id) {
         return api.delete(`${storyUrl}/delete/${id}`);

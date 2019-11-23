@@ -15,6 +15,14 @@
                 </div>
             </div>
             <div class="form-group row">
+                <label for="intent" class="col-md-2 col-form-label">Rating</label>
+                <div class="col-md-8">
+                <select v-model="selectedRating" class="form-control beta-select" required maxlength="1000">
+                    <option v-for="rating in ratingOptions" :value="rating.value" :key="rating.value">{{ rating.label }}</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="intent" class="col-md-2 col-form-label">Word Count</label>
                 <div class="col-md-8">
                     <input v-model="word_count" type="number" class="form-control" placeholder="2000" min="1" max="50000" required maxlength="5">
@@ -62,10 +70,11 @@
 </template>
 
 <script>
-import debounce from 'debounce'
+import ErrorAlert from '../ErrorAlert.vue'
 import google from '../../services/google.js'
 import story from '../../services/story.js'
-import ErrorAlert from '../ErrorAlert.vue'
+import ratingService from '../../services/rating.js'
+import debounce from 'debounce'
 
 export default {
     name: 'StoryForm',
@@ -77,6 +86,7 @@ export default {
             title: '',
             notes: '',
             url: '',
+            selectedRating: '',
             word_count: '',
             isCreating: false,
             error: '',
@@ -89,7 +99,7 @@ export default {
             this.error = '';
             this.isCreating = true;
 
-            story.create(this.title, this.notes, this.url, this.word_count)
+            story.create(this.title, this.notes, this.selectedRating, this.url, this.word_count)
                 .then(response => {
                     Event.$emit('createdStory', response.data);
                     this.$store.cache.delete('story/fetchStories') // clear all stories
@@ -125,6 +135,11 @@ export default {
     },
     created() {
         this.checkGoogleLink = debounce(this.checkGoogleLink, 300)
+    },
+    computed: {
+        ratingOptions() {
+            return ratingService.all();
+        }
     }
 }
 </script>
@@ -132,5 +147,9 @@ export default {
 <style scoped>
 .beta-textarea {
     height: 130px;
+}
+
+.beta-select option {
+    padding: 3px;
 }
 </style>

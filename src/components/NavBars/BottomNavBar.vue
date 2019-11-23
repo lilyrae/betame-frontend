@@ -1,7 +1,6 @@
 <template>
     <nav class="navbar fixed-bottom navbar-light bg-light text-right">
         <div>
-            <router-link to="/about" class="navbar-text betame-navbar-text">About Us</router-link>
             <router-link to="/terms" class="navbar-text betame-navbar-text">Terms of Service</router-link>
             <router-link to="/privacy" class="navbar-text betame-navbar-text">Privacy Policy</router-link>
         </div>

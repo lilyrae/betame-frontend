@@ -14,7 +14,7 @@ import ToggleButton from 'vue-js-toggle-button'
 import router from './router.js'
 import store from './store/store.js'
 // eslint-disable-next-line
-import filters from './filters.js'
+import './filters.js'
 
 library.add(faPenNib, faUserAstronaut, faBookOpen, faInfoCircle, faWindowMinimize, faPlus, faCookieBite, faCookie, faHeart, faBan, faComments, faCrown, faBell, farBell, faLock, faLockOpen)
 

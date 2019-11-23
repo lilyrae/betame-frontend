@@ -47,12 +47,12 @@ const actions = {
 
         commit('api/isLoading', false, { root: true })
     },
-    editStory: async ({ commit }, {storyId, notes, wordCount}) => {
+    editStory: async ({ commit }, {storyId, notes, rating, wordCount}) => {
         commit('api/error', null, { root: true })
         commit('api/isLoading', true, { root: true })
         
         try {
-            await story.edit(storyId, notes, wordCount)
+            await story.edit(storyId, notes, rating, wordCount)
             commit('api/isLoading', false, { root: true })
             commit('api/success', 'Updated story!', { root: true })
             router.push('/me')

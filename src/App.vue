@@ -70,7 +70,7 @@ export default {
 }
 
 .font18 {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .font16 {
