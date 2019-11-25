@@ -100,6 +100,11 @@ export default {
     padding: 10px 20px 5px 20px;
 }
 
+.content-col .card-footer {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 .beta-card-bottom {
     text-align: right;
 }
