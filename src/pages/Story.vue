@@ -5,10 +5,10 @@
     <Jumbotron class="text-left" v-if="showWarning">
         <div slot="title">Warning: {{ rating.shortLabel }}</div>
         <hr>
-        <p>This story is rated: {{ rating.label }}.</p>
-        <p>If you proceed, you have agreed that you are an appropriate age and are willing to see such content.</p>
-        <button class="btn btn-danger" @click="showWarning = false">Proceed</button>
-        <router-link class="btn btn-light" to="/">Return Home</router-link>
+        <p>This work has the following rating: {{ rating.label }}.</p>
+        <p>If you proceed, you have agreed that you are an appropriate age for the content and are willing to see such content.</p>
+        <button class="btn btn-info" @click="showWarning = false">Proceed</button>
+        <router-link class="btn btn-secondary" to="/">Return Home</router-link>
     </Jumbotron>
 
     <!-- Loading Page -->
@@ -30,7 +30,7 @@
         </div>
         <div>
             <p class="hide-overflow">{{ story.notes }}</p>
-            <p>
+            <p class="font20">
                 <TagList :tags="story.tags"/>
             </p>
             <p><i>{{ story.word_count }} words</i></p>

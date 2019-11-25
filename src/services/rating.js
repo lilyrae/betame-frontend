@@ -28,7 +28,7 @@ export default {
                 value: explicit
             },
             {
-                label: 'Not Rated (treated the same as explicit)',
+                label: 'Not Rated (could be any rating, including explicit)',
                 shortLabel: 'Not Rated',
                 value: none
             }

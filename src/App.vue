@@ -69,6 +69,10 @@ export default {
   color: #f9f1f4;
 }
 
+.font20 {
+  font-size: 20px;
+}
+
 .font18 {
   font-size: 18px;
 }

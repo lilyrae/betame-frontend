@@ -1,6 +1,6 @@
 <template>
-    <StoryItem :story="story" class="my-story-item" :class="{'private-bg' : isPrivate}">
-        <div class="float-right">
+    <StoryItem :story="story" :extraContent="true" class="my-story-item">
+        <div>
             <span v-show="isPrivate" style="color: #c35400;">Private</span>
             <span v-show="!isPrivate" class="text-info">Public</span>
             <toggle-button :value="isPrivate"
@@ -69,10 +69,6 @@ export default {
     margin-top: 5px;
     margin-left: 5px;
     margin-right: 15px;
-}
-
-.private-bg {
-    background-color: #eaebec !important;
 }
 
 .v-switch-button {
