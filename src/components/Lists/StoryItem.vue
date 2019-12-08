@@ -28,7 +28,7 @@
                             </span>
                         </div>
                         <span class="divider">|</span><span>{{ story.word_count }} words</span>
-                        <span class="divider">|</span><span>{{ story.comment_count }} {{ 'comment' | pluralise(story.comment_count) }}</span>
+                        <span class="divider">|</span><router-link :to="storyLink" class="beta-title beta-link" @click.native="selectStory">{{ story.comment_count }} {{ 'comment' | pluralise(story.comment_count) }}</router-link>
                     </div>
                     <div class="col-lg extra-col" v-if="extraContent"><slot></slot></div>
                 </div>
