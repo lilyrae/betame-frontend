@@ -19,8 +19,8 @@
                         <TagList @clickedTag="searchTag" :tags="story.tags"/>
                     </p>
                 </div>
-                <div class="card-footer row shadow-sm bg-white">
-                    <div v-show="!minimise" class="col-lg beta-card-bottom beta-title" :class="{ 'text-left': extraContent }">
+                <div class="card-footer row shadow-sm bg-white" v-show="!minimise">
+                    <div class="col-lg beta-card-bottom beta-title" :class="{ 'text-left': extraContent }">
                         <span>{{ rating.shortLabel }} </span>
                         <div class="betame-tooltip"><font-awesome-icon icon="info-circle" class="text-grey" />
                             <span class="betame-tooltiptext">
