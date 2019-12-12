@@ -44,7 +44,7 @@ export default {
         return null
     },
     requiresWarning(value) {
-        return value >= teen;
+        return value > teen;
     },
     isTeen(value) {
         return value === teen;

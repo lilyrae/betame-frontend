@@ -7,7 +7,11 @@ export default {
         return api.get(tagUrl, {tag_type_id});
     },
     searchWithText(text, tag_type_id) {
-        return api.get(tagUrl, {tag_type_id, text});
+        const params = {text};
+        if (tag_type_id) {
+            params.tag_type_id = tag_type_id
+        }
+        return api.get(tagUrl, params);
     },
     save(story_id, tag_id) {
         return api.post(`/story${tagUrl}`, {story_id, tag_id});

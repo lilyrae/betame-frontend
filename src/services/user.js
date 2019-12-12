@@ -12,4 +12,7 @@ export default {
     isValidInvite(code) {
         return api.get(`${process.env.VUE_APP_API}/invite/valid/${code}`)
     },
+    search(username) {
+        return api.get(`${userUrl}/search`, {username})
+    }
 }

@@ -20,11 +20,13 @@
                 <router-link v-if="loggedIn" class="btn btn-danger" to="/story/new">New <font-awesome-icon icon="pen-nib" /></router-link>
             </div>
         </nav>
-        <div class="bg-light">
-            <p class="text-left font18 search-tags">
+        <div class="bg-light text-left">
+            <p class="font18 search-tags">
                 <TagList @clickedTag="removeTag" :tags="searchTags" :deletable="true" />
             </p>
+            <a class="beta-link" v-if="hasAdvancedSearch" @click="toggleAdvancedSearch">Advanced Search ..</a>
         </div>
+
     </div>
 </template>
 
@@ -37,6 +39,12 @@ export default {
     name: 'SearchNavBar',
     components: {
         TagList
+    },
+    props: {
+        hasAdvancedSearch: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {
@@ -54,6 +62,9 @@ export default {
                 query: this.query,
                 tags: this.searchTags
             })
+        },
+        toggleAdvancedSearch() {
+            this.$emit('toggleAdvancedSearch')
         },
         removeTag({tag}) {
             this.searchTags = this.searchTags.filter(searchTag => {

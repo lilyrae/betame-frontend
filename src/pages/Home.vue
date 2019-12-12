@@ -1,7 +1,14 @@
 <template>
-    <Default>
+    <Wide>
+        <div class="row top-row h-100">
+            <div class="col-md-3 panel" v-if="showSearch">
+                <br>
+                <SearchPanel @hide="showSearch = false" />
+            </div>
+            <div :class="{'col-md-10': !showSearch, 'offset-md-1':!showSearch, 'col': showSearch}">
+        <br>
         <Banner/>
-        <SearchNavBar/>
+        <SearchNavBar :hasAdvancedSearch="true" @toggleAdvancedSearch="showSearch = !showSearch"/>
         <ErrorAlert :error="error"/>
         <div v-if="isLoading">
             <LoadingRipple />
@@ -22,11 +29,14 @@
             There are no stories here yet!
         </div>
         <PaginationNavBar />
-    </Default>
+            </div>
+        </div>
+    </Wide>
 </template>
 
 <script>
-import Default from '../layouts/Default.vue'
+import Wide from '../layouts/Wide.vue'
+import SearchPanel from '../components/SearchPanel'
 import SearchNavBar from '../components/NavBars/SearchNavBar.vue'
 import PaginationNavBar from '../components/NavBars/PaginationNavBar.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
@@ -38,8 +48,9 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'Home',
     components: {
-        Default,
+        Wide,
         SearchNavBar,
+        SearchPanel,
         PaginationNavBar,
         LoadingRipple,
         Banner,
@@ -48,7 +59,8 @@ export default {
     },
     data() {
         return {
-            filteredStories: []
+            filteredStories: [],
+            showSearch: false
         }
     },
     mounted() {
