@@ -1,5 +1,6 @@
 <template>
     <div class="inner-panel text-left hide-overflow beta-bg">
+        <button class="btn close" @click="hide">x</button>
         <h3 class="beta-title">Advanced Search</h3>
         <hr class="title-hr">
         <div class="form-group">
@@ -78,8 +79,8 @@
             </div>
         </div>
         <hr class="title-hr">
-        <button class="btn btn-info" @click="hide">Search</button>
-        <button class="btn btn-outline-secondary" @click="hide">Hide Search</button>
+        <button class="btn btn-info" @click="search">Search</button>
+        <button class="btn btn-outline-secondary" @click="hide">Clear</button>
     </div>
 </template>
 
@@ -87,6 +88,7 @@
 import userService from '../services/user.js'
 import ratingService from '../services/rating.js'
 import tagService from '../services/tag.js'
+import storyService from '../services/story.js'
 import debounce from 'debounce'
 import Datepicker from 'vuejs-datepicker'
 
@@ -111,6 +113,13 @@ export default {
         }
     },
     methods: {
+        async search() {
+            let userIds = this.selectedAuthors.map((author) => {
+                return author.user_id
+            }).join(',')
+
+            let response = await storyService.search(userIds)
+        },
         hide() {
             this.$emit('hide')
         },
@@ -149,7 +158,9 @@ export default {
     padding: 25px;
     margin: 5px;
     margin-top: 0px;
-    padding-bottom: 40px;
+    padding-bottom: 60px;
+    min-width: 350px;
+    position: relative;
 }
 
 .beta-datepicker input{
@@ -176,5 +187,16 @@ export default {
     background-color: #fff !important;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
+}
+
+.inner-panel .dropdown-toggle {
+    background-color: #fff !important;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
 }
 </style>

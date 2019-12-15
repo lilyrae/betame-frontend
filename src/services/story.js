@@ -24,4 +24,7 @@ export default {
     togglePrivacy(id, is_private) {
         return api.post(`${storyUrl}/privacy/${id}`, {is_private});
     },
+    search(user_ids) {
+        return api.get(`${storyUrl}/search`, {user_ids});
+    }
 }

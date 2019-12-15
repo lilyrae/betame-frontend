@@ -1,34 +1,34 @@
 <template>
     <Wide>
         <div class="row top-row h-100">
-            <div class="col-md-3 panel" v-if="showSearch">
+            <div class="col-md-3 search-panel" v-if="showAdvancedSearch">
                 <br>
-                <SearchPanel @hide="showSearch = false" />
+                <SearchPanel @hide="showAdvancedSearch = false" />
             </div>
-            <div :class="{'col-md-10': !showSearch, 'offset-md-1':!showSearch, 'col': showSearch}">
-        <br>
-        <Banner/>
-        <SearchNavBar :hasAdvancedSearch="true" @toggleAdvancedSearch="showSearch = !showSearch"/>
-        <ErrorAlert :error="error"/>
-        <div v-if="isLoading">
-            <LoadingRipple />
-        </div>
-        <div v-else-if="filteredStories.length > 0">
-            <p class="text-left help-text text-muted">Search results..</p>
-            <ul class="list-group list-group-flush">
-            <StoryItem v-for="story in filteredStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
-            </ul>
-        </div>
-        <div v-else-if="allStories.length > 0">
-            <!-- list of stories -->
-            <ul class="list-group list-group-flush">
-            <StoryItem v-for="story in allStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
-            </ul>
-        </div>
-        <div v-else>
-            There are no stories here yet!
-        </div>
-        <PaginationNavBar />
+            <div :class="{'col-md-10': !showAdvancedSearch, 'offset-md-1':!showAdvancedSearch, 'col': showAdvancedSearch}">
+                <br>
+                <Banner/>
+                <SearchNavBar :showSimpleSearch="!showAdvancedSearch" :hasAdvancedSearch="true" @toggleAdvancedSearch="showAdvancedSearch = !showAdvancedSearch"/>
+                <ErrorAlert :error="error"/>
+                <div v-if="isLoading">
+                    <LoadingRipple />
+                </div>
+                <div v-else-if="filteredStories.length > 0">
+                    <p class="text-left help-text text-muted">Search results..</p>
+                    <ul class="list-group list-group-flush">
+                    <StoryItem v-for="story in filteredStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
+                    </ul>
+                </div>
+                <div v-else-if="allStories.length > 0">
+                    <!-- list of stories -->
+                    <ul class="list-group list-group-flush">
+                    <StoryItem v-for="story in allStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
+                    </ul>
+                </div>
+                <div v-else>
+                    There are no stories here yet!
+                </div>
+                <PaginationNavBar />
             </div>
         </div>
     </Wide>
@@ -60,7 +60,7 @@ export default {
     data() {
         return {
             filteredStories: [],
-            showSearch: false
+            showAdvancedSearch: false
         }
     },
     mounted() {
@@ -130,6 +130,10 @@ export default {
 
 .betame-midbar {
     background-color: blueviolet;
+}
+
+.search-panel {
+    min-width: 370px;
 }
 </style>
 

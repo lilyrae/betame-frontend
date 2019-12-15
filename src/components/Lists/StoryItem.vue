@@ -86,7 +86,7 @@ export default {
 
 <style scoped>
 .bullet-point-col {
-    width: 3%;
+    width: 30px;
     padding: 7px;
     margin: 15px 0 10px 0;
 }
@@ -128,10 +128,6 @@ export default {
 }
 
 @media only screen and (max-width: 1000px) {
-    .bullet-point-col {
-        width: 10%;
-    }
-
     .content-col {
         width: 90%;
     }

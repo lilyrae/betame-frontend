@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <nav class="navbar navbar-light bg-light search-navbar beta-innerbar">
+    <div class="bg-light">
+        <nav class="navbar navbar-light search-navbar beta-innerbar">
             <!-- Temporary Frontend Search  -->
-            <form class="form-inline col-lg-8 col-md-12" v-on:submit.prevent="search">
+            <form v-show="showSimpleSearch" class="form-inline col-lg-8 col-md-12" v-on:submit.prevent="search">
                 <div class="col-md-10 no-sm-padding">
                     <input v-model="query" class="beta-search search-bar my-6" type="text" placeholder="Search" aria-label="Search">
                 </div>
@@ -11,22 +11,21 @@
                     type="submit"
                     :class="{'running': isSearching }"
                     >
-                    Search
+                    Quick <font-awesome-icon icon="search" />
                     <div class="ld ld-ring ld-spin"></div>
                 </button>
             </form>
-            <div class="hide">
+            <div class="hide float-right">
                 <router-link v-if="!loggedIn" class="btn btn-danger" to="/login">Login to Post <font-awesome-icon icon="pen-nib" /></router-link>
                 <router-link v-if="loggedIn" class="btn btn-danger" to="/story/new">New <font-awesome-icon icon="pen-nib" /></router-link>
             </div>
         </nav>
-        <div class="bg-light text-left">
+        <div class="text-left">
+            <a class="beta-link text-muted advanced-search" v-if="hasAdvancedSearch && showSimpleSearch" @click="toggleAdvancedSearch">Advanced Search <font-awesome-icon icon="search" /></a>
             <p class="font18 search-tags">
                 <TagList @clickedTag="removeTag" :tags="searchTags" :deletable="true" />
             </p>
-            <a class="beta-link" v-if="hasAdvancedSearch" @click="toggleAdvancedSearch">Advanced Search ..</a>
         </div>
-
     </div>
 </template>
 
@@ -44,6 +43,10 @@ export default {
         hasAdvancedSearch: {
             type: Boolean,
             default: false
+        },
+        showSimpleSearch: {
+            type: Boolean,
+            default: true
         }
     },
     data() {
@@ -144,5 +147,9 @@ export default {
     .search-tags {
         padding-left: 20px;
     }
+}
+
+.advanced-search {
+    margin-left: 50px;
 }
 </style>
