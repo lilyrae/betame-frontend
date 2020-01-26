@@ -11,7 +11,7 @@
                 <CreateComment v-if="isEditing && myComment"
                     class="edit-comment"
                     :editComment="commentThread.comment"
-                    @editedComment="stopEditing"
+                    @doneEditing="stopEditing"
                     />
                 <div v-else-if="!deleted">
                     <vue-markdown>{{ commentThread.comment.text }}</vue-markdown>
@@ -34,7 +34,7 @@
                     <CreateComment
                         :storyId="commentThread.comment.story_id"
                         :parentId="commentThread.comment.comment_id"
-                        @createdComment="toggleReplyBox"
+                        @doneCreating="toggleReplyBox"
                         />
                 </div>
             </div>

@@ -6,7 +6,7 @@
         <textarea v-else v-model="newComment" required maxlength="10000"></textarea>
         <button
             :disabled="isLoadingComments"
-            v-if="isEditing"
+            v-if="isEditing || parentId"
             @click="cancel"
             class="btn btn-light float-right btn-sm"
             >Cancel
@@ -67,7 +67,7 @@ export default {
                     }
                     this.$router.push(`/story/${this.editComment.story_id}?comment_id=${this.editComment.comment_id}`)
                 }
-                this.$emit('editedComment')
+                this.$emit('doneEditing')
                 return
             }
 
@@ -82,10 +82,11 @@ export default {
             }
 
             await this.$router.push(`/story/${this.storyId}?comment_id=${commentId}`)
-            this.$emit('createdComment')
+            this.$emit('doneCreating')
         },
         cancel () {
-            this.$emit('editedComment')
+            this.$emit('doneEditing')
+            this.$emit('doneCreating')
         },
         setupEditing () {
             if (this.isEditing) {
