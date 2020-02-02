@@ -21,7 +21,7 @@
     <!-- Story -->
     <Jumbotron class="text-left" v-else>
         <div slot="title" class="row">
-            <p class="hide-overflow col">{{ story.title }}&nbsp;<span class="font18 beta-text"> by {{ story.user.username }}</span></p>
+            <p class="hide-overflow col">{{ story.title }}&nbsp;<router-link :to="userLink" class="font18 beta-link beta-text">by {{ story.user.username }}</router-link></p>
             <span class="font16 float-right col-md-3">{{ story.created_at | formatDate }}</span>
         </div>
         <div slot="subtitle">
@@ -118,6 +118,9 @@ export default {
                 return ratingService.get(this.story.rating)
             }
             return null
+        },
+        userLink() {
+            return `/user/${this.story.user.username}.${this.story.user.user_id}`
         }
     },
     watch: {
