@@ -87,7 +87,6 @@
 import userService from '../services/user.js'
 import ratingService from '../services/rating.js'
 import tagService from '../services/tag.js'
-import storyService from '../services/story.js'
 import debounce from 'debounce'
 import Datepicker from 'vuejs-datepicker'
 
@@ -126,9 +125,16 @@ export default {
             let fromDate = this.fromDate ? new Date(this.fromDate).toISOString() : null
             let untilDate = this.untilDate ? new Date(this.untilDate).toISOString() : null
 
-            let response = await storyService.search(
-                this.title, userIds, ratings, tags, fromDate, untilDate, this.minWordCount, this.maxWordCount
-            )
+            this.$store.dispatch('story/searchStories', {
+                title: this.title,
+                userIds,
+                ratings,
+                tags,
+                fromDate,
+                untilDate,
+                minWordCount: this.minWordCount,
+                maxWordCount: this.maxWordCount
+            })
         },
         clear() {
             this.title = ''

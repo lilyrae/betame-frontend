@@ -2,19 +2,19 @@
     <div class="bg-light">
         <nav class="navbar navbar-light search-navbar beta-innerbar">
             <!-- Temporary Frontend Search  -->
-            <form v-show="showSimpleSearch" class="form-inline col-lg-8 col-md-12" v-on:submit.prevent="search">
+            <div v-show="showSimpleSearch" class="form-inline col-lg-8 col-md-12">
                 <div class="col-md-10 no-sm-padding">
-                    <input v-model="query" class="beta-search search-bar my-6" type="text" placeholder="Search" aria-label="Search">
+                    <input v-model="query" v-on:keyup.enter="search" class="beta-search search-bar my-6" type="text" placeholder="Search" aria-label="Search">
                 </div>
                 <button 
                     class="btn btn-outline-info col-md-2 my-2 my-md-0 no-sm-padding ld-ext-right"
-                    type="submit"
-                    :class="{'running': isSearching }"
+                    @click="search"
+                    :class="{'running': loadingSearch }"
                     >
                     Quick <font-awesome-icon icon="search" />
                     <div class="ld ld-ring ld-spin"></div>
                 </button>
-            </form>
+            </div>
             <div class="hide float-right">
                 <router-link v-if="!loggedIn" class="btn btn-danger" to="/login">Login to Post <font-awesome-icon icon="pen-nib" /></router-link>
                 <router-link v-if="loggedIn" class="btn btn-danger" to="/story/new">New <font-awesome-icon icon="pen-nib" /></router-link>
@@ -33,6 +33,7 @@
 import TagList from '../Lists/TagList.vue'
 import auth from '../../services/auth.js'
 import { EventBus } from '../../event-bus.js'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'SearchNavBar',
@@ -53,15 +54,12 @@ export default {
         return {
             query: "",
             loggedIn: false,
-            isSearching: false,
             searchTags: []
         }
     },
     methods: {
         search() {
-            this.isSearching = true
-
-            Event.$emit('searching', {
+            this.$store.dispatch('story/filterStories', {
                 query: this.query,
                 tags: this.searchTags
             })
@@ -92,13 +90,13 @@ export default {
         Event.$on('loggedIn', () => {
             this.loggedIn = auth.isLoggedIn()
         })
-        Event.$on('finishedSearch', () => {
-            this.isSearching = false
-        })
         this.loggedIn = auth.isLoggedIn()
     },
     beforeDestroy() {
         EventBus.$off('searchTag')
+    },
+    computed: {
+        ...mapGetters('story', ['loadingSearch'])
     }
 }
 </script>

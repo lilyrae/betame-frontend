@@ -1,30 +1,31 @@
 <template>
     <Wide>
         <div class="row top-row h-100">
-            <div class="col-md-3 search-panel" v-if="showAdvancedSearch">
+            <div class="col-md-3 search-panel" v-show="showAdvancedSearch">
                 <br>
                 <SearchPanel @hide="showAdvancedSearch = false" />
             </div>
             <div :class="{'col-md-10': !showAdvancedSearch, 'offset-md-1':!showAdvancedSearch, 'col': showAdvancedSearch}">
                 <br>
                 <Banner/>
-                <SearchNavBar :showSimpleSearch="!showAdvancedSearch" :hasAdvancedSearch="true" @toggleAdvancedSearch="showAdvancedSearch = !showAdvancedSearch"/>
+                <SearchNavBar
+                    :showSimpleSearch="!showAdvancedSearch"
+                    :hasAdvancedSearch="true"
+                    @toggleAdvancedSearch="showAdvancedSearch = !showAdvancedSearch"/>
                 <ErrorAlert :error="error"/>
                 <div v-if="isLoading">
                     <LoadingRipple />
                 </div>
-                <div v-else-if="filteredStories.length > 0">
-                    <p class="text-left help-text text-muted">Search results..</p>
-                    <ul class="list-group list-group-flush">
-                    <StoryItem v-for="story in filteredStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
-                    </ul>
-                </div>
-                <div v-else-if="allStories.length > 0">
+                <div v-if="displayStories.length > 0">
+                    <p v-if="isSearch" class="text-left help-text text-muted">Search results..  <a class="beta-link text-info" @click="clearSearch">clear search.</a></p>
                     <!-- list of stories -->
                     <ul class="list-group list-group-flush">
-                    <StoryItem v-for="story in allStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
+                    <StoryItem v-for="story in displayStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
                     </ul>
                 </div>
+                <div v-else-if="isSearch">
+                    We couldn't find any stories for your search! <a class="beta-link text-info" @click="clearSearch">Clear search.</a>
+                </div>                
                 <div v-else>
                     There are no stories here yet!
                 </div>
@@ -63,56 +64,17 @@ export default {
             showAdvancedSearch: false
         }
     },
+    methods: {
+        clearSearch() {
+            this.$store.commit('story/clearSearch')
+        }
+    },
     mounted() {
         this.$store.cache.dispatch('story/fetchStories')
-
-        Event.$on('searching', search => {
-            if(search.query == '' && search.tags.length <= 0) {
-                this.filteredStories = []
-                Event.$emit('finishedSearch')
-                return
-            }
-
-            let i = 0
-            this.filteredStories = []
-            let tagIds = search.tags.map(tag => {
-                return tag.tag_id
-            })
-
-            for (i = 0; i < this.allStories.length; i++) { 
-                if(this.storyMatchesSearch(this.allStories[i], search.query, tagIds)) {
-                    this.filteredStories.push(this.allStories[i])
-                }
-            }
-
-            Event.$emit('finishedSearch')
-        });
-    },
-    methods: {
-        storyMatchesSearch(story, title, tagIds) {
-            if (story.tags) {
-                let storyTagIds = story.tags.map(tag => {
-                    return tag.tag_id
-                })
-
-                for (let tagId of tagIds) {
-                    if (!storyTagIds.includes(tagId)) {
-                        // story does not have search tag
-                        return false
-                    }
-                }
-            } else if (tagIds.length > 0) {
-                // story is not tagged
-                return false
-            }
-
-            // check if story title matches
-            return story.title.toLowerCase().includes(title.toLowerCase())
-        }
     },
     computed: {
         ...mapGetters('api', ['error', 'isLoading']),
-        ...mapGetters('story', ['allStories'])
+        ...mapGetters('story', ['displayStories', 'isSearch'])
     }
 }
 </script>
