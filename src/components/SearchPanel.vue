@@ -53,7 +53,6 @@
                 multiple
                 >
             </v-select>
-            <a class="help beta-link text-muted"><u>Configure your default rating</u></a>
         <hr class="title-hr">
         <div class="form-group">
             <label>Published</label>
@@ -70,17 +69,17 @@
         <div class="form-group">
             <label>Word Count</label>
             <div>
-                <input v-model="moreThanWordCount" type="number" class="form-control" placeholder="More than" min="0" max="50000" required maxlength="5">
+                <input v-model="minWordCount" type="number" class="form-control" placeholder="More than" min="0" max="50000" required maxlength="5">
             </div>
         </div>
         <div class="form-group">
             <div>
-                <input v-model="lessThanWordCount" type="number" class="form-control" placeholder="Less than" min="1" max="50000" required maxlength="5">
+                <input v-model="maxWordCount" type="number" class="form-control" placeholder="Less than" min="1" max="50000" required maxlength="5">
             </div>
         </div>
         <hr class="title-hr">
         <button class="btn btn-info" @click="search">Search</button>
-        <button class="btn btn-outline-secondary" @click="hide">Clear</button>
+        <button class="btn btn-outline-secondary" @click="clear">Clear</button>
     </div>
 </template>
 
@@ -105,8 +104,8 @@ export default {
             selectedRatings: [],
             selectedTags: [],
             tagOptions: [],
-            moreThanWordCount: null,
-            lessThanWordCount: null,
+            minWordCount: null,
+            maxWordCount: null,
             fromDate: null,
             untilDate: null,
             dateFormat: "D dsu MMM yyyy"
@@ -117,8 +116,29 @@ export default {
             let userIds = this.selectedAuthors.map((author) => {
                 return author.user_id
             }).join(',')
+            let ratings = this.selectedRatings.map((rating) => {
+                return rating.value
+            }).join(',')
+            let tags = this.selectedTags.map((tag) => {
+                return tag.tag_id
+            }).join(',')
 
-            let response = await storyService.search(userIds)
+            let fromDate = this.fromDate ? new Date(this.fromDate).toISOString() : null
+            let untilDate = this.untilDate ? new Date(this.untilDate).toISOString() : null
+
+            let response = await storyService.search(
+                this.title, userIds, ratings, tags, fromDate, untilDate, this.minWordCount, this.maxWordCount
+            )
+        },
+        clear() {
+            this.title = ''
+            this.selectedAuthors = []
+            this.selectedRatings = []
+            this.selectedTags = []
+            this.minWordCount = null
+            this.maxWordCount = null
+            this.fromDate = null
+            this.untilDate = null
         },
         hide() {
             this.$emit('hide')
