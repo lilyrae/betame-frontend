@@ -20,7 +20,7 @@
                 multiple
                 >
                 <template slot="no-options">
-                    Loading..
+                    Please type to search..
                 </template>
             </v-select>
         <hr class="title-hr">
@@ -34,13 +34,14 @@
                 multiple
                 >
                 <template slot="no-options">
-                    Loading..
+                    Please type to search..
                 </template>
                 <template slot="option" slot-scope="option">
-                    <span :class="getTagClass(option.tag_type_id)">{{ option.text }}</span>
+                    <span class="badge badge-pill" :class="getTagClass(option.tag_type_id)">+</span>&nbsp;&nbsp;
+                    <span class="tag-dropdown">{{ option.text }}</span>
                 </template>
                 <template slot="selected-option" slot-scope="option">
-                    <span :class="getTagClass(option.tag_type_id)">{{ option.text }}</span>
+                    <span class="select-tag" :class="getTagClass(option.tag_type_id)">{{ option.text }}</span>
                 </template>
             </v-select>
         <hr class="title-hr">
@@ -168,7 +169,7 @@ export default {
             loading(false);
         }, 350),
         getTagClass(tagTypeId) {
-            return {'text-info': (tagTypeId == 1)}
+            return tagService.tagClass(tagTypeId)
         }
     },
     computed: {
@@ -217,6 +218,7 @@ export default {
 
 .inner-panel .dropdown-toggle {
     background-color: #fff !important;
+    overflow: hidden;
 }
 
 .close {
@@ -225,4 +227,24 @@ export default {
   right: 20px;
   cursor: pointer;
 }
+
+.selected-tag {
+    font-size: 14px;
+}
+
+.select-tag {
+    padding: 4px .25em;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+/* 
+IDEA: fix panel when scroll down
+@media only screen and (min-width: 876px) {
+    .inner-panel {
+        position: fixed;
+        top: 80px;
+        left: 20px;
+    }
+} */
 </style>

@@ -17,14 +17,14 @@
                     <LoadingRipple />
                 </div>
                 <div v-if="displayStories.length > 0">
-                    <p v-if="isSearch" class="text-left help-text text-muted">Search results..  <a class="beta-link text-info" @click="clearSearch">clear search.</a></p>
+                    <p v-if="isSearch" class="text-left help-text text-muted">Search results..&nbsp;&nbsp;&nbsp;<a class="beta-link text-info" @click="clearSearch">clear search.</a></p>
                     <!-- list of stories -->
                     <ul class="list-group list-group-flush">
                     <StoryItem v-for="story in displayStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
                     </ul>
                 </div>
                 <div v-else-if="isSearch">
-                    We couldn't find any stories for your search! <a class="beta-link text-info" @click="clearSearch">Clear search.</a>
+                    Sorry, we couldn't find any stories for your search! <a class="beta-link text-info" @click="clearSearch">Clear search.</a>
                 </div>                
                 <div v-else>
                     There are no stories here yet!

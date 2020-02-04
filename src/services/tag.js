@@ -36,5 +36,13 @@ export default {
     },
     helpTagTypeId() {
         return 5;
+    },
+    tagClass(typeId) {
+        return {
+            'beta-grey-badge': typeId == this.languageTagTypeId(),
+            'beta-blue-badge': typeId == this.topicTagTypeId(),
+            'badge-info': typeId == this.helpTagTypeId(),
+            'beta-dark-blue-badge': typeId == this.customTagTypeId()
+        }
     }
 }
