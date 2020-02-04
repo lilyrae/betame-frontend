@@ -40,7 +40,6 @@
 <script>
 import TagList from './TagList.vue'
 import ratingService from '../../services/rating'
-import { EventBus } from '../../event-bus.js'
 
 export default {
     name: 'StoryItem',
@@ -61,7 +60,7 @@ export default {
     },
     methods: {
         searchTag({tag}) {
-            EventBus.$emit('searchTag', {tag})
+            this.$store.dispatch('story/filterStoriesByTags', tag);
         },
         selectStory() {
             this.$store.commit('story/story', this.story)

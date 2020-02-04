@@ -23,7 +23,7 @@
         <div class="text-left">
             <a class="beta-link text-muted advanced-search" v-if="hasAdvancedSearch && showSimpleSearch" @click="toggleAdvancedSearch">Advanced Search <font-awesome-icon icon="search" /></a>
             <p class="font18 search-tags">
-                <TagList @clickedTag="removeTag" :tags="searchTags" :deletable="true" />
+                <TagList @clickedTag="removeTag" :tags="filterTags" :deletable="true" />
             </p>
         </div>
     </div>
@@ -32,7 +32,6 @@
 <script>
 import TagList from '../Lists/TagList.vue'
 import auth from '../../services/auth.js'
-import { EventBus } from '../../event-bus.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -53,37 +52,21 @@ export default {
     data() {
         return {
             query: "",
-            loggedIn: false,
-            searchTags: []
+            loggedIn: false
         }
     },
     methods: {
         search() {
-            this.$store.dispatch('story/filterStories', {
-                query: this.query,
-                tags: this.searchTags
-            })
+            this.$store.dispatch('story/filterStoriesByQuery', this.query)
         },
         toggleAdvancedSearch() {
             this.$emit('toggleAdvancedSearch')
         },
         removeTag({tag}) {
-            this.searchTags = this.searchTags.filter(searchTag => {
-                return searchTag.tag_id != tag.tag_id
-            })
-            this.search()
+            this.$store.dispatch('story/filterStoriesWithoutTags', tag)
         }
     },
     mounted() {
-        EventBus.$on('searchTag', ({tag}) => {
-            let searchTagIds =  this.searchTags.map(searchTag => {
-                return searchTag.tag_id
-            })
-            if (!searchTagIds.includes(tag.tag_id)) {
-                this.searchTags.push(tag)
-            }
-            this.search()
-        })
         Event.$on('loggedOut', () => {
             this.loggedIn = auth.isLoggedIn()
         })
@@ -92,11 +75,8 @@ export default {
         })
         this.loggedIn = auth.isLoggedIn()
     },
-    beforeDestroy() {
-        EventBus.$off('searchTag')
-    },
     computed: {
-        ...mapGetters('story', ['loadingSearch'])
+        ...mapGetters('story', ['loadingSearch', 'filterTags'])
     }
 }
 </script>

@@ -6,7 +6,9 @@ const state = {
     story: { user: {}, comments: []},
     loadingSearch: false,
     isSearch: false,
-    filteredStories: []
+    filteredStories: [],
+    filterTags: [],
+    filterQuery: ''
 }
 
 const mutations = {
@@ -29,6 +31,14 @@ const mutations = {
         state.isSearch = false
         state.loadingSearch = false
         state.filteredStories = []
+        state.filterTags = []
+        state.filterQuery = ''
+    },
+    filterTags (state, filterTags) {
+        state.filterTags = filterTags
+    },
+    filterQuery (state, filterQuery) {
+        state.filterQuery = filterQuery
     }
 }
 
@@ -43,7 +53,9 @@ const getters = {
             return state.filteredStories
         }
         return state.stories
-    }
+    },
+    filterTags: () => state.filterTags,
+    filterQuery: () => state.filterQuery
 }
 
 const actions = {
@@ -62,6 +74,9 @@ const actions = {
         commit('api/isLoading', false, { root: true })
     },
     searchStories: async ({ commit }, search) => {
+        commit('filterTags', [])
+        commit('filterQuery', '')
+        
         if(!search.title && !search.userIds && !search.ratings && !search.tags &&
             !search.fromDate && !search.untilDate && !search.minWordCount && !search.maxWordCount) {
             // no search terms
@@ -94,9 +109,7 @@ const actions = {
         commit('loadingSearch', false)
         commit('api/isLoading', false, { root: true })
     },
-    filterStories: async ({ commit, getters }, search) => {
-        const displayStories = getters.displayStories
-
+    filterStories: async ({ commit, state }) => {
         commit('api/error', null, { root: true })
         commit('loadingSearch', true)
         commit('filteredStories', [])
@@ -104,26 +117,48 @@ const actions = {
 
         let filteredStories = []
 
-        if(search.query == '' && search.tags.length <= 0) {
+        if(state.filterQuery == '' && state.filterTags.length <= 0) {
             commit('clearSearch')
             return
         }
     
         let i = 0
-        let tagIds = search.tags.map(tag => {
+        let tagIds = state.filterTags.map(tag => {
             return tag.tag_id
         })
         
-        for (i = 0; i < displayStories.length; i++) {
-            if(storyMatchesSearch(displayStories[i], search.query, tagIds)) {
-                filteredStories.push(displayStories[i])
+        for (i = 0; i < state.stories.length; i++) {
+            if(storyMatchesSearch(state.stories[i], state.filterQuery, tagIds)) {
+                filteredStories.push(state.stories[i])
             }
         }
     
         commit('filteredStories', filteredStories)
         commit('loadingSearch', false)
     },
-    
+    filterStoriesByTags: async ({ commit, state, dispatch }, tag) => {
+        let tags = state.filterTags
+        let searchTagIds = tags.map(searchTag => {
+            return searchTag.tag_id
+        })
+
+        if (!searchTagIds.includes(tag.tag_id)) {
+            tags.push(tag)
+        }
+        commit('filterTags', tags);
+        dispatch('filterStories')
+    },
+    filterStoriesWithoutTags: async ({ commit, state, dispatch }, tag) => {
+        let tags = state.filterTags.filter(searchTag => {
+            return searchTag.tag_id != tag.tag_id
+        })
+        commit('filterTags', tags);
+        dispatch('filterStories')
+    },
+    filterStoriesByQuery: async ({ commit, dispatch }, query) => {
+        commit('filterQuery', query)
+        dispatch('filterStories')
+    },
     fetchStory: async ({ commit }, id) => {
         commit('api/error', null, { root: true })
         commit('api/isLoading', true, { root: true })
