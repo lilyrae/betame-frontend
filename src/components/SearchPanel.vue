@@ -6,7 +6,7 @@
         <div class="form-group">
             <label>Title</label>
             <div>
-                <input v-model="title" type="text" class="form-control" maxlength="100">
+                <input v-model="filterTitle" type="text" class="form-control" maxlength="100">
             </div>
         </div>
         <hr class="title-hr">
@@ -26,7 +26,7 @@
         <hr class="title-hr">
             Tags
             <v-select
-                v-model="selectedTags"
+                v-model="filterTags"
                 :options="tagOptions"
                 @search="onSearchTags"
                 label="text"
@@ -98,11 +98,9 @@ export default {
     },
     data() {
         return {
-            title: '',
             selectedAuthors: [],
             authorOptions: [],
             selectedRatings: [],
-            selectedTags: [],
             tagOptions: [],
             minWordCount: null,
             maxWordCount: null,
@@ -119,29 +117,26 @@ export default {
             let ratings = this.selectedRatings.map((rating) => {
                 return rating.value
             }).join(',')
-            let tags = this.selectedTags.map((tag) => {
-                return tag.tag_id
-            }).join(',')
 
             let fromDate = this.fromDate ? new Date(this.fromDate).toISOString() : null
             let untilDate = this.untilDate ? new Date(this.untilDate).toISOString() : null
 
             this.$store.dispatch('story/searchStories', {
-                title: this.title,
-                userIds,
-                ratings,
-                tags,
-                fromDate,
-                untilDate,
-                minWordCount: this.minWordCount,
-                maxWordCount: this.maxWordCount
+                search: {
+                    userIds,
+                    ratings,
+                    fromDate,
+                    untilDate,
+                    minWordCount: this.minWordCount,
+                    maxWordCount: this.maxWordCount
+                }
             })
         },
         clear() {
-            this.title = ''
+            this.filterTitle = ''
             this.selectedAuthors = []
             this.selectedRatings = []
-            this.selectedTags = []
+            this.filterTags = []
             this.minWordCount = null
             this.maxWordCount = null
             this.fromDate = null
@@ -175,6 +170,22 @@ export default {
     computed: {
         ratingOptions() {
             return ratingService.all();
+        },
+        filterTitle: {
+            get () {
+                return this.$store.state.story.filterTitle
+            },
+            set (value) {
+                this.$store.commit('story/filterTitle', value)
+            }
+        },
+        filterTags: {
+            get () {
+                return this.$store.state.story.filterTags
+            },
+            set (value) {
+                this.$store.commit('story/filterTags', value)
+            }
         }
     }
 }

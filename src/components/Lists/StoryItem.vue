@@ -16,7 +16,7 @@
                     <p v-show="!minimise" class="hide-overflow font18">
                         {{ story.notes }}</p>
                     <p v-show="!minimise" class="small-bottom-margin font20">
-                        <TagList @clickedTag="searchTag" :tags="story.tags"/>
+                        <TagList @clickedTag="searchTag" :tags="story.tags" :canSelect="canSelectTag" />
                     </p>
                 </div>
                 <div class="card-footer row shadow-sm bg-white" v-show="!minimise">
@@ -56,11 +56,18 @@ export default {
         extraContent: {
             type: Boolean,
             default: false
+        },
+        canSelectTag: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
         searchTag({tag}) {
-            this.$store.dispatch('story/filterStoriesByTags', tag);
+            if(this.canSelectTag) {
+                this.$store.commit('story/addFilterTag', tag)
+                this.$store.dispatch('story/searchStories', {})
+            }
         },
         selectStory() {
             this.$store.commit('story/story', this.story)

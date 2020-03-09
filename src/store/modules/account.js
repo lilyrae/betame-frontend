@@ -2,13 +2,16 @@ import storyService from '../../services/story'
 import auth from '../../services/auth'
 import user from '../../services/user'
 import karma from '../../services/karma'
+import pagination from '../../services/pagination'
 import { EventBus } from '../../event-bus'
-
 
 const state = {
     user: {},
     stories: [],
-    cookies: []
+    cookies: [],
+    limit: 3,
+    page: 1,
+    count: 0
 }
 
 const mutations = {
@@ -20,13 +23,27 @@ const mutations = {
     },
     cookies (state, cookies) {
         state.cookies = cookies
+    },
+    page (state, page) {
+        state.page = page
+    },
+    count (state, count) {
+        state.count = count
     }
 }
 
 const getters = {
     user: () => state.user,
     stories: () => state.stories,
-    cookies: () => state.cookies
+    cookies: () => state.cookies,
+    page: () => state.page,
+    count: () => state.count,
+    hasNext: () => {
+        return pagination.hasNext(state.page, state.limit, state.count)
+    },
+    hasPrevious: () => {
+        return pagination.hasPrevious(state.page, state.limit)
+    }
 }
 
 const actions = {
@@ -43,13 +60,18 @@ const actions = {
 
         commit('api/isLoading', false, { root: true })
     },
-    fetchStories: async ({ commit }) => {
+    fetchStories: async ({ commit, state }, page) => {
         commit('api/error', null, { root: true })
         commit('api/isLoading', true, { root: true })
+
+        if (page && page > 0) {
+            commit('page', page)
+        }
         
         try {
-            const response = await storyService.withUserID(auth.userId())
-            commit('stories', response.data)
+            const response = await storyService.withUserID(auth.userId(), state.limit, pagination.offset(state.page, state.limit))
+            commit('stories', response.data.stories)
+            commit('count', response.data.count)
         } catch (err) {
             commit('api/error', err || 'Failed to retrieve your stories.', { root: true })
         }

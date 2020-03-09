@@ -3,14 +3,14 @@ import api from './betame.api'
 const storyUrl = "/story";
 
 export default {
-    all() {
-        return api.get(storyUrl);
+    all(limit, offset) {
+        return api.get(storyUrl, {limit, offset});
     },
     byId(id) {
         return api.get(`${storyUrl}/${id}`);
     },
-    withUserID(user_id) {
-        return api.get(storyUrl, {user_id});
+    withUserID(user_id, limit, offset) {
+        return api.get(storyUrl, {user_id, limit, offset});
     },
     create(title, notes, rating, url, word_count) {
         return api.post(storyUrl, {title, notes, rating, url, word_count});
@@ -24,8 +24,8 @@ export default {
     togglePrivacy(id, is_private) {
         return api.post(`${storyUrl}/privacy/${id}`, {is_private});
     },
-    search(title, user_ids, ratings, tags, published_from, published_to, min_word_count, max_word_count) {
-        let params = {}
+    search(title, user_ids, ratings, tags, published_from, published_to, min_word_count, max_word_count, limit, offset) {
+        let params = { limit, offset }
         if (title) {
             params.title = title
         }

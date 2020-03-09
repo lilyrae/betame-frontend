@@ -4,14 +4,14 @@
             <!-- Temporary Frontend Search  -->
             <div v-show="showSimpleSearch" class="form-inline col-lg-8 col-md-12">
                 <div class="col-md-10 no-sm-padding">
-                    <input v-model="query" v-on:keyup.enter="search" class="beta-search search-bar my-6" type="text" placeholder="Search" aria-label="Search">
+                    <input v-model="filterTitle" v-on:keyup.enter="search" class="beta-search search-bar my-6" type="text" placeholder="Search title.." aria-label="Search">
                 </div>
                 <button 
                     class="btn btn-outline-info col-md-2 my-2 my-md-0 no-sm-padding ld-ext-right"
                     @click="search"
                     :class="{'running': loadingSearch }"
                     >
-                    Quick <font-awesome-icon icon="search" />
+                    Search <font-awesome-icon icon="search" />
                     <div class="ld ld-ring ld-spin"></div>
                 </button>
             </div>
@@ -57,13 +57,14 @@ export default {
     },
     methods: {
         search() {
-            this.$store.dispatch('story/filterStoriesByQuery', this.query)
+            this.$store.dispatch('story/searchStories', {})
         },
         toggleAdvancedSearch() {
             this.$emit('toggleAdvancedSearch')
         },
         removeTag({tag}) {
-            this.$store.dispatch('story/filterStoriesWithoutTags', tag)
+            this.$store.commit('story/removeFilterTag', tag)
+            this.$store.dispatch('story/searchStories', {})
         }
     },
     mounted() {
@@ -76,7 +77,15 @@ export default {
         this.loggedIn = auth.isLoggedIn()
     },
     computed: {
-        ...mapGetters('story', ['loadingSearch', 'filterTags'])
+        ...mapGetters('story', ['loadingSearch', 'filterTags']),
+        filterTitle: {
+            get () {
+                return this.$store.state.story.filterTitle
+            },
+            set (value) {
+                this.$store.commit('story/filterTitle', value)
+            }
+        }
     }
 }
 </script>

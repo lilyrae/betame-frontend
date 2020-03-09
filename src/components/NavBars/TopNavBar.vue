@@ -71,6 +71,7 @@ export default {
         },
         refresh() {
             this.$store.cache.delete('story/fetchStories')
+            this.$store.commit('store/clearSearch')
             this.$store.cache.dispatch('story/fetchStories')
         },
         checkMobileScreen() {

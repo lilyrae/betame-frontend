@@ -13,23 +13,21 @@
                     :hasAdvancedSearch="true"
                     @toggleAdvancedSearch="showAdvancedSearch = !showAdvancedSearch"/>
                 <ErrorAlert :error="error"/>
-                <div v-if="isLoading">
-                    <LoadingRipple />
-                </div>
-                <div v-if="displayStories.length > 0">
-                    <p v-if="isSearch" class="text-left help-text text-muted">Search results..&nbsp;&nbsp;&nbsp;<a class="beta-link text-info" @click="clearSearch">clear search.</a></p>
+                <LoadingRipple v-if="isLoading" />
+                <div v-if="stories.length > 0">
+                    <p v-if="isSearch" class="text-left help-text text-muted">Search found {{ count }} {{ 'results' | pluralise(count) }}.. &nbsp;&nbsp;&nbsp;<a class="beta-link text-info" @click="clearSearch">clear search.</a></p>
                     <!-- list of stories -->
                     <ul class="list-group list-group-flush">
-                    <StoryItem v-for="story in displayStories" v-bind:key="story.story_id" v-bind:story="story"></StoryItem>
+                    <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story" :canSelectTag="true"></StoryItem>
                     </ul>
                 </div>
                 <div v-else-if="isSearch">
                     Sorry, we couldn't find any stories for your search! <a class="beta-link text-info" @click="clearSearch">Clear search.</a>
                 </div>                
-                <div v-else>
+                <div v-else-if="!isLoading">
                     There are no stories here yet!
                 </div>
-                <PaginationNavBar />
+                <PaginationNavBar :hasNext="hasNext" :hasPrevious="hasPrevious" :page="page" @changePage="getStories" />
             </div>
         </div>
     </Wide>
@@ -67,14 +65,18 @@ export default {
     methods: {
         clearSearch() {
             this.$store.commit('story/clearSearch')
+            this.getStories(1)
+        },
+        getStories(page) {
+            this.$store.dispatch('story/fetchStories', page)
         }
     },
     mounted() {
-        this.$store.cache.dispatch('story/fetchStories')
+        this.getStories();
     },
     computed: {
         ...mapGetters('api', ['error', 'isLoading']),
-        ...mapGetters('story', ['displayStories', 'isSearch'])
+        ...mapGetters('story', ['stories', 'isSearch', 'hasNext', 'hasPrevious', 'page', 'count'])
     }
 }
 </script>

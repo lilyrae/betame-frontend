@@ -19,7 +19,11 @@ export default {
     name: 'TagList',
     props: {
         tags: Array,
-        deletable: Boolean
+        deletable: Boolean,
+        canSelect: {
+            type: Boolean,
+            default: false
+        }
     },
     computed: {
         topicId() {
@@ -40,14 +44,21 @@ export default {
             this.$emit('clickedTag', {tag})
         },
         tagClass(typeId) {
-            return tag.tagClass(typeId);
+            let tagClass = tag.tagClass(typeId)
+            tagClass['hover-badge'] = this.canSelect
+            tagClass['flat-badge'] = !this.canSelect
+            return tagClass
         }
     }
 }
 </script>
 
 <style scoped>
-.beta-badge:hover {
+.hover-badge:hover {
     filter: brightness(75%);
+}
+
+.flat-badge {
+    cursor: initial;
 }
 </style>

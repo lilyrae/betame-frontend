@@ -1,14 +1,19 @@
 import story from '../../services/story'
 import router from '../../router'
+import pagination from '../../services/pagination'
+import { stat } from 'fs'
 
 const state = {
     stories: [], // all stories
     story: { user: {}, comments: []},
     loadingSearch: false,
-    isSearch: false,
     filteredStories: [],
     filterTags: [],
-    filterQuery: ''
+    filterTitle: '',
+    search: null,
+    limit: 3,
+    page: 1,
+    count: 0
 }
 
 const mutations = {
@@ -21,143 +26,146 @@ const mutations = {
     loadingSearch (state, loadingSearch) {
         state.loadingSearch = loadingSearch
     },
-    isSearch (state, isSearch) {
-        state.isSearch = isSearch
-    },
     filteredStories (state, filteredStories) {
         state.filteredStories = filteredStories
     },
     clearSearch (state) {
-        state.isSearch = false
+        state.search = null
         state.loadingSearch = false
         state.filteredStories = []
         state.filterTags = []
-        state.filterQuery = ''
+        state.filterTitle = ''
     },
-    filterTags (state, filterTags) {
-        state.filterTags = filterTags
+    addFilterTag (state, tag) {
+        let searchTagIds = state.filterTags.map(searchTag => {
+            return searchTag.tag_id
+        })
+
+        if (!searchTagIds.includes(tag.tag_id)) {
+            state.filterTags.push(tag)
+        }
     },
-    filterQuery (state, filterQuery) {
-        state.filterQuery = filterQuery
+    removeFilterTag (state, tag) {
+        state.filterTags = state.filterTags.filter(t => {
+            return t.tag_id !== tag.tag_id
+        })
+    },
+    filterTags (state, tags) {
+        state.filterTags = tags
+    },
+    filterTitle (state, filterTitle) {
+        state.filterTitle = filterTitle
+    },
+    search (state, search) {
+        state.search = search
+    },
+    limit (state, limit) {
+        state.limit = limit
+    },
+    page (state, page) {
+        state.page = page
+    },
+    count (state, count) {
+        state.count = count
     }
 }
 
 const getters = {
-    allStories: () => state.stories,
+    stories: () => state.stories,
     story: () => state.story,
     loadingSearch: () => state.loadingSearch,
-    isSearch: () => state.isSearch,
-    filteredStories: () => state.filteredStories,
-    displayStories: () => {
-        if (state.isSearch) {
-            return state.filteredStories
-        }
-        return state.stories
+    isSearch: () => {
+        return (state.search != null && state.search != undefined) ||
+            (state.filterTags && state.filterTags.length > 0) ||
+            (state.filterTitle && state.filterTitle.length > 0)
     },
     filterTags: () => state.filterTags,
-    filterQuery: () => state.filterQuery
+    filterTitle: () => state.filterTitle,
+    search: () => state.search,
+    limit: () => state.limit, // perPage
+    page: () => state.page,
+    count: () => state.count,
+    hasNext: () => {
+        return pagination.hasNext(state.page, state.limit, state.count)
+    },
+    hasPrevious: () => {
+        return pagination.hasPrevious(state.page, state.limit)
+    }
 }
 
 const actions = {
-    fetchStories: async ({ commit }) => {
-        commit('clearSearch')
+    fetchStories: async ({ state, commit, dispatch, getters }, page) => {
+        console.log('fetching stories')
+        const isSearch = getters.isSearch
+        console.log(`isSearch: ${isSearch}`)
+        if (getters.isSearch) {
+            console.log('found search terms')
+            dispatch('searchStories', {search: state.search, page })
+            return
+        }
+
         commit('api/error', null, { root: true })
         commit('api/isLoading', true, { root: true })
         
+        if (page && page > 0) {
+            commit('page', page)
+        }
+
         try {
-            const response = await story.all()
-            commit('stories', response.data)
+            const response = await story.all(state.limit, pagination.offset(state.page, state.limit))
+            commit('stories', response.data.stories)
+            commit('count', response.data.count)
         } catch (err) {
             commit('api/error', err || 'Failed to retrieve stories.', { root: true })
         }
 
         commit('api/isLoading', false, { root: true })
     },
-    searchStories: async ({ commit }, search) => {
-        commit('filterTags', [])
-        commit('filterQuery', '')
-        
-        if(!search.title && !search.userIds && !search.ratings && !search.tags &&
-            !search.fromDate && !search.untilDate && !search.minWordCount && !search.maxWordCount) {
+    searchStories: async ({ commit, state, dispatch, getters }, {search, page}) => {
+        commit('search', search)
+
+        if(!getters.isSearch && !search.userIds && !search.ratings && !search.fromDate &&
+            !search.untilDate && !search.minWordCount && !search.maxWordCount) {
             // no search terms
             commit('clearSearch')
+            dispatch('fetchStories')
             return
         }
+
+        search = search || {}
+        page = page || 1
+        commit('page', page)
 
         commit('api/error', null, { root: true })
         commit('api/isLoading', true, { root: true })
         commit('loadingSearch', true)
-        commit('filteredStories', [])
-        commit('isSearch', true)
+        commit('stories', [])
+
+        let tags = state.filterTags.map(searchTag => {
+            return searchTag.tag_id
+        }).join(',')
         
         try {
             const response = await story.search(
-                search.title,
+                state.filterTitle,
                 search.userIds,
                 search.ratings,
-                search.tags,
+                tags,
                 search.fromDate,
                 search.untilDate,
                 search.minWordCount,
-                search.maxWordCount
+                search.maxWordCount,
+                state.limit,
+                pagination.offset(page, state.limit)
             )
-            commit('filteredStories', response.data)
+            commit('stories', response.data.stories)
+            commit('count', response.data.count)
         } catch (err) {
             commit('api/error', err || 'Failed to find stories for your search result.', { root: true })
         }
 
         commit('loadingSearch', false)
         commit('api/isLoading', false, { root: true })
-    },
-    filterStories: async ({ commit, state }) => {
-        commit('api/error', null, { root: true })
-        commit('loadingSearch', true)
-        commit('filteredStories', [])
-        commit('isSearch', true)
-
-        let filteredStories = []
-
-        if(state.filterQuery == '' && state.filterTags.length <= 0) {
-            commit('clearSearch')
-            return
-        }
-    
-        let i = 0
-        let tagIds = state.filterTags.map(tag => {
-            return tag.tag_id
-        })
-        
-        for (i = 0; i < state.stories.length; i++) {
-            if(storyMatchesSearch(state.stories[i], state.filterQuery, tagIds)) {
-                filteredStories.push(state.stories[i])
-            }
-        }
-    
-        commit('filteredStories', filteredStories)
-        commit('loadingSearch', false)
-    },
-    filterStoriesByTags: async ({ commit, state, dispatch }, tag) => {
-        let tags = state.filterTags
-        let searchTagIds = tags.map(searchTag => {
-            return searchTag.tag_id
-        })
-
-        if (!searchTagIds.includes(tag.tag_id)) {
-            tags.push(tag)
-        }
-        commit('filterTags', tags);
-        dispatch('filterStories')
-    },
-    filterStoriesWithoutTags: async ({ commit, state, dispatch }, tag) => {
-        let tags = state.filterTags.filter(searchTag => {
-            return searchTag.tag_id != tag.tag_id
-        })
-        commit('filterTags', tags);
-        dispatch('filterStories')
-    },
-    filterStoriesByQuery: async ({ commit, dispatch }, query) => {
-        commit('filterQuery', query)
-        dispatch('filterStories')
     },
     fetchStory: async ({ commit }, id) => {
         commit('api/error', null, { root: true })
@@ -186,43 +194,6 @@ const actions = {
             commit('api/isLoading', false, { root: true })
         }
     }
-}
-
-const storyMatchesSearch = (story, query, tagIds) => {
-    if (story.tags) {
-        let storyTagIds = story.tags.map(tag => {
-            return tag.tag_id
-        })
-
-        for (let tagId of tagIds) {
-            if (!storyTagIds.includes(tagId)) {
-                // story does not have search tag
-                return false
-            }
-        }
-    } else if (tagIds.length > 0) {
-        // story is not tagged
-        return false
-    }
-
-    // check if story title matches
-    let searchTerm = query.toLowerCase()
-    return story.title.toLowerCase().includes(searchTerm) ||
-        story.user.username.toLowerCase().includes(searchTerm) ||
-        storyTagMatchesText(story, searchTerm)
-}
-
-const storyTagMatchesText = (story, query) => {
-    if (!story.tags || !story.tags.length > 0) {
-        return false
-    }
-    for (let index = 0; index < story.tags.length; index++) {
-        const tag = story.tags[index];
-        if (tag.text.toLowerCase().includes(query)) {
-            return true
-        }
-    }
-    return false
 }
 
 export default {

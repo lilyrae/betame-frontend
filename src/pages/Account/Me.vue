@@ -1,7 +1,6 @@
 <template>
     <Account>
         <br>
-        <SearchNavBar/>
         <ErrorAlert :error="error"/>
         <Alert :message="success"/>
         <!-- list of my stories -->
@@ -17,6 +16,7 @@
                 Why don't you create a new story?
             </div>
         </ul>
+        <PaginationNavBar :hasNext="hasNext" :hasPrevious="hasPrevious" :page="page" @changePage="getStories" />
         <StoryPrivacyModal />
         <DeleteStoryModal @refresh="getStories"/>
     </Account>
@@ -24,8 +24,8 @@
 
 <script>
 import Account from '../../layouts/Account.vue'
-import SearchNavBar from '../../components/NavBars/SearchNavBar.vue'
 import TitleNavBar from '../../components/NavBars/TitleNavBar.vue'
+import PaginationNavBar from '../../components/NavBars/PaginationNavBar.vue'
 import ErrorAlert from '../../components/ErrorAlert.vue'
 import Alert from '../../components/Alert.vue'
 import LoadingRipple from '../../components/LoadingRipple.vue'
@@ -38,8 +38,8 @@ export default {
     name: 'Me',
     components: {
         Account,
-        SearchNavBar,
         TitleNavBar,
+        PaginationNavBar,
         LoadingRipple,
         ErrorAlert,
         Alert,
@@ -51,13 +51,13 @@ export default {
         this.getStories()
     },
     methods: {
-        getStories() {
-            this.$store.cache.dispatch('account/fetchStories')
+        getStories(page) {
+            this.$store.dispatch('account/fetchStories', page)
         }
     },
     computed: {
         ...mapGetters('api', ['success', 'error', 'isLoading']),
-        ...mapGetters('account', ['stories']),
+        ...mapGetters('account', ['stories', 'hasNext', 'hasPrevious', 'page']),
     }
 }
 </script>
