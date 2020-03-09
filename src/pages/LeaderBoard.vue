@@ -87,4 +87,7 @@ export default {
     color: #7C77B9
 }
 
+.leaderboard-card {
+    margin-bottom: 80px;
+}
 </style>
