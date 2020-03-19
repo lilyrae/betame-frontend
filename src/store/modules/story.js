@@ -13,7 +13,8 @@ const state = {
     search: null,
     limit: 3,
     page: 1,
-    count: 0
+    count: 0,
+    isSearch: false
 }
 
 const mutations = {
@@ -67,6 +68,9 @@ const mutations = {
     },
     count (state, count) {
         state.count = count
+    },
+    isSearch (state, isSearch) {
+        state.isSearch = isSearch
     }
 }
 
@@ -74,11 +78,7 @@ const getters = {
     stories: () => state.stories,
     story: () => state.story,
     loadingSearch: () => state.loadingSearch,
-    isSearch: () => {
-        return (state.search != null && state.search != undefined) ||
-            (state.filterTags && state.filterTags.length > 0) ||
-            (state.filterTitle && state.filterTitle.length > 0)
-    },
+    isSearch: () => state.isSearch,
     filterTags: () => state.filterTags,
     filterTitle: () => state.filterTitle,
     search: () => state.search,
@@ -94,12 +94,10 @@ const getters = {
 }
 
 const actions = {
-    fetchStories: async ({ state, commit, dispatch, getters }, page) => {
-        console.log('fetching stories')
-        const isSearch = getters.isSearch
-        console.log(`isSearch: ${isSearch}`)
-        if (getters.isSearch) {
-            console.log('found search terms')
+    fetchStories: async ({ state, commit, dispatch }, page) => {
+        if (state.search ||
+            (state.filterTags && state.filterTags.length > 0) ||
+            (state.filterTitle && state.filterTitle.length > 0)) {
             dispatch('searchStories', {search: state.search, page })
             return
         }
@@ -119,13 +117,15 @@ const actions = {
             commit('api/error', err || 'Failed to retrieve stories.', { root: true })
         }
 
+        commit('isSearch', false)
         commit('api/isLoading', false, { root: true })
     },
-    searchStories: async ({ commit, state, dispatch, getters }, {search, page}) => {
+    searchStories: async ({ commit, state, dispatch }, {search, page}) => {
         commit('search', search)
 
-        if(!getters.isSearch && !search.userIds && !search.ratings && !search.fromDate &&
-            !search.untilDate && !search.minWordCount && !search.maxWordCount) {
+        if((!search || (!search.userIds && !search.ratings && !search.fromDate && !search.untilDate && !search.minWordCount && !search.maxWordCount)) &&
+            (!state.filterTags || state.filterTags.length <= 0) &&
+            (!state.filterTitle || state.filterTitle.length <= 0)) {
             // no search terms
             commit('clearSearch')
             dispatch('fetchStories')
@@ -164,6 +164,7 @@ const actions = {
             commit('api/error', err || 'Failed to find stories for your search result.', { root: true })
         }
 
+        commit('isSearch', true)
         commit('loadingSearch', false)
         commit('api/isLoading', false, { root: true })
     },

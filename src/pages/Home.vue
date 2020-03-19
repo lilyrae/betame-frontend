@@ -15,7 +15,7 @@
                 <ErrorAlert :error="error"/>
                 <LoadingRipple v-if="isLoading" />
                 <div v-if="stories.length > 0">
-                    <p v-if="isSearch" class="text-left help-text text-muted">Search found {{ count }} {{ 'results' | pluralise(count) }}.. &nbsp;&nbsp;&nbsp;<a class="beta-link text-info" @click="clearSearch">clear search.</a></p>
+                    <p v-if="isSearch" class="text-left help-text text-muted">Search found {{ count }} {{ 'result' | pluralise(count) }}.. &nbsp;&nbsp;&nbsp;<a class="beta-link text-info" @click="clearSearch">clear search.</a></p>
                     <!-- list of stories -->
                     <ul class="list-group list-group-flush">
                     <StoryItem v-for="story in stories" v-bind:key="story.story_id" v-bind:story="story" :canSelectTag="true"></StoryItem>
