@@ -9,7 +9,7 @@ const state = {
     user: {},
     stories: [],
     cookies: [],
-    limit: 3,
+    limit: 10,
     page: 1,
     count: 0
 }

@@ -65,7 +65,7 @@ export default {
             stories: [],
             page: 1,
             count: 0,
-            limit: 3
+            limit: 10
         }
     },
     async created() {

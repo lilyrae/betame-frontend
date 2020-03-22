@@ -10,7 +10,7 @@ const state = {
     filterTags: [],
     filterTitle: '',
     search: null,
-    limit: 3,
+    limit: 20,
     page: 1,
     count: 0,
     isSearch: false
