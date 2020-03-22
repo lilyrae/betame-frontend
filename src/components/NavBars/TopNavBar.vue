@@ -72,7 +72,7 @@ export default {
         refresh() {
             this.$store.cache.delete('story/fetchStories')
             this.$store.commit('story/clearSearch')
-            this.$store.cache.dispatch('story/fetchStories')
+            this.$store.cache.dispatch('story/fetchStories', 1)
         },
         checkMobileScreen() {
             let body = document.getElementsByTagName('body')[0]

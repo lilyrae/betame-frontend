@@ -1,7 +1,6 @@
 import story from '../../services/story'
 import router from '../../router'
 import pagination from '../../services/pagination'
-import { stat } from 'fs'
 
 const state = {
     stories: [], // all stories

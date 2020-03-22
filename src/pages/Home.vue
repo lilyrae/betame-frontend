@@ -14,7 +14,7 @@
                     @toggleAdvancedSearch="showAdvancedSearch = !showAdvancedSearch"/>
                 <ErrorAlert :error="error"/>
                 <LoadingRipple v-if="isLoading" />
-                <div v-if="stories.length > 0">
+                <div v-else-if="stories.length > 0">
                     <p v-if="isSearch" class="text-left help-text text-muted">Search found {{ count }} {{ 'result' | pluralise(count) }}.. &nbsp;&nbsp;&nbsp;<a class="beta-link text-info" @click="clearSearch">clear search.</a></p>
                     <!-- list of stories -->
                     <ul class="list-group list-group-flush">
@@ -24,7 +24,7 @@
                 <div v-else-if="isSearch">
                     Sorry, we couldn't find any stories for your search! <a class="beta-link text-info" @click="clearSearch">Clear search.</a>
                 </div>                
-                <div v-else-if="!isLoading">
+                <div v-else>
                     There are no stories here yet!
                 </div>
                 <PaginationNavBar :hasNext="hasNext" :hasPrevious="hasPrevious" :page="page" @changePage="getStories" />
