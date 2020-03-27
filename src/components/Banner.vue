@@ -1,8 +1,9 @@
 <template>
-    <div class="banner jumbotron text-left">
+    <div class="banner jumbotron text-left" :class="styling">
         <h2>{{ title }} <span><font-awesome-icon icon="heart" /></span></h2>
         <h5>{{ firstMessage }}</h5>
         <h5>{{ secondMessage }}</h5>
+        <slot></slot>
     </div>
 </template>
 
@@ -21,12 +22,28 @@ export default {
         secondMessage: {
             type: String,
             default: 'The community welcomes all writers, from fan fiction to blog writing!'
+        },
+        styling: {
+            type: Array,
+            default: () => []
         }
     }
 }
 </script>
 
+<!-- box-shadow: 0 0 0 3px #fff, 0 0 0 5px #de515e5c, 0 0 0 10px #fff, 0 0 2px 10px #de515e; -->
 <style scoped>
+
+.grey-banner {
+    background-color: #f3f4f5 !important;
+    height: calc(100vh - 150px);
+}
+
+.spaced-out h5 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
 .banner {
     background-color: #bfdde2;
     font-family: 'Just Another Hand', cursive;

@@ -109,4 +109,8 @@ export default {
 .edit-story textarea {
     min-height: 15vh;
 }
+
+.edit-story button {
+    margin-bottom: 100px;
+}
 </style>

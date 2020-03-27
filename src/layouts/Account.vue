@@ -22,7 +22,7 @@
                     <router-link class="btn betame-light-button beta-link link" to="/me/password">Change Password</router-link>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <slot></slot>
             </div>
         </div>
