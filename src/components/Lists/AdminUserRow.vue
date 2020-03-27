@@ -1,20 +1,17 @@
 <template>
-    <li class="list-group-item">
-        <div class="row">
-            <div class="col-8">
-                <h5>{{ user.username || user.token }}</h5>
-                <h6>{{ user.email }}</h6>
-            </div>
-            <div class="col-4">
-                {{ user.created_at | formatDate }}
-            </div>
-        </div>
-        <div class="row" v-if="user.username">
-            <div class="col-sm-8 col-5">
-                <span><font-awesome-icon class="purple" icon="comments" />&nbsp;{{ user.comment_count }}&nbsp;</span>
-                <span><font-awesome-icon class="golden" icon="cookie" />&nbsp;{{ user.karma_count }}</span>
-            </div>
-            <div class="col-sm-4 col-7">
+    <tr>
+        <template v-if="user.token">
+            <th colspan="9">{{ user.token }}</th>
+        </template>
+        <template v-else>
+            <td>{{ user.user_id }}</td>
+            <th scope="row">{{ user.username }}</th>
+            <td>{{user.email}}</td>
+            <td class="purple">{{ user.story_count || 0 }}</td>
+            <td class="golden">{{ user.point_count || 0 }}</td>
+            <td class="purple">{{ user.comment_count || 0 }}</td>
+            <td class="golden">{{ user.karma_count || 0 }}</td>
+            <td>
                 <button v-if="!isBanned"
                     @click="ban"
                     class="btn btn-sm btn-warning small-margin ld-ext-right"
@@ -32,9 +29,10 @@
                     <div class="ld ld-ring ld-spin"></div>
                 </button>
                 <button class="btn btn-sm btn-danger">Delete</button>
-            </div>
-        </div>
-    </li>
+            </td>
+            <td>{{ user.created_at | formatDate }}</td>
+        </template>
+    </tr>
 </template>
 
 <script>
