@@ -36,7 +36,8 @@ export default {
 
 .grey-banner {
     background-color: #f3f4f5 !important;
-    height: calc(100vh - 150px);
+    min-height: calc(100vh - 100px);
+    margin-bottom: 70px !important;
 }
 
 .spaced-out h5 {
@@ -54,6 +55,7 @@ export default {
     background-repeat: no-repeat; 
     margin-bottom: 10px;
     min-height: 180px;
+    position: relative;
 }
 
 .banner h2 {

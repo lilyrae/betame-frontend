@@ -17,17 +17,16 @@
                     <h5>But it's through this effort that we all improve our writing skills and enhance the community as a whole.</h5>
                     <div class="welcome-button">
                         <center>
-                            <button class="btn btn-danger btn-lg"><h1>Leave Your First Comment <span><font-awesome-icon icon="heart" /></span></h1></button>
+                            <router-link :to="recommendationLink" class="btn btn-danger btn-lg"><h1>Leave Your First Comment <span><font-awesome-icon icon="heart" /></span></h1></router-link>
                         </center>
                     </div>
-                    <p class="bottom-text font18">
+                    <p class="bottom-text font20">
                         Need help? Or just want to chat? Join us on 
-                        <a target="_blank" href="https://discord.gg/G42mrwz">Discord</a> or send an email to lily@beta-me.io.
+                        <a target="_blank" class="text-info" href="https://discord.gg/G42mrwz">Discord</a> or send an email to lily@beta-me.io.
                     </p>
                 </Banner>
                 <div v-else>
-                    <!-- TODO: make more appealing but not so in your face as the comment one -->
-                    Why don't you create a new story?
+                    <p class="no-story">Why don't you create a <router-link to="/story/new" class="text-info">new story?</router-link></p>
                 </div>
             </div>
         </ul>
@@ -48,6 +47,7 @@ import MyStoryItem from '../../components/Lists/MyStoryItem.vue'
 import StoryPrivacyModal from '../../components/Modals/StoryPrivacyModal.vue'
 import DeleteStoryModal from '../../components/Modals/DeleteStoryModal.vue'
 import Banner from '../../components/Banner'
+import ratingService from '../../services/rating'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -64,24 +64,57 @@ export default {
         DeleteStoryModal,
         Banner
     },
-    created() {
-        this.getStories()
+    data() {
+        return {
+            recommendationLink: '/'
+        }
+    },
+    async created() {
+        await this.getStories()
+        if (this.stories.length <= 0 && this.user.comment_count <= 0) {
+            this.getRecommendedStory()
+        }
     },
     methods: {
-        getStories(page) {
-            this.$store.dispatch('account/fetchStories', page)
+        async getStories(page) {
+            await this.$store.dispatch('account/fetchStories', page)
+        },
+        async getRecommendedStory() {
+            if (this.allStories.length <= 0 || this.isSearch) {
+                this.$store.commit('story/clearSearch')
+                await this.$store.cache.dispatch('story/fetchStories', 1)
+            }
+                
+            let index = 0;
+            let stillSearching = true
+            while (index <= (this.allStories.length - 1) && stillSearching) {
+                let story = this.allStories[index]
+                if (!ratingService.requiresWarning(story.rating) && story.comment_count == 0 && story.word_count < 3000) {
+                    if (story.word_count < 1000) {
+                        this.recommendationLink = `/story/${story.story_id}`
+                        stillSearching = false
+                    } else if (this.recommendationLink === '/') {
+                        this.recommendationLink = `/story/${story.story_id}`
+                    }
+                }
+                index = index + 1
+            }
         }
     },
     computed: {
         ...mapGetters('api', ['success', 'error', 'isLoading']),
         ...mapGetters('account', ['user', 'stories', 'hasNext', 'hasPrevious', 'page']),
+        ...mapGetters('story', {
+            allStories: 'stories',
+            isSearch: 'isSearch'
+        })
     }
 }
 </script>
 
 <style scoped>
 .welcome-button {
-    margin: 50px;
+    margin: 90px;
 }
 
 .welcome-button button h1 span {
@@ -92,8 +125,11 @@ export default {
 }
 
 .bottom-text {
-    position: relative;
+    position: absolute;
     bottom: 0;
-    left: 0;
+}
+
+.no-story {
+    margin-top: 50px;
 }
 </style>
