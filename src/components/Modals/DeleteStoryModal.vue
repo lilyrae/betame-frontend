@@ -1,10 +1,11 @@
 <template>
     <Modal @closeModal="closeModal" :isVisible="showModal">
         <template slot="header">Delete {{ story.title }}</template>
-        <p class="font18">
-            Are you sure you want to delete your story?<br><strong><u>This cannot be undone.</u></strong>
-            You will also be deleting all the comments along with it.
-        </p>
+        <div class="font18">
+            <p>Are you sure you want to delete your story?</p>
+            <p><strong><u>This cannot be undone.</u></strong> You will also be deleting all the comments along with it.</p>
+            <p>You will not get back any seeds you used to publish this story.</p>
+        </div>
         <template slot="footer">
             <button class="btn" :disabled="isLoading" @click="closeModal">Cancel</button>
             <button class="btn btn-dark ld-ext-right"
