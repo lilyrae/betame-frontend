@@ -322,6 +322,7 @@ export default {
 .betame-tooltip {
   position: relative;
   display: inline-block;
+  cursor: pointer;
 }
 
 /* Tooltip text */

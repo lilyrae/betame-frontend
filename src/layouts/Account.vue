@@ -2,24 +2,46 @@
     <Wide>
         <div class="row top-row h-100">
             <div class="col-md-3 panel">
-                <div class="user-panel text-left hide-overflow">
+                <div class="user-panel text-left">
+                    <h5 class="beta-title karma-box bg-light">
+                        <center>{{ user.points }} Seeds
+                            <div class="betame-tooltip"><font-awesome-icon icon="seedling" class="text-grey" />
+                                <span class="betame-tooltiptext font16" v-if="user.points >= storyPrice">
+                                    With these seeds, you can publish {{ user.points / storyPrice }} story.
+                                </span>
+                                <span class="betame-tooltiptext font16" v-else>
+                                    You will need to leave more feedback before you can publish your story!
+                                </span>
+                            </div>
+                        </center>
+                    </h5>
+                    <p class="karma-helper font16 text-muted">What are seeds and how can I get more?</p>
+                    <br>
+                    <hr class="title-hr">
                     <h3 class="beta-title account-title">
                         <font-awesome-icon icon="user-astronaut" />&nbsp;{{ user.username }}
                     </h3>
                     <hr class="title-hr">
-                    <h5 class="beta-title">
-                        <router-link to="/me" class="beta-link link number-link">
-                            <font-awesome-icon class="font16" icon="book-open" />&nbsp;{{ user.story_count }}
-                        </router-link>
-                        <router-link to="/me/cookies" class="beta-link link number-link">
-                             <font-awesome-icon class="golden font16" icon="cookie" />&nbsp;{{ user.karma_count }}
-                        </router-link> 
-                        <router-link to="/me/notifications" class="beta-link link number-link">
-                            <font-awesome-icon class="font16" icon="bell" />&nbsp;{{ notifications.length }}
-                        </router-link> 
+                    <h5 class="beta-title hide-overflow user-details">
+                        <p>
+                            <router-link to="/me" class="beta-link link number-link">
+                                <font-awesome-icon class="font16" icon="book-open" />&nbsp;{{ user.story_count }} Stories
+                            </router-link>
+                        </p>
+                        <p>
+                            <router-link to="/me/cookies" class="beta-link link number-link">
+                                <font-awesome-icon class="golden font16" icon="cookie" />&nbsp;{{ user.karma_count }} Cookies
+                            </router-link> 
+                        </p>
+                        <p>
+                            <router-link to="/me/notifications" class="beta-link link number-link">
+                                <font-awesome-icon class="font16" icon="bell" />&nbsp;{{ notifications.length }} Notifications
+                            </router-link> 
+                        </p>
                     </h5>
                     <hr class="title-hr">
-                    <router-link class="btn betame-light-button beta-link link" to="/me/password">Change Password</router-link>
+                    <router-link class="btn btn-secondary" to="/me/password">Change Password</router-link>
+                    <hr class="title-hr">
                 </div>
             </div>
             <div class="col-md-9">
@@ -42,7 +64,7 @@ export default {
         this.$store.cache.dispatch('account/fetchUser')
     },
     computed: {
-        ...mapGetters('account', ['user']),
+        ...mapGetters('account', ['user', 'storyPrice']),
         ...mapGetters('notification', ['notifications'])
     }
 }
@@ -135,5 +157,22 @@ body {
 
 .link {
     margin: 4px;
+}
+
+.karma-box {
+    padding: 10px;
+    border: 1px dashed #312e2b;
+    -webkit-box-shadow: 0 0 0 3px #c5c9c9, 0 0 0 5px #312e2b, 0 0 0 10px #fff, 0 0 2px 10px #000000;
+    box-shadow: 0 0 0 3px #c5c9c9, 0 0 0 5px #312e2b, 0 0 0 10px #fff, 0 0 2px 10px #000000;
+}
+
+.karma-helper {
+    margin-top: 15px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.user-details p {
+    margin-bottom: 30px;
 }
 </style>
