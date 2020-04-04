@@ -2,7 +2,7 @@
     <Modal @closeModal="closeModal" :isVisible="showModal">
         <template slot="header">Delete Comment</template>
         <p class="font18">
-            Are you sure you want to delete your comment?<br><strong><u>This cannot be undone.</u></strong>
+            Are you sure you want to delete your comment?<br><strong><u>This cannot be undone.</u></strong> You will <strong><u>lose any seeds</u></strong> gained from this comment.
         </p>
         <template slot="footer">
             <button class="btn" :disabled="isLoading" @click="closeModal">Cancel</button>
