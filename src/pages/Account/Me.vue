@@ -47,7 +47,6 @@ import MyStoryItem from '../../components/Lists/MyStoryItem.vue'
 import StoryPrivacyModal from '../../components/Modals/StoryPrivacyModal.vue'
 import DeleteStoryModal from '../../components/Modals/DeleteStoryModal.vue'
 import Banner from '../../components/Banner'
-import ratingService from '../../services/rating'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -64,50 +63,18 @@ export default {
         DeleteStoryModal,
         Banner
     },
-    data() {
-        return {
-            recommendationLink: '/'
-        }
-    },
     async created() {
         await this.getStories()
-        if (this.stories.length <= 0 && this.user.comment_count <= 0) {
-            this.getRecommendedStory()
-        }
     },
     methods: {
         async getStories(page) {
             await this.$store.dispatch('account/fetchStories', page)
-        },
-        async getRecommendedStory() {
-            if (this.allStories.length <= 0 || this.isSearch) {
-                this.$store.commit('story/clearSearch')
-                await this.$store.cache.dispatch('story/fetchStories', 1)
-            }
-                
-            let index = 0;
-            let stillSearching = true
-            while (index <= (this.allStories.length - 1) && stillSearching) {
-                let story = this.allStories[index]
-                if (!ratingService.requiresWarning(story.rating) && story.comment_count == 0 && story.word_count < 3000) {
-                    if (story.word_count < 1000) {
-                        this.recommendationLink = `/story/${story.story_id}`
-                        stillSearching = false
-                    } else if (this.recommendationLink === '/') {
-                        this.recommendationLink = `/story/${story.story_id}`
-                    }
-                }
-                index = index + 1
-            }
         }
     },
     computed: {
         ...mapGetters('api', ['success', 'error', 'isLoading']),
         ...mapGetters('account', ['user', 'stories', 'hasNext', 'hasPrevious', 'page']),
-        ...mapGetters('story', {
-            allStories: 'stories',
-            isSearch: 'isSearch'
-        })
+        ...mapGetters('story', ['recommendationLink'])
     }
 }
 </script>

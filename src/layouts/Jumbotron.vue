@@ -1,6 +1,6 @@
 <template>
     <Default>
-        <JumbotronComponent>
+        <JumbotronComponent class="jumbo-page">
             <span slot="title"><slot name="title"></slot></span>
             <span slot="subtitle"><slot name="subtitle"></slot></span>
             <slot></slot>
@@ -20,3 +20,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.jumbo-page {
+    margin-bottom: 100px;
+}
+</style>

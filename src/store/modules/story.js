@@ -1,6 +1,7 @@
 import story from '../../services/story'
 import router from '../../router'
 import pagination from '../../services/pagination'
+import ratingService from '../../services/rating'
 
 const state = {
     stories: [], // all stories
@@ -13,7 +14,8 @@ const state = {
     limit: 20,
     page: 1,
     count: 0,
-    isSearch: false
+    isSearch: false,
+    recommendationLink: '/'
 }
 
 const mutations = {
@@ -70,6 +72,9 @@ const mutations = {
     },
     isSearch (state, isSearch) {
         state.isSearch = isSearch
+    },
+    recommendationLink(state, recommendationLink) {
+        state.recommendationLink = recommendationLink
     }
 }
 
@@ -89,7 +94,8 @@ const getters = {
     },
     hasPrevious: () => {
         return pagination.hasPrevious(state.page, state.limit)
-    }
+    },
+    recommendationLink: () => state.recommendationLink
 }
 
 const actions = {
@@ -112,6 +118,25 @@ const actions = {
             const response = await story.all(state.limit, pagination.offset(state.page, state.limit))
             commit('stories', response.data.stories)
             commit('count', response.data.count)
+
+            if (state.page == 1) {                        
+                let index = 0;
+                let stillSearching = true
+                let link = '/'
+                while (index <= (response.data.stories.length - 1) && stillSearching) {
+                    let story = response.data.stories[index]
+                    if (!ratingService.requiresWarning(story.rating) && story.comment_count == 0 && story.word_count < 3000) {
+                        if (story.word_count < 1000) {
+                            link = `/story/${story.story_id}`
+                            stillSearching = false
+                        } else if (link === '/') {
+                            link = `/story/${story.story_id}`
+                        }
+                    }
+                    index = index + 1
+                }
+                commit('recommendationLink', link)
+            }
         } catch (err) {
             commit('api/error', err || 'Failed to retrieve stories.', { root: true })
         }

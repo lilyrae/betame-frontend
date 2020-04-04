@@ -15,7 +15,7 @@
                             </div>
                         </center>
                     </h5>
-                    <p class="karma-helper font16 text-muted">What are seeds and how can I get more?</p>
+                    <p class="karma-helper font16 text-muted" @click="showPointsModal = true">What are seeds and how can I get more?</p>
                     <br>
                     <hr class="title-hr">
                     <h3 class="beta-title account-title">
@@ -48,17 +48,25 @@
                 <slot></slot>
             </div>
         </div>
+        <PointsModal :showModal="showPointsModal" @close="showPointsModal = false" />
     </Wide>
 </template>
 
 <script>
 import Wide from '../layouts/Wide.vue'
+import PointsModal from '../components/Modals/PointsModal'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'Account',
     components: {
-        Wide
+        Wide,
+        PointsModal
+    },
+    data() {
+        return {
+            showPointsModal: false
+        }
     },
     created() {
         this.$store.cache.dispatch('account/fetchUser')
