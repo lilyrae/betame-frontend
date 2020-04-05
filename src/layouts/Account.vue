@@ -69,7 +69,7 @@ export default {
         }
     },
     created() {
-        this.$store.cache.dispatch('account/fetchUser')
+        this.$store.dispatch('account/fetchUser')
     },
     computed: {
         ...mapGetters('account', ['user', 'storyPrice']),

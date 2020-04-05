@@ -2,6 +2,7 @@ import story from '../../services/story'
 import router from '../../router'
 import pagination from '../../services/pagination'
 import ratingService from '../../services/rating'
+import auth from '../../services/auth'
 
 const state = {
     stories: [], // all stories
@@ -125,7 +126,10 @@ const actions = {
                 let link = '/'
                 while (index <= (response.data.stories.length - 1) && stillSearching) {
                     let story = response.data.stories[index]
-                    if (!ratingService.requiresWarning(story.rating) && story.comment_count == 0 && story.word_count < 3000) {
+                    if (!ratingService.requiresWarning(story.rating) &&
+                        auth.userId() != story.user_id &&
+                        story.comment_count == 0 &&
+                        story.word_count < 3000) {
                         if (story.word_count < 1000) {
                             link = `/story/${story.story_id}`
                             stillSearching = false

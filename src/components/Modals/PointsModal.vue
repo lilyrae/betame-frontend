@@ -1,6 +1,6 @@
 <template>
     <Modal @closeModal="closeModal" :isVisible="showModal">
-        <template slot="header">What are Seeds?</template>
+        <template slot="header"><font-awesome-icon icon="seedling" /> What are Seeds?</template>
         <div class="font18">
             <p>Seeds allow you to publish stories on BetaMe!</p>
             <p>You need <strong><u>10 seeds</u></strong> to publish <strong><u>one story.</u></strong></p>
