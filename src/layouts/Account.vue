@@ -3,11 +3,11 @@
         <div class="row top-row h-100">
             <div class="col-md-3 panel">
                 <div class="user-panel text-left">
-                    <h5 class="beta-title karma-box bg-light">
-                        <center>{{ user.points }} Seeds
-                            <div class="betame-tooltip"><font-awesome-icon icon="seedling" class="text-grey" />
+                    <h5 class="beta-title karma-box" :class="{'bg-dark': (user.points < 0), 'text-light': (user.points < 0), 'bg-light': (user.points >= 0)}">
+                        <center>{{ user.points }} {{ 'cup' | pluralise(user.points) }} of tea
+                            <div class="betame-tooltip"><font-awesome-icon icon="mug-hot" class="text-grey" />
                                 <span class="betame-tooltiptext font16" v-if="user.points >= storyPrice">
-                                    With these seeds, you can publish {{ user.points / storyPrice }} story.
+                                    With this tea, you can publish {{ user.points / storyPrice }} story.
                                 </span>
                                 <span class="betame-tooltiptext font16" v-else>
                                     You will need to leave more feedback before you can publish your story!
@@ -15,8 +15,7 @@
                             </div>
                         </center>
                     </h5>
-                    <p class="karma-helper font16 text-muted" @click="showPointsModal = true">What are seeds and how can I get more?</p>
-                    <br>
+                    <p class="karma-helper font16 text-muted" @click="showPointsModal = true">What is tea and how can I get more?</p>
                     <hr class="title-hr">
                     <h3 class="beta-title account-title">
                         <font-awesome-icon icon="user-astronaut" />&nbsp;{{ user.username }}
@@ -176,6 +175,7 @@ body {
 
 .karma-helper {
     margin-top: 15px;
+    margin-bottom: 40px;
     text-decoration: underline;
     cursor: pointer;
 }

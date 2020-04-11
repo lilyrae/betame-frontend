@@ -4,7 +4,7 @@
         <div class="font18">
             <p>Are you sure you want to delete your story?</p>
             <p><strong><u>This cannot be undone.</u></strong> You will also be deleting all the comments along with it.</p>
-            <p>You will not get back any seeds you used to publish this story.</p>
+            <p>You will not get back any cups of tea you used to publish this story.</p>
         </div>
         <template slot="footer">
             <button class="btn" :disabled="isLoading" @click="closeModal">Cancel</button>

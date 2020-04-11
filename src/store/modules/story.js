@@ -120,24 +120,34 @@ const actions = {
             commit('stories', response.data.stories)
             commit('count', response.data.count)
 
+            // get recommendation link
             if (state.page == 1) {                        
                 let index = 0;
                 let stillSearching = true
                 let link = '/'
+                let recommendedStory = null
+
                 while (index <= (response.data.stories.length - 1) && stillSearching) {
                     let story = response.data.stories[index]
                     if (!ratingService.requiresWarning(story.rating) &&
-                        auth.userId() != story.user_id &&
+                        auth.userId() != story.user.user_id &&
                         story.comment_count == 0 &&
                         story.word_count < 3000) {
-                        if (story.word_count < 1000) {
-                            link = `/story/${story.story_id}`
+                        if (story.word_count < 1500) {
+                            recommendedStory = story
                             stillSearching = false
-                        } else if (link === '/') {
-                            link = `/story/${story.story_id}`
+                        } else {
+                            recommendedStory = story
                         }
+                    } else if (!ratingService.requiresWarning(story.rating) &&
+                        auth.userId() != story.user.user_id &&
+                        (!recommendedStory || parseInt(story.comment_count) < parseInt(recommendedStory.comment_count))) {
+                        recommendedStory = story
                     }
                     index = index + 1
+                }
+                if (recommendedStory) {
+                    link = `/story/${recommendedStory.story_id}`
                 }
                 commit('recommendationLink', link)
             }

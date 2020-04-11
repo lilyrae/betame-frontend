@@ -35,11 +35,11 @@
     <Jumbotron v-else-if="user && user.points < storyPrice">
         <span slot="title"><i>Before You</i> Create a Story</span>
         <span slot="subtitle">
-            <h5 class="beta-title">You need more seeds <font-awesome-icon icon="seedling" /></h5>
+            <h5 class="beta-title">You need more tea <font-awesome-icon icon="mug-hot" /></h5>
         </span>
         <br>
-        <p>When you leave feedback on someone else's story, you earn enough seeds to post a story.</p>
-        <p>Make sure the comment is left as a <strong><u>direct response</u></strong> to the story, and <strong><u>not as a reply</u></strong> to another comment.</p>
+        <p>When you leave feedback on someone else's story, you earn a cup of tea, allowing you to post a story.</p>
+        <p>(Make sure the comment is left as a <strong><u>direct response</u></strong> to the story, and <strong><u>not as a reply</u></strong> to another comment.)</p>
         <br>
         <router-link :to="recommendationLink" class="btn btn-danger">Leave Feedback <font-awesome-icon icon="heart" /></router-link>
     </Jumbotron>

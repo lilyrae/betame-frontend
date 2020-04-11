@@ -20,6 +20,7 @@
                             <router-link :to="recommendationLink" class="btn btn-danger btn-lg"><h1>Leave Your First Comment <span><font-awesome-icon icon="heart" /></span></h1></router-link>
                         </center>
                     </div>
+                    <br><br>
                     <p class="bottom-text font20">
                         Need help? Or just want to chat? Join us on 
                         <a target="_blank" class="text-info" href="https://discord.gg/G42mrwz">Discord</a> or send an email to lily@beta-me.io.
@@ -84,11 +85,11 @@ export default {
     margin: 90px;
 }
 
-.welcome-button button h1 span {
-    font-size: 50%;
+.welcome-button h1 span {
+    font-size: 85%;
 }
-.welcome-button button h1 {
-    margin-bottom: 0px;
+.welcome-button h1 {
+    margin-bottom: -6px;
 }
 
 .bottom-text {

@@ -44,7 +44,7 @@ const getters = {
     hasPrevious: () => {
         return pagination.hasPrevious(state.page, state.limit)
     },
-    storyPrice: () => 10
+    storyPrice: () => 1
 }
 
 const actions = {

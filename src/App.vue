@@ -391,4 +391,8 @@ export default {
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: #adbdd8 !important;
 }
+
+.fa-mug-hot {
+  margin-bottom: 1px;
+}
 </style>
