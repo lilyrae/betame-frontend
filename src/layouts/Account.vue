@@ -24,12 +24,12 @@
                     <h5 class="beta-title hide-overflow user-details">
                         <p>
                             <router-link to="/me" class="beta-link link number-link">
-                                <font-awesome-icon class="font16" icon="book-open" />&nbsp;{{ user.story_count }} Stories
+                                <font-awesome-icon class="font16" icon="book-open" />&nbsp;{{ count }} Stories
                             </router-link>
                         </p>
                         <p>
                             <router-link to="/me/cookies" class="beta-link link number-link">
-                                <font-awesome-icon class="golden font16" icon="cookie" />&nbsp;{{ user.karma_count }} Cookies
+                                <font-awesome-icon class="golden font16" icon="cookie" />&nbsp;{{ user.karma_count || 0 }} Cookies
                             </router-link> 
                         </p>
                         <p>
@@ -71,7 +71,7 @@ export default {
         this.$store.dispatch('account/fetchUser')
     },
     computed: {
-        ...mapGetters('account', ['user', 'storyPrice']),
+        ...mapGetters('account', ['user', 'storyPrice', 'count']),
         ...mapGetters('notification', ['notifications'])
     }
 }
