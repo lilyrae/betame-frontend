@@ -4,7 +4,7 @@
             <div class="col-md-3 panel">
                 <div class="user-panel text-left">
                     <h5 class="beta-title karma-box" :class="{'bg-dark': (user.points < 0), 'text-light': (user.points < 0), 'bg-light': (user.points >= 0)}">
-                        <center>{{ user.points }} {{ 'cup' | pluralise(user.points) }} of tea
+                        <center>{{ user.points }} {{ 'cuppa' | pluralise(user.points) }}
                             <div class="betame-tooltip"><font-awesome-icon icon="mug-hot" class="text-grey" />
                                 <span class="betame-tooltiptext font16" v-if="user.points >= storyPrice">
                                     With this tea, you can publish {{ user.points / storyPrice }} story.
@@ -21,20 +21,20 @@
                         <font-awesome-icon icon="user-astronaut" />&nbsp;{{ user.username }}
                     </h3>
                     <hr class="title-hr">
-                    <h5 class="beta-title hide-overflow user-details">
+                    <h5 class="beta-title hide-overflow user-details font18">
                         <p>
                             <router-link to="/me" class="beta-link link number-link">
-                                <font-awesome-icon class="font16" icon="book-open" />&nbsp;{{ count }} Stories
+                                <font-awesome-icon class="font16" icon="book-open" /> {{ count }} Stories
                             </router-link>
                         </p>
                         <p>
                             <router-link to="/me/cookies" class="beta-link link number-link">
-                                <font-awesome-icon class="golden font16" icon="cookie" />&nbsp;{{ user.karma_count || 0 }} Cookies
+                                <font-awesome-icon class="golden font16" icon="cookie" /> {{ user.karma_count || 0 }} Cookies
                             </router-link> 
                         </p>
                         <p>
                             <router-link to="/me/notifications" class="beta-link link number-link">
-                                <font-awesome-icon class="font16" icon="bell" />&nbsp;{{ notifications.length }} Notifications
+                                <font-awesome-icon class="font16" icon="bell" /> {{ notifications.length }} Notifications
                             </router-link> 
                         </p>
                     </h5>
@@ -182,5 +182,9 @@ body {
 
 .user-details p {
     margin-bottom: 30px;
+}
+
+.account-route-icon {
+    margin-left: 2px;
 }
 </style>
