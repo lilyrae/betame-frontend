@@ -35,7 +35,7 @@
     <Jumbotron v-else-if="user && user.points < storyPrice">
         <span slot="title"><i>Before You</i> Create a Story</span>
         <span slot="subtitle">
-            <h5 class="beta-title">You need more tea <font-awesome-icon icon="mug-hot" /></h5>
+            <h5 class="beta-title">You need more cuppas <font-awesome-icon icon="mug-hot" /></h5>
         </span>
         <br>
         <p>When you leave feedback on someone else's story, you earn a cuppa, allowing you to post a story.</p>

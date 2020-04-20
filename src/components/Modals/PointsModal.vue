@@ -1,10 +1,11 @@
 <template>
     <Modal @closeModal="closeModal" :isVisible="showModal">
-        <template slot="header"><font-awesome-icon icon="mug-hot" /> What are Cuppas?</template>
+        <template slot="header"><font-awesome-icon icon="mug-hot" /> What is a cuppa?</template>
         <div class="font18">
-            <p>Cuppas allow you to publish stories on BetaMe!</p>
+            <p>A cuppa is a cup of tea!</p>
+            <p>It's also what allows you to publish stories on BetaMe!</p>
             <p>You need <strong><u>one cuppa</u></strong> to publish <strong><u>one story.</u></strong></p>
-            <p>You can get tea in different ways by engaging with the website</p>
+            <p>You can get cuppas in different ways by engaging with the website</p>
             <p>When you <strong><u>leave useful feedback</u></strong> on someone's story (i.e. not a reply to another comment), you will <strong><u>get one cuppa</u></strong>.</p>
         </div>
         <template slot="footer">
