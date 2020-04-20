@@ -104,6 +104,7 @@ export default {
                     Event.$emit('createdStory', response.data);
                     this.$store.cache.delete('story/fetchStories') // clear all stories
                     this.$store.cache.delete('account/fetchStories') // clear user's stories
+                    this.$store.dispatch('account/fetchUser')
                 })
                 .catch(error => {
                     this.error = error || 'Failed to create a new story';

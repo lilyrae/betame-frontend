@@ -82,6 +82,7 @@ export default {
             }
 
             await this.$router.push(`/story/${this.storyId}?comment_id=${commentId}`)
+            this.$store.dispatch('account/fetchUser')
             this.$emit('doneCreating')
         },
         cancel () {
