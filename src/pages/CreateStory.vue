@@ -69,14 +69,17 @@ export default {
             createdStory: false,
             createdEverything: false,
             storyId: null,
-            story: {}
+            story: {},
+            isLoading: false
         }
     },
     async mounted() {
         this.storyId = null;
         this.story = {};
 
+        this.isLoading = true;
         await this.$store.dispatch('account/fetchUser')
+        this.isLoading = false;
 
         Event.$on('createdStory', story => {
             this.createdStory = true;
@@ -97,7 +100,7 @@ export default {
     },
     computed: {
         ...mapGetters('account', ['user', 'storyPrice']),
-        ...mapGetters('api', ['isLoading', 'error']),
+        ...mapGetters('api', ['error']),
         ...mapGetters('story', ['recommendationLink'])
     }
 }
