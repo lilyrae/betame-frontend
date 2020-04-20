@@ -1,5 +1,5 @@
 <template>
-    <tr>
+    <tr :class="{'alert-danger': points < 0}">
         <template v-if="user.token">
             <th colspan="9">{{ user.token }}</th>
         </template>
@@ -11,6 +11,7 @@
             <td class="golden">{{ user.point_count || 0 }}</td>
             <td class="purple">{{ user.comment_count || 0 }}</td>
             <td class="golden">{{ user.karma_count || 0 }}</td>
+            <td class="purple">{{ points || 0 }}</td>
             <td>
                 <button v-if="!isBanned"
                     @click="ban"
@@ -77,6 +78,16 @@ export default {
                 }).finally(() => {
                     this.isBanning = false;
                 });
+        }
+    },
+    computed: {
+        points() {
+            let points = this.user.point_count
+            if (points > 0) {
+                points = points + 1;
+            }
+            let stories = this.user.story_count || 0
+            return points - stories
         }
     }
 }

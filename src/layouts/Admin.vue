@@ -1,6 +1,6 @@
 <template>
     <Wide>
-        <div class="row top-row h-100">
+        <div class="row top-row h-100 admin-layout">
             <div class="col-md-3 panel">
                 <div class="user-panel text-left hide-overflow">
                     <h3 class="beta-title account-title">
@@ -89,5 +89,9 @@ body {
 
 .link {
     margin: 4px;
+}
+
+.admin-layout .col-md-8 {
+    margin-bottom: 100px;
 }
 </style>

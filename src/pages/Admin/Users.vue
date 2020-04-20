@@ -34,6 +34,7 @@
                         <th scope="col"><font-awesome-icon class="golden" icon="comments" /></th>
                         <th scope="col"><font-awesome-icon class="purple" icon="comments" /></th>
                         <th scope="col"><font-awesome-icon class="golden" icon="cookie" /></th>
+                        <th scope="col"><font-awesome-icon class="purple" icon="mug-hot" /></th>
                         <th scope="col">Actions</th>
                         <th scope="col">Created</th>
                     </tr>
