@@ -7,7 +7,7 @@
                         <center>{{ user.points }} {{ 'cuppa' | pluralise(user.points) }}
                             <div class="betame-tooltip"><font-awesome-icon icon="mug-hot" class="text-grey" />
                                 <span class="betame-tooltiptext font16" v-if="user.points >= storyPrice">
-                                    With this tea, you can publish {{ user.points / storyPrice }} story.
+                                    With these cuppas, you can publish {{ user.points / storyPrice }} story.
                                 </span>
                                 <span class="betame-tooltiptext font16" v-else>
                                     You will need to leave more feedback before you can publish your story!
@@ -15,9 +15,9 @@
                             </div>
                         </center>
                     </h5>
-                    <p class="karma-helper font16 text-muted" @click="showPointsModal = true">What is tea and how can I get more?</p>
+                    <p class="karma-helper font16 text-muted" @click="showPointsModal = true">What is a cuppa and how can I get more?</p>
                     <hr class="title-hr">
-                    <h3 class="beta-title account-title">
+                    <h3 class="beta-title" :class="{'account-title': !longUsername, 'small-account-title': longUsername, 'font18': longUsername }">
                         <font-awesome-icon icon="user-astronaut" />&nbsp;{{ user.username }}
                     </h3>
                     <hr class="title-hr">
@@ -72,7 +72,10 @@ export default {
     },
     computed: {
         ...mapGetters('account', ['user', 'storyPrice', 'count']),
-        ...mapGetters('notification', ['notifications'])
+        ...mapGetters('notification', ['notifications']),
+        longUsername() {
+            return (this.user && this.user.username && this.user.username.length > 15);
+        }
     }
 }
 </script>
@@ -119,6 +122,19 @@ body {
         1px -1px 0 #312e2b,
         -1px 1px 0 #312e2b,
         1px 1px 0 #312e2b;
+    overflow: hidden;
+}
+
+.small-account-title {
+    text-overflow: ellipsis;
+    -webkit-text-stroke: 0.5px black;
+    color: white;
+    text-shadow:
+        1px 1px 0 #312e2b,
+        -0.5px -0.5px 0 #312e2b,  
+        0.5px -0.5px 0 #312e2b,
+        -0.5px 0.5px 0 #312e2b,
+        0.5px 0.5px 0 #312e2b;
     overflow: hidden;
 }
 
